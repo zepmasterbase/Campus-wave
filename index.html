@@ -3,55 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
+<title>Campus Wave — Discover, Create, Earn</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --wave-blue:#00f0ff;
-  --wave-violet:#9c4dff;
-  --wave-green:#00ff94;
-  --bg:#050018;
-  --glass:rgba(255,255,255,.08);
-  --text-light:rgba(255,255,255,.85);
+:root {
+  --blue: #00f0ff;
+  --violet: #9c4dff;
+  --pink: #ff4de3;
+  --green: #00ff94;
+  --bg-dark: #050018;
+  --glass: rgba(255,255,255,0.08);
+  --text-light: rgba(255,255,255,0.85);
 }
 
 /* RESET */
-*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
-body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
-button{cursor:pointer;transition:.3s;font-family:Orbitron;}
-button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--wave-blue),0 0 30px var(--wave-violet);}
+* { box-sizing: border-box; margin:0; padding:0; font-family:Poppins,sans-serif; }
+body { background: var(--bg-dark); color: #fff; min-height:100vh; }
 
 /* HEADER */
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:16px 20px;
-  background:linear-gradient(135deg,var(--wave-blue),var(--wave-violet));
-  border-radius:12px;
-  margin:12px 20px;
+header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 20px; backdrop-filter: blur(12px); background: rgba(0,0,0,.35);
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
-header .brand{display:flex;align-items:center;gap:12px;cursor:pointer;}
-header .brand img{width:44px;height:44px;object-fit:contain;}
-header .brand span{font-family:Orbitron;font-size:1.5rem;color:#fff;}
-header .home-btn{width:50px;height:50px;border-radius:50%;border:none;font-size:22px;background:#fff;color:#050015;display:flex;align-items:center;justify-content:center;}
+.brand { display:flex; align-items:center; gap:10px; cursor:pointer; }
+.brand img { width:50px; height:50px; object-fit:contain; }
+.brand span { font-family:Orbitron; font-size:1.5rem; background:linear-gradient(90deg,var(--blue),var(--violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-buttons button { margin-left:10px; padding:10px 16px; border:none; border-radius:999px; background:linear-gradient(90deg,var(--blue),var(--violet)); color:#050015; cursor:pointer; transition:.3s; font-family:Orbitron; }
+.nav-buttons button:hover { transform:translateY(-2px); box-shadow:0 0 15px var(--blue),0 0 25px var(--violet); }
 
-/* CONTAINER */
-.container{max-width:1200px;margin:auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
+/* HERO */
+.hero {
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:80px 20px; background: linear-gradient(180deg, rgba(5,0,24,.9), rgba(5,0,24,0.7)), url('https://images.unsplash.com/photo-1618219600494-0566c32e1467?auto=format&fit=crop&w=1740&q=80') no-repeat center/cover;
+}
+.hero h1 { font-family:Orbitron; font-size:2.8rem; margin-bottom:16px; background:linear-gradient(90deg,var(--blue),var(--violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p { font-size:1.2rem; margin-bottom:24px; color: var(--text-light); }
+.hero .cta-buttons button { margin:8px; padding:14px 24px; border:none; border-radius:999px; font-family:Orbitron; font-weight:600; background:linear-gradient(90deg,var(--blue),var(--violet)); color:#050015; cursor:pointer; transition:.3s; }
+.hero .cta-buttons button:hover { transform:translateY(-2px); box-shadow:0 0 20px var(--blue),0 0 35px var(--violet); }
 
-/* FEATURE CARDS */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.card{background:var(--glass);border-radius:16px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.3s;cursor:pointer;border:1px solid rgba(255,255,255,.12);}
-.card:hover{transform:translateY(-6px);box-shadow:0 0 30px var(--wave-blue),0 0 50px var(--wave-violet);}
-.card h3{font-family:Orbitron;margin-bottom:8px;}
-.card p{opacity:.8;font-size:14px;}
+/* CARDS SECTIONS */
+.container { max-width:1200px; margin:40px auto; padding:0 20px; display:flex; flex-direction:column; gap:40px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+.card {
+  background: var(--glass); border-radius:18px; border:1px solid rgba(255,255,255,.12);
+  padding:20px; cursor:pointer; transition:.3s; display:flex; flex-direction:column; gap:10px;
+}
+.card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 0 30px var(--blue),0 0 50px var(--violet); }
+.card img { width:100%; border-radius:14px; object-fit:cover; }
+.card h4 { font-family:Orbitron; font-size:1.2rem; }
+.card p { color: var(--text-light); font-size:0.95rem; }
 
-/* ICONS */
-.card .icon{font-size:30px;margin-bottom:12px;}
+/* WALLET CARD */
+.wallet-card { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; padding:20px; border-radius:18px; background: var(--glass); border:1px solid rgba(255,255,255,.12); }
+.wallet-card h3 { font-family:Orbitron; }
+.wallet-card .balance { font-family:Orbitron; font-size:1.6rem; }
 
-/* WELCOME CARD */
-.welcome-card{background:linear-gradient(135deg,rgba(0,240,255,.2),rgba(156,77,255,.2));border-radius:18px;padding:24px;text-align:center;}
+/* FOOTER */
+footer { text-align:center; padding:24px; color: var(--text-light); font-size:0.9rem; }
 
 /* RESPONSIVE */
-@media(max-width:600px){.cards{grid-template-columns:1fr;}}
+@media(max-width:768px){ .hero h1 { font-size:2rem; } .cards { grid-template-columns:1fr; } .wallet-card { flex-direction:column; align-items:flex-start; } }
 </style>
 </head>
 <body>
@@ -61,67 +73,78 @@ header .home-btn{width:50px;height:50px;border-radius:50%;border:none;font-size:
     <img src="https://payhip.com/cdn-cgi/image/format/auto/https://pe56d.s3.amazonaws.com/o_1jhp2503i1gm41unj1tlt1me117of15.png" alt="Campus Wave Logo">
     <span>Campus Wave</span>
   </div>
-  <button class="home-btn" onclick="location.href='index.html'">🏠</button>
+  <div class="nav-buttons">
+    <button onclick="location.href='index.html'">Home</button>
+    <button onclick="location.href='discover.html'">Discover</button>
+    <button onclick="location.href='upload.html'">Upload</button>
+    <button onclick="location.href='artist.html'">Artists</button>
+    <button onclick="location.href='profile.html'">Profile</button>
+    <button onclick="location.href='wallet.html'">Wallet</button>
+    <button onclick="location.href='campus-chat.html'">Chat</button>
+  </div>
 </header>
+
+<section class="hero">
+  <h1>Discover. Create. Earn. Connect.</h1>
+  <p>The ultimate campus music platform. Stream, tip, and support African student artists globally.</p>
+  <div class="cta-buttons">
+    <button onclick="location.href='discover.html'">Explore Music</button>
+    <button onclick="location.href='upload.html'">Upload Your Track</button>
+  </div>
+</section>
 
 <div class="container">
 
-  <div class="welcome-card">
-    <h2>Welcome, Student!</h2>
-    <p>Discover music, connect with peers, upload your tracks, and earn globally with Campus Wave.</p>
+  <h2>Trending Student Artists</h2>
+  <div class="cards" id="trendingArtists">
+    <!-- Artist cards injected via JS -->
   </div>
 
-  <div class="cards">
-    <div class="card" onclick="location.href='discover.html'">
-      <div class="icon">🎵</div>
-      <h3>Discover Music</h3>
-      <p>Listen to trending campus tracks across all universities.</p>
+  <h2>Your Wallet</h2>
+  <div class="wallet-card">
+    <div>
+      <h3>Zep Swipe Wallet</h3>
+      <p class="balance" id="usdBalance">$0.00</p>
     </div>
-
-    <div class="card" onclick="location.href='artist.html'">
-      <div class="icon">🎤</div>
-      <h3>Artists</h3>
-      <p>Follow your favorite campus artists and check their releases.</p>
+    <div>
+      <h3>ZAC Balance</h3>
+      <p class="balance" id="zacBalance">0 ZAC</p>
     </div>
-
-    <div class="card" onclick="location.href='upload.html'">
-      <div class="icon">⬆️</div>
-      <h3>Upload Track</h3>
-      <p>Share your music with the campus community and get discovered.</p>
-    </div>
-
-    <div class="card" onclick="location.href='player.html'">
-      <div class="icon">▶️</div>
-      <h3>Player</h3>
-      <p>Control your playlist, enjoy 3D visuals, and track your plays.</p>
-    </div>
-
-    <div class="card" onclick="location.href='profile.html'">
-      <div class="icon">👤</div>
-      <h3>Profile</h3>
-      <p>Manage your student profile, wallet, and personal dashboard.</p>
-    </div>
-
-    <div class="card" onclick="location.href='campus-chat.html'">
-      <div class="icon">💬</div>
-      <h3>Campus Chat</h3>
-      <p>Connect with students, send tips, share emojis, and collaborate.</p>
-    </div>
-
-    <div class="card" onclick="location.href='wallet.html'">
-      <div class="icon">💰</div>
-      <h3>Student Wallet</h3>
-      <p>Track ZAC, USD, withdraw to bank or mobile money, and manage earnings.</p>
-    </div>
-
-    <div class="card" onclick="location.href='student-jobs.html'">
-      <div class="icon">📝</div>
-      <h3>Student Jobs</h3>
-      <p>Apply for paid campus tasks, freelance projects, and earn real rewards.</p>
-    </div>
+    <button onclick="location.href='wallet.html'">Go to Wallet</button>
   </div>
 
 </div>
+
+<footer>
+  &copy; 2026 Campus Wave. All Rights Reserved. Powered by Zep Swipe Ecosystem.
+</footer>
+
+<script>
+// ===== SAMPLE TRENDING ARTISTS DATA =====
+const trendingArtists = [
+  {name:"Ayo Beats", track:"Campus Vibes", img:"https://images.unsplash.com/photo-1508923567004-3a6b8004f3d3?auto=format&fit=crop&w=400&q=80"},
+  {name:"Lina Flow", track:"Study Jam", img:"https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=400&q=80"},
+  {name:"Kwame FX", track:"Night Grooves", img:"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80"},
+  {name:"Maya K", track:"Afro Beats Live", img:"https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80"}
+];
+const trendingContainer = document.getElementById("trendingArtists");
+trendingArtists.forEach(artist=>{
+  const div = document.createElement("div");
+  div.className="card";
+  div.innerHTML=`<img src="${artist.img}" alt="${artist.name}"><h4>${artist.name}</h4><p>${artist.track}</p>`;
+  trendingContainer.appendChild(div);
+});
+
+// ===== WALLET DATA =====
+let users = JSON.parse(localStorage.getItem("users")) || {};
+let currentUserId = localStorage.getItem("currentUserId");
+if(!currentUserId || !users[currentUserId]) location.href="login.html";
+let user = users[currentUserId];
+if(user.walletBalance===undefined) user.walletBalance=0;
+if(user.zacBalance===undefined) user.zacBalance=0;
+document.getElementById("usdBalance").innerText=`$${user.walletBalance.toFixed(2)}`;
+document.getElementById("zacBalance").innerText=`${user.zacBalance} ZAC`;
+</script>
 
 </body>
 </html>
