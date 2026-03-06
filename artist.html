@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Wave | Artist Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins;
+}
+
+body{
+  background:#0a0a0f;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+  background:linear-gradient(90deg,#12121a,#0b0b12);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+  font-size:22px;
+  font-weight:600;
+  color:#00ffd5;
+  cursor:pointer;
+}
+
+.header-btn{
+  background:linear-gradient(135deg,#00ffd5,#6a5cff);
+  color:black;
+  border:none;
+  padding:10px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.header-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+}
+
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.artist-profile{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(15px);
+  border-radius:20px;
+  padding:20px;
+  flex-wrap:wrap;
+}
+
+.artist-profile img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #00ffd5;
+}
+
+.artist-info h2{
+  font-size:26px;
+  color:#00ffd5;
+}
+
+.artist-info p{
+  color:#aaa;
+  margin-top:6px;
+}
+
+.follow-btn{
+  margin-top:10px;
+  background:linear-gradient(135deg,#6a5cff,#00ffd5);
+  border:none;
+  padding:10px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  color:white;
+  font-weight:600;
+  transition:.3s;
+}
+
+.follow-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+}
+
+/* Tracks */
+.section-title{
+  font-size:22px;
+  margin-bottom:15px;
+}
+
+.track-card{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(15px);
+  border-radius:15px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  transition:.3s;
+  margin-bottom:12px;
+  cursor:pointer;
+}
+
+.track-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 15px 30px rgba(0,255,148,.2);
+}
+
+.track-info{
+  display:flex;
+  flex-direction:column;
+}
+
+.track-info span{
+  font-size:14px;
+  color:#aaa;
+}
+
+.track-actions{
+  display:flex;
+  gap:10px;
+}
+
+.play-btn{
+  background:#00ffd5;
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  color:black;
+  font-size:16px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.play-btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 15px #00ffd5;
+}
+
+.tip-btn{
+  background:linear-gradient(135deg,#6a5cff,#00ffd5);
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  color:white;
+  font-size:13px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.tip-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 10px #00ffd5,0 0 15px #6a5cff;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  .artist-profile{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="location.href='index.html'">Campus Wave</div>
+  <button class="header-btn" onclick="location.href='discover.html'">Discover Music</button>
+</header>
+
+<div class="container">
+
+<!-- Artist Profile -->
+<div class="artist-profile">
+  <img src="https://via.placeholder.com/150" alt="Artist Image">
+  <div class="artist-info">
+    <h2>Jay Kofi</h2>
+    <p>Afrobeats | University of Ghana</p>
+    <button class="follow-btn">Follow</button>
+  </div>
+</div>
+
+<!-- Top Tracks -->
+<div class="top-tracks">
+  <div class="section-title">🎵 Top Tracks</div>
+
+  <div class="track-card">
+    <div class="track-info">
+      <strong>Midnight Vibes</strong>
+      <span>3:45 • Campus Wave Exclusive</span>
+    </div>
+    <div class="track-actions">
+      <button class="play-btn">▶</button>
+      <button class="tip-btn">Tip $1</button>
+    </div>
+  </div>
+
+  <div class="track-card">
+    <div class="track-info">
+      <strong>Dorm Party</strong>
+      <span>4:02 • Trending Campus</span>
+    </div>
+    <div class="track-actions">
+      <button class="play-btn">▶</button>
+      <button class="tip-btn">Tip $1</button>
+    </div>
+  </div>
+
+  <div class="track-card">
+    <div class="track-info">
+      <strong>Late Night Coding</strong>
+      <span>2:58 • Study Mode</span>
+    </div>
+    <div class="track-actions">
+      <button class="play-btn">▶</button>
+      <button class="tip-btn">Tip $1</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Fan Feed -->
+<div class="fan-feed">
+  <div class="section-title">💬 Fan Interactions</div>
+  <div class="track-card">
+    <div class="track-info">
+      <strong>Emma S.</strong>
+      <span>"Love this track! 🔥"</span>
+    </div>
+  </div>
+  <div class="track-card">
+    <div class="track-info">
+      <strong>Kwame B.</strong>
+      <span>"Just tipped 1 Zep Cash. Keep it up!"</span>
+    </div>
+  </div>
+  <div class="track-card">
+    <div class="track-info">
+      <strong>Luna D.</strong>
+      <span>"Your music is campus fire! 💯"</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
