@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Wave | Music Player</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,sans-serif;
+}
+
+body{
+  background:#0a0a0f;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+  background:linear-gradient(90deg,#12121a,#0b0b12);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo{
+  font-size:22px;
+  font-weight:600;
+  color:#00ffd5;
+  cursor:pointer;
+}
+
+.header-btn{
+  background:linear-gradient(135deg,#00ffd5,#6a5cff);
+  color:black;
+  border:none;
+  padding:10px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.header-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+}
+
+.container{
+  max-width:800px;
+  margin:30px auto;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+/* PLAYER CARD */
+.player-card{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(15px);
+  border-radius:20px;
+  padding:30px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  align-items:center;
+}
+
+.player-card img{
+  width:200px;
+  height:200px;
+  border-radius:20px;
+  object-fit:cover;
+  border:3px solid #00ffd5;
+}
+
+.track-info{
+  text-align:center;
+}
+
+.track-info h2{
+  color:#00ffd5;
+  margin-bottom:6px;
+}
+
+.track-info p{
+  font-size:14px;
+  color:#aaa;
+}
+
+audio{
+  width:100%;
+  margin-top:15px;
+  outline:none;
+}
+
+/* CONTROLS */
+.controls{
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+  margin-top:15px;
+}
+
+.controls button{
+  background:linear-gradient(135deg,#6a5cff,#00ffd5);
+  border:none;
+  padding:12px 18px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:18px;
+  transition:.3s;
+  color:white;
+}
+
+.controls button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+}
+
+/* TIP BUTTON */
+.tip-section{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:100%;
+}
+
+.tip-section button{
+  background:linear-gradient(135deg,#00ffd5,#6a5cff);
+  border:none;
+  padding:12px 20px;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+  color:black;
+}
+
+.tip-section button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  header{
+    flex-direction:column;
+    gap:15px;
+  }
+  .player-card img{
+    width:150px;
+    height:150px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="location.href='index.html'">Campus Wave</div>
+  <button class="header-btn" onclick="location.href='discover.html'">Discover Music</button>
+</header>
+
+<div class="container">
+
+  <div class="player-card">
+    <img id="trackCover" src="https://via.placeholder.com/200" alt="Track Cover">
+    <div class="track-info">
+      <h2 id="trackTitle">Track Title</h2>
+      <p id="trackArtist">Artist Name</p>
+    </div>
+
+    <audio id="audioPlayer" controls>
+      <source id="audioSource" src="" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div class="controls">
+      <button onclick="prevTrack()">⏮️</button>
+      <button onclick="togglePlay()">▶️/⏸️</button>
+      <button onclick="nextTrack()">⏭️</button>
+    </div>
+
+    <div class="tip-section">
+      <button onclick="tipArtist(1)">Tip 1 ZAC</button>
+      <button onclick="tipArtist(5)">Tip 5 ZAC</button>
+      <button onclick="tipArtist(10)">Tip 10 ZAC</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Sample localStorage tracks
+let currentUserId = localStorage.getItem("currentUserId");
+let users = JSON.parse(localStorage.getItem("users")) || {};
+if(!currentUserId || !users[currentUserId]) location.href="login.html";
+
+let trackIndex = 0;
+let trackList = [];
+
+if(users[currentUserId].uploads){
+  trackList = users[currentUserId].uploads;
+}
+
+const trackCover = document.getElementById("trackCover");
+const trackTitle = document.getElementById("trackTitle");
+const trackArtist = document.getElementById("trackArtist");
+const audioPlayer = document.getElementById("audioPlayer");
+const audioSource = document.getElementById("audioSource");
+
+function loadTrack(index){
+  if(trackList.length===0) return;
+  const track = trackList[index];
+  trackCover.src = track.coverFileName ? URL.createObjectURL(new File([], track.coverFileName)) : "https://via.placeholder.com/200";
+  trackTitle.innerText = track.title;
+  trackArtist.innerText = "You"; // Can later set actual artist name
+  audioSource.src = track.audioFileName ? URL.createObjectURL(new File([], track.audioFileName)) : "";
+  audioPlayer.load();
+}
+
+function togglePlay(){
+  if(audioPlayer.paused) audioPlayer.play();
+  else audioPlayer.pause();
+}
+
+function nextTrack(){
+  trackIndex = (trackIndex + 1) % trackList.length;
+  loadTrack(trackIndex);
+}
+
+function prevTrack(){
+  trackIndex = (trackIndex - 1 + trackList.length) % trackList.length;
+  loadTrack(trackIndex);
+}
+
+function tipArtist(amount){
+  if(!users[currentUserId].zecBalance) users[currentUserId].zecBalance=0;
+  users[currentUserId].zecBalance += amount;
+  localStorage.setItem("users", JSON.stringify(users));
+  alert(`Tipped ${amount} ZAC! 🎉`);
+}
+
+loadTrack(trackIndex);
+</script>
+
+</body>
+</html>
