@@ -3,263 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Campus Wave | Discover</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+<title>Campus Wave — Discover</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins;
+:root{
+  --blue:#00f0ff;
+  --violet:#9c4dff;
+  --green:#00ff94;
+  --yellow:#ffcc00;
+  --bg:#050018;
+  --glass:rgba(255,255,255,.08);
+  --shadow-glow:0 0 20px rgba(0,240,255,0.5),0 0 30px rgba(156,77,255,0.5);
 }
-
-body{
-background:#0a0a0f;
-color:white;
-display:flex;
-}
-
-.sidebar{
-width:230px;
-height:100vh;
-background:linear-gradient(180deg,#12121a,#0b0b12);
-padding:30px;
-position:fixed;
-}
-
-.logo{
-font-size:22px;
-font-weight:600;
-margin-bottom:40px;
-color:#00ffd5;
-}
-
-.menu a{
-display:block;
-color:#ccc;
-text-decoration:none;
-margin:18px 0;
-font-size:15px;
-transition:.3s;
-}
-
-.menu a:hover{
-color:#00ffd5;
-transform:translateX(5px);
-}
-
-.main{
-margin-left:230px;
-padding:40px;
-width:100%;
-}
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.search{
-background:#151520;
-border:none;
-padding:12px 15px;
-border-radius:10px;
-color:white;
-width:260px;
-}
-
-.section-title{
-font-size:22px;
-margin-bottom:20px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-gap:20px;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
+body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);}
+header h1{font-family:Orbitron;font-size:1.6rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.container{max-width:1000px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
 .card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(15px);
-border-radius:15px;
-padding:20px;
-transition:.4s;
-cursor:pointer;
-position:relative;
-overflow:hidden;
+  background:var(--glass);
+  border-radius:20px;
+  padding:20px;
+  transition:.4s;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border:2px solid transparent;
+  perspective:1000px;
+  cursor:pointer;
 }
-
 .card:hover{
-transform:translateY(-10px) scale(1.02);
-box-shadow:0 20px 40px rgba(0,255,200,0.2);
+  transform:rotateY(10deg) scale(1.05);
+  border-image: linear-gradient(90deg,var(--blue),var(--violet)) 1;
+  box-shadow: var(--shadow-glow);
+}
+.card h3{font-family:Orbitron;margin-bottom:8px;}
+.card p{margin-bottom:12px;opacity:.85;transition:.3s;}
+.card:hover p{opacity:1;}
+button{
+  padding:10px 16px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  color:#050015;
+  font-family:Orbitron;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
 }
 
-.cover{
-width:100%;
-height:150px;
-border-radius:10px;
-background:linear-gradient(135deg,#00ffd5,#6a5cff);
-margin-bottom:12px;
+/* Floating Player */
+#floatingPlayer{
+  position:fixed;bottom:0;left:0;width:100%;
+  background:rgba(0,0,0,.85);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;backdrop-filter:blur(12px);
+  border-top:1px solid rgba(255,255,255,.12);z-index:999;display:none;
 }
+#waveform{height:40px;width:150px;}
 
-.song{
-font-size:16px;
-font-weight:500;
+/* Hover Track Preview Overlay */
+.track-preview{
+  position:absolute;
+  top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(0deg,rgba(0,0,0,0.3),rgba(0,0,0,0.1));
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:.3s;border-radius:20px;
 }
+.card:hover .track-preview{opacity:1;}
+.track-preview span{font-family:Orbitron;font-size:1rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 
-.artist{
-font-size:13px;
-color:#aaa;
-margin-top:4px;
-}
-
-.play{
-position:absolute;
-right:15px;
-bottom:60px;
-background:#00ffd5;
-border:none;
-width:40px;
-height:40px;
-border-radius:50%;
-color:black;
-font-size:16px;
-cursor:pointer;
-}
-
-.tip{
-margin-top:10px;
-background:#6a5cff;
-border:none;
-padding:7px 12px;
-border-radius:8px;
-color:white;
-font-size:12px;
-cursor:pointer;
-}
-
-.playlists{
-margin-top:50px;
-}
-
-.playlist-card{
-background:linear-gradient(135deg,#6a5cff,#00ffd5);
-padding:30px;
-border-radius:15px;
-font-weight:500;
-cursor:pointer;
-transition:.4s;
-}
-
-.playlist-card:hover{
-transform:scale(1.05);
-}
-
+@media(max-width:600px){.cards{grid-template-columns:1fr;}}
 </style>
 </head>
-
 <body>
 
-<div class="sidebar">
+<header>
+<h1>Campus Wave — Discover</h1>
+</header>
 
-<div class="logo">Campus Wave</div>
-
-<div class="menu">
-<a href="#">Home</a>
-<a href="#">Discover</a>
-<a href="#">Campus Charts</a>
-<a href="#">Artists</a>
-<a href="#">Upload Music</a>
-<a href="#">My Library</a>
-</div>
-
-</div>
-
-
-<div class="main">
-
-<div class="header">
-
-<h2>Discover Music</h2>
-
-<input class="search" placeholder="Search artists, songs, campus...">
-
-</div>
-
-
-<div class="section-title">🔥 Trending on Campus</div>
+<div class="container">
 
 <div class="cards">
+  <!-- Campus Chart Card -->
+  <div class="card">
+    <h3>📊 Campus Chart</h3>
+    <p>Check the top tracks and trending music across universities.</p>
+    <button onclick="location.href='campus-chart.html'">Go to Campus Chart</button>
+    <div class="track-preview"><span>Preview Chart Tracks</span></div>
+  </div>
 
-<div class="card">
-<div class="cover"></div>
-<div class="song">Midnight Vibes</div>
-<div class="artist">Jay Kofi</div>
-<button class="play">▶</button>
-<button class="tip">Tip $1</button>
-</div>
+  <!-- Login to Upload Music Card -->
+  <div class="card">
+    <h3>🎵 Upload Your Music</h3>
+    <p>Student artists can log in to upload music and gain fans.</p>
+    <button onclick="location.href='login.html'">Login to Upload</button>
+    <div class="track-preview"><span>Preview Upload Flow</span></div>
+  </div>
 
-<div class="card">
-<div class="cover"></div>
-<div class="song">Dorm Party</div>
-<div class="artist">Luna Dee</div>
-<button class="play">▶</button>
-<button class="tip">Tip $1</button>
-</div>
+  <!-- Discover New Tracks Card -->
+  <div class="card">
+    <h3>🔥 Discover New Tracks</h3>
+    <p>Explore the freshest beats from students across campuses.</p>
+    <button onclick="alert('Coming Soon!')">Listen Now</button>
+    <div class="track-preview"><span>Preview Tracks</span></div>
+  </div>
 
-<div class="card">
-<div class="cover"></div>
-<div class="song">Late Night Coding</div>
-<div class="artist">Code Beats</div>
-<button class="play">▶</button>
-<button class="tip">Tip $1</button>
-</div>
-
-<div class="card">
-<div class="cover"></div>
-<div class="song">African Sunset</div>
-<div class="artist">Nova Tribe</div>
-<button class="play">▶</button>
-<button class="tip">Tip $1</button>
-</div>
-
-</div>
-
-
-<div class="playlists">
-
-<div class="section-title">🎧 Discover Playlists</div>
-
-<div class="cards">
-
-<div class="playlist-card">
-Campus Party Mix
-</div>
-
-<div class="playlist-card">
-Study Mode
-</div>
-
-<div class="playlist-card">
-Afrobeats Rising
-</div>
-
-<div class="playlist-card">
-Indie Campus Stars
+  <!-- Campus Radio Card -->
+  <div class="card">
+    <h3>📻 Campus Radio Live</h3>
+    <p>Listen to live campus radio streams and feel the vibe now!</p>
+    <button onclick="location.href='radio.html'">Listen Live</button>
+    <div class="track-preview"><span>Preview Live Radio</span></div>
+  </div>
 </div>
 
 </div>
 
+<!-- Floating Player -->
+<div id="floatingPlayer">
+  <div>
+    <strong id="playerTitle">Select a track</strong>
+    <div id="waveform"></div>
+  </div>
+  <div>
+    <button onclick="player.pause()">⏸️</button>
+    <button onclick="player.play()">▶️</button>
+  </div>
 </div>
 
-</div>
+<audio id="player" controls></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/wavesurfer.js"></script>
+<script>
+// Floating Player Waveform
+const player=document.getElementById('player');
+const waveform=Wavesurfer.create({
+  container:'#waveform',
+  waveColor:'#00f0ff',
+  progressColor:'#00ff94',
+  height:40
+});
+
+function playSample(url,title){
+  player.src=url;
+  document.getElementById('playerTitle').innerText=title;
+  waveform.load(url);
+  waveform.on('ready',()=>waveform.play());
+  document.getElementById('floatingPlayer').style.display='flex';
+}
+</script>
 
 </body>
 </html>
