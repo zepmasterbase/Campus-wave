@@ -4,15 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.8.0/dist/ethers.min.js"></script>
 <style>
 :root{
-  --blue:#00f0ff;
-  --violet:#9c4dff;
-  --green:#00ff94;
-  --bg:radial-gradient(circle at 20% 10%, #050018, #00000c);
-  --glass:rgba(255,255,255,.08);
-  --text-light:rgba(255,255,255,.85);
+  --cw-blue:#00f0ff;
+  --cw-violet:#9c4dff;
+  --cw-green:#00ff94;
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,0.08);
+  --text-light:rgba(255,255,255,0.85);
   --card-radius:20px;
 }
 
@@ -23,229 +24,237 @@ body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-directio
 /* HEADER */
 header{
   width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   padding:16px 24px;
-  display:flex;justify-content:space-between;align-items:center;
-  background:rgba(0,0,0,0.3);
+  background:rgba(0,0,0,0.2);
   border-bottom:1px solid rgba(255,255,255,.1);
   box-shadow:0 0 12px rgba(0,255,255,.2);
 }
 .brand{
-  display:flex;align-items:center;gap:12px;font-family:Orbitron;font-size:1.5rem;
+  display:flex;align-items:center;gap:12px;font-family:Orbitron;font-size:1.5rem;cursor:pointer;
 }
-.brand img{width:50px;height:50px;border-radius:50%;box-shadow:0 0 20px var(--blue),0 0 30px var(--violet);}
-.home-btn{
-  background:linear-gradient(135deg,var(--blue),var(--violet));
-  border:none;border-radius:50%;
-  width:50px;height:50px;cursor:pointer;
-  font-size:20px;color:#050015;
-  display:flex;align-items:center;justify-content:center;
-  transition:.3s;
+.brand img{width:50px;height:50px;border-radius:50%;box-shadow:0 0 20px var(--cw-blue);}
+.connect-btn{
+  background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));
+  border:none;border-radius:999px;padding:10px 18px;font-family:Orbitron;color:#050015;
+  cursor:pointer;transition:.3s;
 }
-.home-btn:hover{transform:scale(1.05);}
+.connect-btn:hover{transform:translateY(-2px);box-shadow:0 0 20px var(--cw-blue),0 0 40px var(--cw-violet);}
 
-/* DASHBOARD CARDS */
-.dashboard-container{
-  width:95%;
-  max-width:900px;
-  margin:20px auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
+/* BALANCE CARD */
+.balance-card{
+  width:90%;max-width:400px;margin:24px auto;padding:24px;
+  border-radius:var(--card-radius);background:var(--glass);
+  box-shadow:0 0 30px rgba(0,240,255,.2),0 0 50px rgba(156,77,255,.2);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.balance-card h2{font-family:Orbitron;font-size:2rem;background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.balance-card span{font-size:0.9rem;color:var(--text-light);}
+.verified-badge{
+  display:flex;align-items:center;gap:6px;font-family:Orbitron;font-size:14px;background:linear-gradient(90deg,var(--cw-green),var(--cw-blue));padding:4px 12px;border-radius:12px;color:#050015;
 }
 
+/* BUTTONS */
+.actions{
+  display:flex;gap:16px;margin:12px 0;flex-wrap:wrap;justify-content:center;
+}
+.action-btn{
+  padding:12px 24px;border-radius:999px;border:none;font-family:Orbitron;background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));color:#050015;cursor:pointer;
+  box-shadow:0 0 15px var(--cw-blue),0 0 30px var(--cw-violet);transition:.3s;
+}
+.action-btn:hover{transform:translateY(-2px);box-shadow:0 0 25px var(--cw-blue),0 0 50px var(--cw-violet);}
+
+/* CARDS */
+.cards-container{
+  width:90%;max-width:900px;margin:20px auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;
+}
 .card{
-  background:var(--glass);
-  border-radius:var(--card-radius);
-  padding:20px;
-  box-shadow:0 0 30px rgba(0,240,255,.25);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  transition:.3s;
+  background:var(--glass);border-radius:var(--card-radius);padding:16px;box-shadow:0 0 20px rgba(0,240,255,.15);
+  display:flex;flex-direction:column;gap:8px;transition:.3s;cursor:pointer;
 }
-.card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 0 50px rgba(0,240,255,.4);
-}
+.card:hover{transform:translateY(-4px);box-shadow:0 0 25px rgba(0,240,255,.3);}
 
-.card h3{
-  margin-bottom:10px;
-  font-family:Orbitron;
-  font-size:1.2rem;
-}
+/* CARD CONTENT */
+.card h3{font-family:Orbitron;font-size:1.2rem;}
+.card span{font-size:0.8rem;color:var(--text-light);}
+.card button{margin-top:6px;padding:8px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));color:#050015;cursor:pointer;transition:.3s;}
+.card button:hover{transform:translateY(-1px);box-shadow:0 0 15px var(--cw-blue),0 0 25px var(--cw-violet);}
 
-/* Zep Swipe Verification Button */
-.verify-btn{
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  color:#050015;
-  border:none;
-  border-radius:999px;
-  padding:12px 20px;
-  cursor:pointer;
-  font-family:Orbitron;
-  margin-top:8px;
-  transition:.3s;
+/* MODALS */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:1000;
 }
-.verify-btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 20px var(--blue),0 0 40px var(--violet);
+.modal{
+  background:var(--glass);padding:24px;border-radius:var(--card-radius);max-width:400px;width:90%;text-align:center;box-shadow:0 0 20px var(--cw-blue),0 0 40px var(--cw-violet);
 }
+.modal input{width:90%;padding:10px;border-radius:12px;border:none;margin:8px 0;background:rgba(255,255,255,0.05);color:#fff;}
+.modal button{padding:10px 20px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));color:#050015;cursor:pointer;margin-top:12px;}
+.modal button:hover{transform:translateY(-1px);box-shadow:0 0 15px var(--cw-blue),0 0 30px var(--cw-violet);}
 
-/* Zep Cash Info */
-.zepcash{
-  font-size:1.2rem;
-  font-weight:500;
-  color:var(--green);
-  margin-top:6px;
-}
+/* FOOTER */
+footer{width:100%;padding:16px;text-align:center;font-size:0.8rem;color:var(--text-light);}
 
-/* MUSIC LIST */
-.music-list{
-  width:100%;
+/* RESPONSIVE */
+@media(max-width:480px){
+  .cards-container{grid-template-columns:1fr;}
+  .actions{flex-direction:column;gap:12px;}
 }
-.track-card{
-  background:rgba(255,255,255,.05);
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  transition:.3s;
-}
-.track-card:hover{background:rgba(255,255,255,.12);}
-.track-info{display:flex;align-items:center;gap:12px;}
-.track-cover{width:50px;height:50px;border-radius:8px;object-fit:cover;}
-.track-name{font-weight:500;}
-.track-actions button{
-  margin-left:6px;
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  border:none;color:#050015;padding:6px 12px;
-  border-radius:999px;
-  cursor:pointer;
-  font-family:Orbitron;
-  transition:.3s;
-}
-.track-actions button:hover{transform:scale(1.05);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">
-    <img src="https://payhip.com/cdn-cgi/image/format=auto/https://pe56d.s3.amazonaws.com/o_1jfnua21qtu1vi2pfom33p641h.png" alt="Zep Swipe Logo">
+  <div class="brand" onclick="window.location.reload()">
+    <img src="https://payhip.com/cdn-cgi/image/format=auto/https://pe56d.s3.amazonaws.com/o_1jfnua21qtu1vi2pfom33p641h.png" alt="Zep Swipe">
     Campus Wave
   </div>
-  <button class="home-btn" title="Home" onclick="location.href='index.html'">🏠</button>
+  <button class="connect-btn" id="connectWalletBtn">Connect Wallet</button>
 </header>
 
-<div class="dashboard-container">
-
-  <!-- Zep Swipe Verification -->
-  <div class="card">
-    <h3>Zep Swipe Verification</h3>
-    <button class="verify-btn" id="verifyBtn">Connect Zep Swipe</button>
-    <div id="verifiedSticker" style="margin-top:10px;display:none;">✔ Verified ✅</div>
-  </div>
-
-  <!-- Zep Cash Info -->
-  <div class="card">
-    <h3>Zep Cash Balance</h3>
-    <div class="zepcash" id="zepCash">$0.00</div>
-  </div>
-
-  <!-- Music List -->
-  <div class="card">
-    <h3>My Tracks</h3>
-    <div class="music-list" id="musicList"></div>
-  </div>
-
+<div class="balance-card">
+  <h2 id="balance">-- ZAC</h2>
+  <span id="usdBalance">-- USD</span>
+  <div id="verifiedBadge" class="verified-badge" style="display:none;">✔ Verified Zep Swipe User</div>
 </div>
 
+<div class="actions">
+  <button class="action-btn" onclick="openSendModal()">Send ZAC</button>
+  <button class="action-btn" onclick="openReceiveModal()">Receive ZAC</button>
+</div>
+
+<div class="cards-container" id="cardsContainer">
+  <!-- Dynamic Artist Tips & Country/University Cards will be generated here -->
+</div>
+
+<!-- SEND MODAL -->
+<div class="modal-overlay" id="sendModal">
+  <div class="modal">
+    <h3>Send ZAC</h3>
+    <input type="text" id="sendAddress" placeholder="Recipient Address">
+    <input type="number" id="sendAmount" placeholder="Amount">
+    <button onclick="sendZAC()">Confirm Send</button>
+    <button onclick="closeSendModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- RECEIVE MODAL -->
+<div class="modal-overlay" id="receiveModal">
+  <div class="modal">
+    <h3>Receive ZAC</h3>
+    <input type="text" id="userAddress" readonly>
+    <button onclick="copyAddress()">Copy Address</button>
+    <button onclick="closeReceiveModal()">Close</button>
+  </div>
+</div>
+
+<footer>
+  Campus Wave &copy; 2026 — Powered by Zep Swipe & Zep Cash
+</footer>
+
 <script>
-// ======== USER & WALLET =========
-let walletAddress = localStorage.getItem('campusWaveWallet') || null;
-let zepCashBalance = 50; // simulate starting balance
+// ======= CONFIG =======
+const ZAC_CONTRACT = "0xA40F79dbeEE44AF9EC40d1D9b0e10EB1110546c1";
+let provider, signer, userAddress;
 
-// ======== MOCK MUSIC DATA =========
-let tracks = [
-  {name:"Campus Anthem",cover:"https://via.placeholder.com/50",published:false},
-  {name:"Uni Vibes",cover:"https://via.placeholder.com/50",published:false},
-  {name:"Chill Beats",cover:"https://via.placeholder.com/50",published:false}
-];
+// DOM Elements
+const connectWalletBtn = document.getElementById("connectWalletBtn");
+const balanceEl = document.getElementById("balance");
+const usdBalanceEl = document.getElementById("usdBalance");
+const verifiedBadge = document.getElementById("verifiedBadge");
+const cardsContainer = document.getElementById("cardsContainer");
+const sendModal = document.getElementById("sendModal");
+const receiveModal = document.getElementById("receiveModal");
+const userAddressInput = document.getElementById("userAddress");
 
-// ======== DOM ELEMENTS =========
-const verifyBtn = document.getElementById('verifyBtn');
-const verifiedSticker = document.getElementById('verifiedSticker');
-const zepCash = document.getElementById('zepCash');
-const musicList = document.getElementById('musicList');
+// ======= WALLET CONNECT =======
+async function connectWallet(){
+  if(window.ethereum){
+    try{
+      provider = new ethers.BrowserProvider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      signer = await provider.getSigner();
+      userAddress = await signer.getAddress();
+      userAddressInput.value = userAddress;
+      connectWalletBtn.innerText = "Wallet Connected";
+      loadBalance();
+      loadUserCards();
+      checkZepVerified();
+    }catch(err){
+      alert("Wallet connection failed.");
+      console.error(err);
+    }
+  } else {
+    alert("Install Metamask or Base Wallet!");
+  }
+}
+connectWalletBtn.addEventListener("click",connectWallet);
 
-// ======== DISPLAY ZEP CASH =========
-function updateZepCash(){ zepCash.innerText = `$${zepCash.toFixed(2)}`; }
-updateZepCash();
+// ======= GET BALANCE =======
+async function loadBalance(){
+  const erc20Abi = [
+    "function balanceOf(address) view returns (uint256)",
+    "function decimals() view returns (uint8)"
+  ];
+  const contract = new ethers.Contract(ZAC_CONTRACT, erc20Abi, provider);
+  const decimals = await contract.decimals();
+  const bal = await contract.balanceOf(userAddress);
+  const humanBal = Number(ethers.formatUnits(bal, decimals)).toFixed(2);
+  balanceEl.innerText = `${humanBal} ZAC`;
+  usdBalanceEl.innerText = `$${(humanBal * 0.002).toFixed(2)} USD`; // Simulation price
+}
 
-// ======== MUSIC LIST =========
-function renderTracks(){
-  musicList.innerHTML = '';
-  tracks.forEach((track,i)=>{
-    const card = document.createElement('div'); card.className='track-card';
-    const info = document.createElement('div'); info.className='track-info';
-    const img = document.createElement('img'); img.src=track.cover; img.className='track-cover';
-    const name = document.createElement('div'); name.className='track-name'; name.innerText = track.name;
-    info.appendChild(img); info.appendChild(name);
-    const actions = document.createElement('div'); actions.className='track-actions';
-    const publishBtn = document.createElement('button'); publishBtn.innerText='Publish'; 
-    publishBtn.onclick = ()=>{
-      if(!isVerified){
-        alert('Verify your Zep Swipe account first!');
-        return;
-      }
-      track.published=true;
-      alert(`Track "${track.name}" published to Campus Chart!`);
-      zepCashBalance += 5; // reward for publishing
-      updateZepCash();
-      renderTracks();
-    };
-    const tipBtn = document.createElement('button'); tipBtn.innerText='Tip';
-    tipBtn.onclick=()=>{
-      if(zepCashBalance>=1){
-        zepCashBalance -= 1;
-        alert(`You tipped 1 Zep Cash to ${track.name}`);
-        updateZepCash();
-      } else alert('Insufficient Zep Cash');
-    };
-    actions.appendChild(publishBtn); actions.appendChild(tipBtn);
-    card.appendChild(info); card.appendChild(actions);
-    musicList.appendChild(card);
+// ======= SEND / RECEIVE MODALS =======
+function openSendModal(){sendModal.style.display="flex";}
+function closeSendModal(){sendModal.style.display="none";}
+function openReceiveModal(){receiveModal.style.display="flex";}
+function closeReceiveModal(){receiveModal.style.display="none";}
+function copyAddress(){navigator.clipboard.writeText(userAddress); alert("Address copied!");}
+
+// ======= SEND ZAC FUNCTION (SIMULATION) =======
+function sendZAC(){
+  const to = document.getElementById("sendAddress").value.trim();
+  const amount = parseFloat(document.getElementById("sendAmount").value);
+  if(!to || isNaN(amount) || amount <=0){alert("Enter valid details"); return;}
+  alert(`Simulated sending ${amount} ZAC to ${to}`);
+  closeSendModal();
+}
+
+// ======= DYNAMIC ARTIST TIPS & COUNTRY/UNIVERSITY CARDS =======
+function loadUserCards(){
+  const students = [
+    {name:"Alice",country:"Ghana",university:"UG",tips:12},
+    {name:"Kwame",country:"Nigeria",university:"Unilag",tips:5},
+    {name:"Thandi",country:"South Africa",university:"UCT",tips:20},
+    {name:"John",country:"Kenya",university:"UoN",tips:3}
+  ];
+  cardsContainer.innerHTML = "";
+  students.forEach(s=>{
+    const card = document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      <h3>${s.name}</h3>
+      <span>${s.university}, ${s.country}</span>
+      <span>Tips: ${s.tips} ZAC</span>
+      <button onclick="tipArtist('${s.name}')">Tip Artist</button>
+    `;
+    cardsContainer.appendChild(card);
   });
 }
-renderTracks();
 
-// ======== ZEP SWIPE VERIFICATION =========
-let isVerified = false;
-verifyBtn.addEventListener('click',()=>{
-  // Open Zep Swipe login in new tab
-  const popup = window.open('https://www.zepswipe.com/login.html','zepSwipeLogin','width=500,height=600');
-  // Poll for verification (simulate)
-  const checkVerification = setInterval(()=>{
-    const verified = localStorage.getItem('zepSwipeVerified')==='true';
-    if(verified){
-      isVerified=true;
-      verifiedSticker.style.display='block';
-      verifyBtn.style.display='none';
-      alert('Zep Swipe Verified! You can now publish tracks.');
-      clearInterval(checkVerification);
-    }
-  },1000);
-});
+// ======= TIP ARTIST (SIMULATION) =======
+function tipArtist(name){
+  const amount = prompt(`Enter ZAC to tip ${name}:`, "1");
+  if(!amount || isNaN(amount) || amount<=0){return;}
+  alert(`You tipped ${amount} ZAC to ${name} (simulation)`);
+}
 
-// Simulate Zep Swipe verification for demo
-if(localStorage.getItem('zepSwipeVerified')==='true'){
-  isVerified=true;
-  verifiedSticker.style.display='block';
-  verifyBtn.style.display='none';
+// ======= CHECK ZEP SWIPE VERIFIED =======
+function checkZepVerified(){
+  let users = JSON.parse(localStorage.getItem("users"))||{};
+  let verified = Object.values(users).find(u=>u.id===localStorage.getItem("currentUserId") && u.verified);
+  if(verified){verifiedBadge.style.display="flex";}
 }
 </script>
 
