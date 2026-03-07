@@ -3,138 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave • Discover</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
+<title>Campus Wave — Discover</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cw-blue:#00E5FF;
-  --cw-violet:#7B4DFF;
+  --cw-blue:#00f0ff;
+  --cw-violet:#9c4dff;
+  --cw-green:#00ff94;
   --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
-  --glass:rgba(255,255,255,.08);
-  --text-light:rgba(255,255,255,.7);
-  --green:#00BFFF;
+  --glass:rgba(255,255,255,0.08);
+  --text-light:rgba(255,255,255,.85);
   --card-radius:20px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
-body{background:var(--bg);color:white;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;}
+body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;}
+
 header{
-  width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;
-  background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 0 12px rgba(0,229,255,.2);
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 24px;
+  background:rgba(0,0,0,0.3);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  box-shadow:0 0 12px rgba(0,255,255,.2);
 }
-.brand{display:flex;align-items:center;gap:12px;font-family:Orbitron;font-size:1.5rem;cursor:pointer;}
-.brand img{width:50px;height:50px;}
-.nav-btns button{margin-left:12px;padding:8px 12px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));color:#050015;font-weight:600;cursor:pointer;transition:.3s;}
-.nav-btns button:hover{transform:scale(1.05);}
+.brand{font-family:Orbitron;font-size:1.5rem;}
+.home-btn{
+  background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));
+  border:none;border-radius:50%;
+  width:50px;height:50px;cursor:pointer;
+  font-size:20px;color:#050015;
+  display:flex;align-items:center;justify-content:center;
+  transition:.3s;
+}
+.home-btn:hover{transform:scale(1.05);}
 
-.container{width:95%;max-width:1100px;margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.discover-container{
+  width:95%;
+  max-width:1200px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
 
-.music-card{background:var(--glass);backdrop-filter:blur(16px);border-radius:var(--card-radius);padding:16px;display:flex;flex-direction:column;align-items:center;box-shadow:0 0 20px rgba(0,229,255,.2);transition:.3s;position:relative;}
-.music-card:hover{transform:translateY(-3px);box-shadow:0 0 35px rgba(123,77,255,.35);}
-.album-art{width:100%;height:180px;border-radius:16px;object-fit:cover;cursor:pointer;}
-.artist-details{margin-top:12px;text-align:center;}
-.artist-details h4{margin-bottom:4px;}
-.artist-details span{font-size:0.85rem;color:var(--text-light);}
-.controls{margin-top:12px;display:flex;gap:16px;align-items:center;}
-.play-btn, .love-btn{padding:8px 12px;border:none;border-radius:12px;font-weight:600;cursor:pointer;transition:.3s;}
-.play-btn{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));color:#050015;}
-.play-btn:hover{transform:scale(1.05);}
-.love-btn{background:linear-gradient(135deg,#FFD700,#FF69B4);color:#050015;display:flex;align-items:center;gap:6px;}
-.love-btn:hover{transform:scale(1.05);}
+.music-card{
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  box-shadow:0 0 20px rgba(0,240,255,.15),0 0 30px rgba(156,77,255,.15);
+  transition:.3s;
+  cursor:pointer;
+}
+.music-card:hover{transform:translateY(-5px);box-shadow:0 0 25px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
+.music-art{width:100%;border-radius:16px;object-fit:cover;aspect-ratio:1;}
+.card-info{margin-top:12px;width:100%;text-align:center;}
+.card-info h3{font-family:Orbitron;font-size:1.1rem;margin-bottom:4px;}
+.card-info span{font-size:.85rem;color:var(--text-light);display:block;}
+.card-controls{margin-top:8px;display:flex;justify-content:center;align-items:center;gap:16px;}
+.play-btn, .love-btn{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#050015;cursor:pointer;transition:.3s;font-size:18px;}
+.play-btn:hover, .love-btn:hover{transform:scale(1.1);box-shadow:0 0 12px var(--cw-blue),0 0 20px var(--cw-violet);}
+.love-btn::after{content:"💵";font-size:16px;position:absolute;top:-5px;right:-5px;}
+
+footer{
+  width:100%;padding:12px 24px;background:rgba(0,0,0,0.25);display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 12px rgba(0,240,255,.2);
+  position:fixed;bottom:0;left:0;backdrop-filter:blur(10px);
+}
+.footer-player{display:flex;align-items:center;gap:12px;}
+.footer-player img{width:50px;height:50px;border-radius:12px;}
+.footer-player-info{display:flex;flex-direction:column;}
+.footer-player-info span{font-size:.85rem;color:var(--text-light);}
+.footer-controls{display:flex;gap:12px;}
+.footer-controls button{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#050015;cursor:pointer;}
+.footer-controls button:hover{transform:scale(1.1);}
+
+@media(max-width:480px){
+  .discover-container{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
 <header>
-<div class="brand" onclick="window.location.href='dashboard.html'">
-<img src="https://payhip.com/cdn-cgi/image/format=auto/https://pe56d.s3.amazonaws.com/o_1jfnua21qtu1vi2pfom33p641h.png" alt="Campus Wave Logo">
-Campus Wave
-</div>
-<div class="nav-btns">
-<button onclick="window.location.href='campus-chart.html'">Campus Chart</button>
-<button onclick="window.location.href='radio.html'">Campus Radio</button>
-</div>
+  <div class="brand">Campus Wave</div>
+  <button class="home-btn" onclick="location.href='upload.html'">⬆️</button>
 </header>
 
-<div class="container" id="musicContainer">
-<!-- Music cards dynamically generated -->
+<div class="discover-container" id="discoverContainer">
+  <!-- Music cards injected by JS -->
 </div>
 
-<!-- Mini Audio Player -->
-<audio id="audioPlayer"></audio>
+<footer>
+  <div class="footer-player">
+    <img src="https://via.placeholder.com/50" id="footerArt">
+    <div class="footer-player-info">
+      <span id="footerTitle">Select a track</span>
+      <span id="footerArtist">Artist Name</span>
+    </div>
+  </div>
+  <div class="footer-controls">
+    <button id="footerPlay">▶️</button>
+    <button id="footerLove">💵</button>
+  </div>
+</footer>
 
 <script>
-// ======== USERS & ARTISTS =========
-let users = JSON.parse(localStorage.getItem("users"))||{};
+// ======== LOAD USER ========
+let users = JSON.parse(localStorage.getItem("users")) || {};
 let currentUserId = localStorage.getItem("currentUserId");
-if(!currentUserId || !users[currentUserId]) window.location.href='login.html';
+if(!currentUserId || !users[currentUserId]) window.location.href="login.html";
 let currentUser = users[currentUserId];
 
-// ======== SAMPLE ARTISTS DATA =========
-let artists = Object.values(users).filter(u=>u.verified); // only verified users
-// Sample tracks for each artist
-let tracks = artists.map(artist=>({
-  artistId: artist.id,
-  name: `Track by ${artist.name}`,
-  albumArt: "https://via.placeholder.com/280x180",
-  src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-  university: artist.university || "Unknown Uni",
-  country: artist.country || "Unknown",
-  tips: 0,
-}));
+// ======== SAMPLE MUSIC DATA ========
+const musicData = [
+  {title:"Sunset Vibes",artist:"DJ Wave",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+  {title:"Campus Groove",artist:"Student Beats",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+  {title:"Night Study",artist:"Uni Mix",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+  {title:"Viral Hits",artist:"Fresh Artist",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"}
+];
 
-// ======== RENDER MUSIC CARDS =========
-const musicContainer=document.getElementById("musicContainer");
-const audioPlayer=document.getElementById("audioPlayer");
-let currentPlaying=null;
+// ======== RENDER MUSIC CARDS ========
+const discoverContainer = document.getElementById("discoverContainer");
+let currentAudio = new Audio();
+let currentCard = null;
 
-tracks.forEach(track=>{
-  const card=document.createElement("div");
+musicData.forEach((track,index)=>{
+  const card = document.createElement("div");
   card.className="music-card";
 
-  const img=document.createElement("img");
-  img.className="album-art"; img.src=track.albumArt; card.appendChild(img);
+  const art = document.createElement("img");
+  art.className="music-art";
+  art.src=track.albumArt;
+  card.appendChild(art);
 
-  const details=document.createElement("div"); details.className="artist-details";
-  details.innerHTML=`<h4>${track.name}</h4><span>${track.university} | ${track.country}</span>`;
-  card.appendChild(details);
+  const info = document.createElement("div");
+  info.className="card-info";
+  info.innerHTML=`<h3>${track.title}</h3><span>${track.artist}</span>`;
+  card.appendChild(info);
 
-  const controls=document.createElement("div"); controls.className="controls";
-  const playBtn=document.createElement("button"); playBtn.className="play-btn"; playBtn.innerText="Play";
-  playBtn.addEventListener("click",()=>{
-    if(currentPlaying===track.src){audioPlayer.paused?audioPlayer.play():audioPlayer.pause(); playBtn.innerText=audioPlayer.paused?"Play":"Pause";}
-    else{audioPlayer.src=track.src;audioPlayer.play(); currentPlaying=track.src; updatePlayButtons();}
+  const controls = document.createElement("div");
+  controls.className="card-controls";
+
+  const playBtn = document.createElement("button");
+  playBtn.className="play-btn";
+  playBtn.innerText="▶️";
+  playBtn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    if(currentCard===card && !currentAudio.paused){
+      currentAudio.pause();
+      playBtn.innerText="▶️";
+      footerPlay.innerText="▶️";
+    } else {
+      currentAudio.src=track.url;
+      currentAudio.play();
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="▶️";
+      playBtn.innerText="⏸️";
+      footerTitle.innerText=track.title;
+      footerArtist.innerText=track.artist;
+      footerArt.src=track.albumArt;
+      footerPlay.innerText="⏸️";
+      currentCard = card;
+    }
   });
-  const loveBtn=document.createElement("button"); loveBtn.className="love-btn"; loveBtn.innerHTML="💰 Tip";
+  controls.appendChild(playBtn);
+
+  const loveBtn = document.createElement("button");
+  loveBtn.className="love-btn";
+  loveBtn.title="Tip artist";
   loveBtn.addEventListener("click",()=>{
-    track.tips += 1;
-    const artist = users[track.artistId];
-    artist.walletBalance = (artist.walletBalance||0)+1;
-    users[track.artistId]=artist;
-    localStorage.setItem("users",JSON.stringify(users));
-    alert(`You tipped ${artist.name} 1 ZAC! Total Tips: ${track.tips}`);
+    alert(`You tipped ${track.artist} 0.1 ZAC!`);
   });
+  controls.appendChild(loveBtn);
 
-  controls.appendChild(playBtn); controls.appendChild(loveBtn);
   card.appendChild(controls);
-
-  musicContainer.appendChild(card);
+  discoverContainer.appendChild(card);
 });
 
-// ======== UPDATE PLAY BUTTONS TEXT =========
-function updatePlayButtons(){
-  document.querySelectorAll(".play-btn").forEach(btn=>{
-    btn.innerText="Play";
-  });
-  let playingBtn = Array.from(document.querySelectorAll(".music-card")).find(c=>c.querySelector("img").src===audioPlayer.src)?.querySelector(".play-btn");
-  if(playingBtn) playingBtn.innerText=audioPlayer.paused?"Play":"Pause";
-}
+// ======== FOOTER PLAYER CONTROLS ========
+const footerPlay = document.getElementById("footerPlay");
+const footerLove = document.getElementById("footerLove");
+const footerTitle = document.getElementById("footerTitle");
+const footerArtist = document.getElementById("footerArtist");
+const footerArt = document.getElementById("footerArt");
 
-// ======== AUDIO EVENTS =========
-audioPlayer.addEventListener("ended",()=>{currentPlaying=null;updatePlayButtons();});
-audioPlayer.addEventListener("pause",updatePlayButtons);
-audioPlayer.addEventListener("play",updatePlayButtons);
-
+footerPlay.addEventListener("click",()=>{
+  if(currentAudio.src){
+    if(currentAudio.paused){
+      currentAudio.play();
+      footerPlay.innerText="⏸️";
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="⏸️";
+    } else {
+      currentAudio.pause();
+      footerPlay.innerText="▶️";
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="▶️";
+    }
+  }
+});
+footerLove.addEventListener("click",()=>{
+  if(currentCard) alert(`You tipped ${currentCard.querySelector(".card-info h3").innerText} artist 0.1 ZAC!`);
+});
 </script>
 
 </body>
