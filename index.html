@@ -3,410 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — The Sound of African Campuses</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
-
+<title>Campus Wave — Discover African Student Music</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
 <style>
-
-:root{
---wave-blue:#00eaff;
---wave-purple:#8a5cff;
---wave-pink:#ff4fd8;
---dark:#070012;
---glass:rgba(255,255,255,0.06);
+:root {
+  --wave-blue: #00f0ff;
+  --wave-violet: #9c4dff;
+  --glass: rgba(255,255,255,.08);
+  --bg-dark: #050018;
+  --text-light: rgba(255,255,255,.9);
+  --green: #00ff94;
+  --yellow: #ffcc00;
+  --transition: 0.3s;
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
-body{
-background:radial-gradient(circle at top,#120022,#050010);
-color:white;
-}
+/* RESET */
+* {margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body {background: linear-gradient(135deg, #050018, #0c0025); color:#fff; min-height:100vh; display:flex; flex-direction:column;}
+a {text-decoration:none;color:inherit;}
+button {cursor:pointer; transition: var(--transition); font-family:Orbitron;}
 
 /* HEADER */
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 6%;
-position:sticky;
-top:0;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(10px);
-border-bottom:1px solid rgba(255,255,255,.08);
+header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 24px; backdrop-filter:blur(12px);
+  background: rgba(0,0,0,.35); border-bottom:1px solid rgba(255,255,255,.08);
+  position: sticky; top:0; z-index:1000;
 }
-
-.logo{
-font-family:Orbitron;
-font-size:1.6rem;
-background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+.brand {display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand img {width:50px; height:50px; object-fit:contain;}
+.brand span {
+  font-family:Orbitron; font-size:1.5rem;
+  background: linear-gradient(90deg,var(--wave-blue),var(--wave-violet));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
 }
-
-nav{
-display:flex;
-gap:28px;
-}
-
-nav a{
-text-decoration:none;
-color:#ddd;
-font-weight:500;
-}
-
-.cta{
-padding:10px 20px;
-border-radius:30px;
-background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
-color:black;
-font-weight:600;
-}
+nav button {margin-left:12px; padding:10px 18px; border-radius:999px; border:none; background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); color:#050015;}
+nav button:hover {transform:scale(1.05);}
 
 /* HERO */
+.hero {padding:60px 24px; text-align:center; position:relative;}
+.hero h1 {font-family:Orbitron; font-size:2.5rem; margin-bottom:16px; background: linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.hero p {font-size:1.2rem; color:var(--text-light);}
+.hero button {margin-top:24px; padding:14px 28px; border-radius:999px; border:none; font-family:Orbitron; background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); color:#050015;}
 
-.hero{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-align-items:center;
-padding:80px 8%;
+/* MUSIC CARDS */
+.cards-container {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px; padding:24px;
+}
+.card {
+  background: var(--glass); border-radius:20px; padding:16px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  position:relative; overflow:hidden; border:1px solid rgba(255,255,255,.12);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card:hover {transform:translateY(-6px); box-shadow:0 0 25px var(--wave-blue),0 0 35px var(--wave-violet);}
+.card img {width:100%; border-radius:16px; margin-bottom:12px; object-fit:cover;}
+.card button {margin-top:10px; padding:10px 16px; border:none; border-radius:999px; background:var(--green); color:#050015;}
+.card .play-overlay {
+  position:absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,.3); opacity:0;
+  display:flex; align-items:center; justify-content:center; transition:var(--transition);
+}
+.card:hover .play-overlay {opacity:1;}
+.card .play-overlay span {font-size:36px; color:#fff;}
+
+/* WAVEFORM ANIMATION */
+.waveform {
+  display:flex; align-items:flex-end; gap:2px; height:40px; margin-top:8px;
+}
+.waveform div {width:3px; background:var(--wave-blue); animation:wave 1s infinite; transform-origin:bottom;}
+.waveform div:nth-child(2){animation-delay:0.1s;}
+.waveform div:nth-child(3){animation-delay:0.2s;}
+.waveform div:nth-child(4){animation-delay:0.3s;}
+.waveform div:nth-child(5){animation-delay:0.4s;}
+@keyframes wave {
+  0%,100%{height:4px;}
+  50%{height:40px;}
 }
 
-.hero h1{
-font-size:3rem;
-line-height:1.2;
+/* MAP DISCOVERY */
+.map-container {background: var(--glass); margin:24px; border-radius:20px; padding:16px; height:300px; text-align:center; line-height:300px; color:var(--text-light);}
+
+/* LOGIN MODAL */
+.modal-bg {position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:999;}
+.modal {background: var(--glass); padding:24px; border-radius:16px; max-width:400px; width:90%; position:relative;}
+.modal input {width:100%; padding:12px; border-radius:10px; border:none; margin-bottom:12px;}
+.modal button {padding:12px 20px; border:none; border-radius:999px; background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); color:#050015;}
+.modal .close-btn {position:absolute; top:10px; right:14px; cursor:pointer; font-size:18px; font-weight:700; color:#fff;}
+
+/* FLOATING PLAYER */
+.player {
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:95%; max-width:1000px; background:var(--glass); border-radius:24px;
+  padding:14px; display:flex; align-items:center; justify-content:space-between;
+  box-shadow:0 0 25px rgba(0,0,0,.5); z-index:1000;
 }
-
-.hero span{
-background:linear-gradient(90deg,var(--wave-blue),var(--wave-pink));
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.hero p{
-margin-top:20px;
-opacity:.85;
-max-width:420px;
-}
-
-.hero-buttons{
-margin-top:30px;
-display:flex;
-gap:16px;
-}
-
-.btn{
-padding:14px 28px;
-border-radius:40px;
-font-weight:600;
-border:none;
-cursor:pointer;
-}
-
-.btn-primary{
-background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
-color:black;
-}
-
-.btn-outline{
-background:none;
-border:1px solid rgba(255,255,255,.2);
-color:white;
-}
-
-/* FEATURED */
-
-.section{
-padding:60px 8%;
-}
-
-.section h2{
-font-size:1.8rem;
-margin-bottom:30px;
-}
-
-/* SONG GRID */
-
-.song-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:22px;
-}
-
-.song-card{
-background:var(--glass);
-border-radius:16px;
-padding:16px;
-transition:.3s;
-cursor:pointer;
-}
-
-.song-card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 30px rgba(0,0,0,.6);
-}
-
-.song-card img{
-width:100%;
-border-radius:12px;
-}
-
-.song-card h4{
-margin-top:12px;
-font-size:1rem;
-}
-
-.song-card span{
-font-size:.85rem;
-opacity:.7;
-}
-
-/* ARTIST SECTION */
-
-.artist-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:24px;
-}
-
-.artist{
-background:var(--glass);
-padding:18px;
-border-radius:18px;
-text-align:center;
-}
-
-.artist img{
-width:80px;
-height:80px;
-border-radius:50%;
-object-fit:cover;
-margin-bottom:12px;
-}
-
-/* CTA SECTION */
-
-.join{
-text-align:center;
-padding:80px 10%;
-background:linear-gradient(90deg,#120022,#050010);
-}
-
-.join h2{
-font-size:2rem;
-margin-bottom:18px;
-}
-
-/* FOOTER */
-
-footer{
-padding:30px;
-text-align:center;
-opacity:.6;
-font-size:.9rem;
-}
-
-/* PLAYER */
-
-.player{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#0b001a;
-padding:14px 6%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-top:1px solid rgba(255,255,255,.08);
-}
-
-.player-controls{
-display:flex;
-gap:16px;
-}
-
-.play-btn{
-width:46px;
-height:46px;
-border-radius:50%;
-border:none;
-background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
-font-size:18px;
-cursor:pointer;
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-.hero{
-grid-template-columns:1fr;
-text-align:center;
-}
-
-.hero p{
-margin:auto;
-}
-
-nav{
-display:none;
-}
-
-}
-
+.player-info {display:flex; align-items:center; gap:14px;}
+.player-info img {width:50px; height:50px; border-radius:12px; object-fit:cover;}
+.player-controls {display:flex; align-items:center; gap:10px;}
+.player-controls button {padding:10px; border-radius:50%; border:none; background:var(--wave-blue); color:#050015;}
 </style>
 </head>
-
 <body>
 
 <header>
-
-<div class="logo">Campus Wave</div>
-
-<nav>
-<a href="#">Discover</a>
-<a href="#">Artists</a>
-<a href="#">Playlists</a>
-<a href="#">Radio</a>
-</nav>
-
-<a class="cta">Join Campus</a>
-
+  <div class="brand" onclick="location.href='#'">
+    <img src="https://pe56d.s3.amazonaws.com/o_1jhp2503i1gm41unj1tlt1me117of15.png" alt="Campus Wave Logo">
+    <span>Campus Wave</span>
+  </div>
+  <nav>
+    <button onclick="openModal()">Login / Signup</button>
+  </nav>
 </header>
 
-
 <section class="hero">
-
-<div>
-
-<h1>The Sound of <span>African Campuses</span></h1>
-
-<p>
-Discover student artists, stream campus music, tip creators, and support the next generation of global talent.
-</p>
-
-<div class="hero-buttons">
-<button class="btn btn-primary">Start Listening</button>
-<button class="btn btn-outline">Upload Music</button>
-</div>
-
-</div>
-
-<img src="https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=1200" style="width:100%;border-radius:20px">
-
+  <h1>The Sound of African Campuses 🌍🎵</h1>
+  <p>Discover, listen, tip, and support student artists across Africa.</p>
+  <button>Explore Music</button>
 </section>
 
-
-<section class="section">
-
-<h2>🔥 Trending on Campus</h2>
-
-<div class="song-grid">
-
-<div class="song-card">
-<img src="https://picsum.photos/300?1">
-<h4>Midnight Code</h4>
-<span>Jay KNUST</span>
-</div>
-
-<div class="song-card">
-<img src="https://picsum.photos/300?2">
-<h4>Campus Love</h4>
-<span>Lisa UNZA</span>
-</div>
-
-<div class="song-card">
-<img src="https://picsum.photos/300?3">
-<h4>Digital Dreams</h4>
-<span>Neo UCT</span>
-</div>
-
-<div class="song-card">
-<img src="https://picsum.photos/300?4">
-<h4>Late Night Study</h4>
-<span>Kwame UG</span>
-</div>
-
-</div>
-
+<section class="cards-container">
+  <div class="card">
+    <img src="https://via.placeholder.com/220x220.png?text=Artist+1" alt="">
+    <div class="play-overlay"><span>▶</span></div>
+    <strong>Artist 1</strong>
+    <p>Kwame Nkrumah University</p>
+    <div class="waveform">
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+    <button>Tip $1</button>
+  </div>
+  <div class="card">
+    <img src="https://via.placeholder.com/220x220.png?text=Artist+2" alt="">
+    <div class="play-overlay"><span>▶</span></div>
+    <strong>Artist 2</strong>
+    <p>University of Ghana</p>
+    <div class="waveform">
+      <div></div><div></div><div></div><div></div><div></div>
+    </div>
+    <button>Tip $1</button>
+  </div>
+  <!-- Repeat cards -->
 </section>
 
-
-<section class="section">
-
-<h2>🎤 Rising Campus Artists</h2>
-
-<div class="artist-grid">
-
-<div class="artist">
-<img src="https://randomuser.me/api/portraits/men/32.jpg">
-<h4>Jay KNUST</h4>
-<span>KNUST</span>
-</div>
-
-<div class="artist">
-<img src="https://randomuser.me/api/portraits/women/44.jpg">
-<h4>Lisa Banda</h4>
-<span>UNZA</span>
-</div>
-
-<div class="artist">
-<img src="https://randomuser.me/api/portraits/men/67.jpg">
-<h4>Neo Mokoena</h4>
-<span>UCT</span>
-</div>
-
-</div>
-
+<section class="map-container">
+  University Discovery Map (coming soon)
 </section>
 
-
-<section class="join">
-
-<h2>Are You a Campus Artist?</h2>
-
-<p>Upload your music, grow fans, earn tips, and sell digital merch.</p>
-
-<br>
-
-<button class="btn btn-primary">Upload Your Music</button>
-
-</section>
-
-
-<footer>
-
-Campus Wave © 2026  
-The Sound of African Campuses 🌍🎧
-
-</footer>
-
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <span class="close-btn" onclick="closeModal()">×</span>
+    <h3>Login or Signup</h3>
+    <input type="text" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Continue</button>
+  </div>
+</div>
 
 <div class="player">
-
-<div>
-<strong>Midnight Code</strong><br>
-<small>Jay KNUST</small>
+  <div class="player-info">
+    <img src="https://via.placeholder.com/50" alt="Current Song">
+    <div>
+      <strong>Artist 1 - Song Title</strong>
+      <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </div>
+  <div class="player-controls">
+    <button>⏮</button>
+    <button>▶</button>
+    <button>⏭</button>
+  </div>
 </div>
 
-<div class="player-controls">
-
-<button class="play-btn">⏮</button>
-<button class="play-btn">▶</button>
-<button class="play-btn">⏭</button>
-
-</div>
-
-</div>
+<script>
+function openModal(){document.getElementById("modalBg").style.display="flex";}
+function closeModal(){document.getElementById("modalBg").style.display="none";}
+</script>
 
 </body>
 </html>
