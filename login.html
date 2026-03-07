@@ -3,99 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<title>Campus Wave Login</title>
 <style>
-:root{
-  --blue:#00f0ff;
-  --violet:#9c4dff;
-  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
-  --glass:rgba(255,255,255,0.08);
-}
-
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Poppins,sans-serif;
-  background:var(--bg);
-  color:white;
-}
-
-.card{
-  background:var(--glass);
-  backdrop-filter:blur(20px);
-  padding:32px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 0 30px rgba(0,240,255,.25);
-}
-
-h1{
-  font-family:Orbitron;
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  margin-bottom:28px;
-}
-
-button{
-  padding:14px 28px;
-  border:none;
-  border-radius:999px;
-  font-family:Orbitron;
-  font-size:16px;
-  cursor:pointer;
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  color:#050015;
-  transition:.3s;
-}
-
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
-}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#070716;color:white;display:flex;justify-content:center;align-items:center;height:100vh;}
+.card{background:rgba(255,255,255,0.05);backdrop-filter:blur(25px);padding:30px;border-radius:22px;text-align:center;box-shadow:0 0 30px rgba(0,229,255,0.25);}
+button{padding:14px 20px;border:none;border-radius:12px;background:linear-gradient(90deg,#00E5FF,#7B4DFF);color:#050015;font-weight:700;cursor:pointer;transition:.3s;}
+button:hover{transform:translateY(-2px);box-shadow:0 0 15px #00E5FF,0 0 30px #7B4DFF;}
 </style>
 </head>
 <body>
-
 <div class="card">
-  <h1>Campus Wave</h1>
-  <button id="connectBtn">Connect Base / MetaMask Wallet</button>
+  <h2>Connect Wallet to Campus Wave</h2>
+  <button onclick="connectWallet()">Connect Base / MetaMask Wallet</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
 <script>
-const connectBtn = document.getElementById("connectBtn");
-
 async function connectWallet(){
   if(typeof window.ethereum === "undefined"){
-    alert("MetaMask or Base wallet not detected. Please install a wallet.");
+    alert("Base Network / MetaMask not detected. Please install wallet.");
     return;
   }
-
   try{
-    // Request account access
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const userAddress = await signer.getAddress();
-
-    // Save user address to localStorage for dashboard
-    localStorage.setItem("campusWallet", userAddress);
-
-    // Redirect to dashboard after connection
+    // Request account connection
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const walletAddress = accounts[0];
+    
+    // Save profile in localStorage (all users treated as verified)
+    const profile = {
+      name: "Student",
+      country: "Unknown",
+      university: "Unknown",
+      wallet: walletAddress,
+      verified: true
+    };
+    localStorage.setItem("campusWalletProfile", JSON.stringify(profile));
+    
+    // Redirect to dashboard
     window.location.href = "dashboard.html";
   }catch(err){
-    console.error(err);
-    alert("Wallet connection failed. Try again.");
+    alert("Connection failed: "+err.message);
   }
 }
-
-connectBtn.addEventListener("click", connectWallet);
 </script>
-
 </body>
 </html>
