@@ -5,26 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins&display=swap" rel="stylesheet">
 <style>
-:root{
-  --cw-blue:#00f0ff;
-  --cw-violet:#9c4dff;
-  --glass:rgba(255,255,255,0.05);
-  --bg:#070716;
-  --text-light:rgba(255,255,255,.85);
-  --card-radius:22px;
-}
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,Poppins,sans-serif;
-  background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#070716;
   color:white;
 }
 .container{
-  padding-bottom:180px;
+  padding-bottom:160px;
 }
-/* Header */
 header{
   display:flex;
   justify-content:space-between;
@@ -34,49 +24,42 @@ header{
 .logo{
   font-weight:700;
   font-size:22px;
-  background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));
+  background:linear-gradient(90deg,#00E5FF,#7B4DFF);
   -webkit-background-clip:text;
   color:transparent;
 }
 .logout{
   font-size:22px;
   cursor:pointer;
-  transition:.3s;
 }
-.logout:hover{
-  transform:scale(1.1);
-}
-/* Glass cards */
+
+/* Glass card style */
 .glass{
-  background:var(--glass);
+  background:rgba(255,255,255,0.05);
   backdrop-filter:blur(25px);
-  border-radius:var(--card-radius);
-  box-shadow:0 0 40px rgba(0,229,255,.25),0 0 60px rgba(123,77,255,.15);
+  border-radius:22px;
+  box-shadow:0 0 30px rgba(0,229,255,0.25);
   margin:20px;
-  padding:24px;
-  transition:.3s;
-}
-.glass:hover{
-  box-shadow:0 0 50px rgba(0,229,255,.35),0 0 70px rgba(123,77,255,.25);
+  padding:22px;
 }
 .balance{
-  font-size:44px;
+  font-size:38px;
   font-weight:700;
 }
 .usd{
   opacity:.7;
-  margin-top:6px;
+  margin-top:5px;
 }
 .actions{
   display:flex;
-  gap:12px;
+  gap:10px;
   margin-top:18px;
 }
 button{
   padding:12px;
   border:none;
-  border-radius:16px;
-  background:linear-gradient(45deg,var(--cw-blue),var(--cw-violet));
+  border-radius:14px;
+  background:linear-gradient(45deg,#00E5FF,#7B4DFF);
   color:white;
   font-weight:600;
   flex:1;
@@ -85,35 +68,18 @@ button{
 }
 button:hover{
   transform:translateY(-2px);
-  box-shadow:0 0 20px var(--cw-blue),0 0 40px var(--cw-violet);
+  box-shadow:0 0 15px #00E5FF,0 0 30px #7B4DFF;
 }
-/* Profile card */
+
+/* Profile Card */
 .profile-card div{
-  margin-top:8px;
-  font-size:16px;
-}
-.verify{
-  color:#00f0ff;
-  font-weight:700;
   margin-top:6px;
 }
-/* Analytics grid */
-.analytics-grid{
-  display:flex;
-  justify-content:space-between;
-  text-align:center;
-  margin-top:12px;
+.verify{
+  color:#00E5FF;
+  font-weight:bold;
 }
-.history{
-  max-height:200px;
-  overflow:auto;
-}
-.tx{
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-  font-size:14px;
-}
+
 /* Player */
 .player{
   position:fixed;
@@ -125,7 +91,6 @@ button:hover{
   align-items:center;
   padding:12px;
   gap:12px;
-  border-top:1px solid rgba(255,255,255,0.1);
 }
 .player img{
   width:50px;
@@ -139,7 +104,20 @@ button:hover{
   font-size:22px;
   cursor:pointer;
 }
-/* Footer */
+.waveform{
+  height:4px;
+  background:linear-gradient(90deg,#00E5FF,#7B4DFF);
+  margin-top:4px;
+  border-radius:2px;
+  animation:wave 1s infinite alternate;
+}
+@keyframes wave{
+  0%{transform:scaleX(0.8);}
+  50%{transform:scaleX(1);}
+  100%{transform:scaleX(0.9);}
+}
+
+/* Footer Nav */
 footer{
   position:fixed;
   bottom:0;
@@ -156,6 +134,7 @@ footer a{
   font-size:13px;
   text-align:center;
 }
+
 /* Modal */
 .modal{
   position:fixed;
@@ -167,7 +146,6 @@ footer a{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:1000;
 }
 .modal-content{
   background:#111133;
@@ -175,7 +153,6 @@ footer a{
   border-radius:20px;
   width:90%;
   max-width:400px;
-  text-align:center;
 }
 input{
   width:100%;
@@ -196,6 +173,7 @@ input{
 </style>
 </head>
 <body>
+
 <div class="container">
 <header>
   <div class="logo">Campus Wave</div>
@@ -219,29 +197,10 @@ input{
   <div id="name">Name: </div>
   <div id="country">Country: </div>
   <div id="university">University: </div>
-  <div class="verify">✔ Zep Swipe Verified</div>
+  <div class="verify">✔ Verified Artist</div>
 </div>
 
-<!-- Creator Dashboard -->
-<div class="glass">
-  <b>Creator Payout Dashboard</b>
-  <div class="analytics-grid">
-    <div>
-      <div id="streams">0</div>
-      <small>Streams</small>
-    </div>
-    <div>
-      <div id="tips">0</div>
-      <small>Tips</small>
-    </div>
-    <div>
-      <div id="earnings">0 ZAC</div>
-      <small>Earnings</small>
-    </div>
-  </div>
-</div>
-
-<!-- Transactions -->
+<!-- Transactions History -->
 <div class="glass history">
   <b>On-Chain Transactions</b>
   <div id="txList"></div>
@@ -250,16 +209,16 @@ input{
 
 <!-- Mini Player -->
 <div class="player">
-  <img src="https://picsum.photos/200" alt="Track Image">
+  <img src="https://picsum.photos/200">
   <div class="track">
-    <div>Campus Radio</div>
-    <small>Live Student Mix</small>
+    <div id="nowPlaying">Campus Radio</div>
+    <div class="waveform"></div>
   </div>
   <div class="play" onclick="togglePlay()">▶</div>
   <audio id="audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 </div>
 
-<!-- Footer -->
+<!-- Footer Navigation -->
 <footer>
   <a href="upload.html">⬆<br>Upload</a>
   <a href="discover.html">🔍<br>Discover</a>
@@ -290,90 +249,84 @@ input{
 </div>
 
 <script>
-let provider, signer, userAddress
-const contractAddress="0xA40F79dbeEE44AF9EC40d1D9b0e10EB1110546c1"
+let provider, signer, userAddress;
+const contractAddress="0xA40F79dbeEE44AF9EC40d1D9b0e10EB1110546c1";
 const abi=[
-"function balanceOf(address owner) view returns (uint256)",
-"function transfer(address to,uint amount) returns (bool)"
-]
+  "function balanceOf(address owner) view returns (uint256)",
+  "function transfer(address to,uint amount) returns (bool)"
+];
 
-// ===== INIT =====
 async function init(){
-  const campusUser = JSON.parse(localStorage.getItem("currentUser"))
-  if(!campusUser){
-    window.location.href="login.html"
-    return
+  if(typeof window.ethereum==="undefined"){
+    alert("MetaMask/Base wallet not detected.");
+    return;
   }
-
-  // Fill profile automatically
-  document.getElementById("name").innerText="Name: "+campusUser.name
-  document.getElementById("country").innerText="Country: "+campusUser.country
-  document.getElementById("university").innerText="University: "+campusUser.university
-
-  if(window.ethereum){
-    provider=new ethers.providers.Web3Provider(window.ethereum)
-    signer=provider.getSigner()
-    userAddress=campusUser.walletAddress || await signer.getAddress()
-    document.getElementById("walletAddress").innerText=userAddress
-    loadBalance()
-  }
-
-  loadTransactions()
-  updateAnalytics()
+  provider=new ethers.providers.Web3Provider(window.ethereum);
+  signer=provider.getSigner();
+  userAddress=await signer.getAddress();
+  document.getElementById("walletAddress").innerText=userAddress;
+  
+  loadBalance();
+  loadTransactions();
+  loadProfile();
 }
 
-// ===== BALANCE =====
+// Load ZAC Balance
 async function loadBalance(){
-  const contract=new ethers.Contract(contractAddress,abi,provider)
-  let balance=await contract.balanceOf(userAddress)
-  balance=ethers.utils.formatUnits(balance,18)
-  document.getElementById("balance").innerText=parseFloat(balance).toFixed(2)+" ZAC"
-  let price=0.002 // live price simulation
-  document.getElementById("usd").innerText="$"+(balance*price).toFixed(2)
+  const contract=new ethers.Contract(contractAddress,abi,provider);
+  let balance=await contract.balanceOf(userAddress);
+  balance=ethers.utils.formatUnits(balance,18);
+  document.getElementById("balance").innerText=parseFloat(balance).toFixed(2)+" ZAC";
+  let price=0.002; // example price in USD
+  document.getElementById("usd").innerText="$"+(balance*price).toFixed(2);
 }
 
-// ===== SEND =====
+// Send ZAC
 async function sendZAC(){
-  const address=document.getElementById("sendAddress").value
-  const amount=document.getElementById("sendAmount").value
-  if(!address || !amount) return alert("Enter address & amount")
-  const contract=new ethers.Contract(contractAddress,abi,signer)
-  const tx=await contract.transfer(address,ethers.utils.parseUnits(amount,18))
-  await tx.wait()
-  alert("ZAC Sent")
-  closeModal()
-  loadBalance()
+  const address=document.getElementById("sendAddress").value;
+  const amount=document.getElementById("sendAmount").value;
+  if(!address || !amount){alert("Fill all fields"); return;}
+  const contract=new ethers.Contract(contractAddress,abi,signer);
+  const tx=await contract.transfer(address,ethers.utils.parseUnits(amount,18));
+  await tx.wait();
+  alert("ZAC Sent!");
+  closeModal();
+  loadBalance();
 }
 
-// ===== MODALS =====
-function openSend(){document.getElementById("sendModal").style.display="flex"}
-function openReceive(){document.getElementById("receiveModal").style.display="flex"}
-function closeModal(){document.getElementById("sendModal").style.display="none";document.getElementById("receiveModal").style.display="none"}
-function copyAddress(){navigator.clipboard.writeText(userAddress);alert("Address copied")}
+function openSend(){document.getElementById("sendModal").style.display="flex";}
+function openReceive(){document.getElementById("receiveModal").style.display="flex";}
+function closeModal(){document.getElementById("sendModal").style.display="none"; document.getElementById("receiveModal").style.display="none";}
+function copyAddress(){navigator.clipboard.writeText(userAddress); alert("Address copied!");}
 
-// ===== PLAYER =====
-function togglePlay(){const audio=document.getElementById("audio"); audio.paused?audio.play():audio.pause()}
+// Mini Player
+function togglePlay(){
+  const audio=document.getElementById("audio");
+  audio.paused?audio.play():audio.pause();
+}
 
-// ===== TRANSACTIONS SIMULATION =====
+// Load profile info
+function loadProfile(){
+  const user=JSON.parse(localStorage.getItem("campusWalletProfile")) || {};
+  document.getElementById("name").innerText="Name: "+(user.name||"Student");
+  document.getElementById("country").innerText="Country: "+(user.country||"Unknown");
+  document.getElementById("university").innerText="University: "+(user.university||"Unknown");
+}
+
+// Transactions simulation
 function loadTransactions(){
-  let html=""
+  let html="";
   for(let i=0;i<5;i++){
-    html+=`<div class="tx"><span>Tip Artist</span><span>${(Math.random()*10).toFixed(2)} ZAC</span></div>`
+    html+=`<div class="tx"><span>Tip Artist</span><span>${(Math.random()*10).toFixed(2)} ZAC</span></div>`;
   }
-  document.getElementById("txList").innerHTML=html
+  document.getElementById("txList").innerHTML=html;
 }
 
-// ===== LOGOUT =====
-function logout(){localStorage.removeItem("currentUser");window.location.href="login.html"}
+// Logout
+function logout(){window.location.href="login.html";}
 
-// ===== ANALYTICS SIMULATION =====
-function updateAnalytics(){
-  document.getElementById("streams").innerText=Math.floor(Math.random()*6000)
-  document.getElementById("tips").innerText=Math.floor(Math.random()*300)
-  document.getElementById("earnings").innerText=(Math.random()*200).toFixed(2)+" ZAC"
-}
-
-init()
+init();
 </script>
+
 </body>
 </html>
