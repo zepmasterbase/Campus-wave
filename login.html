@@ -7,10 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
-  --blue:#1a73e8; /* Campus Wave blue */
-  --purple:#9c27b0; /* Campus Wave purple */
-  --pink:#ff4081; /* Accent pink for highlights */
-  --bg:radial-gradient(circle at 30% 10%, #050018, #0a0015);
+  --blue:#00f0ff;
+  --violet:#9c4dff;
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
   --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
 }
@@ -31,20 +30,20 @@ body{
   background:var(--glass);
   padding:28px;
   border-radius:18px;
-  box-shadow:0 0 30px rgba(26,115,232,.25);
+  box-shadow:0 0 30px rgba(0,240,255,.25);
   animation:pulse 2s infinite;
 }
 @keyframes pulse{
-  0%{box-shadow:0 0 20px rgba(26,115,232,.25),0 0 40px rgba(156,39,176,.25);}
-  50%{box-shadow:0 0 30px rgba(26,115,232,.35),0 0 60px rgba(156,39,176,.35);}
-  100%{box-shadow:0 0 20px rgba(26,115,232,.25),0 0 40px rgba(156,39,176,.25);}
+  0%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
+  50%{box-shadow:0 0 30px rgba(0,240,255,.35),0 0 60px rgba(156,77,255,.35);}
+  100%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
 }
 
 h1{
   font-family:Orbitron;
   text-align:center;
   margin-bottom:20px;
-  background:linear-gradient(90deg,var(--blue),var(--purple));
+  background:linear-gradient(90deg,var(--blue),var(--violet));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
@@ -66,20 +65,22 @@ button{
   border:none;
   border-radius:999px;
   font-family:Orbitron;
-  background:linear-gradient(90deg,var(--blue),var(--purple));
+  background:linear-gradient(90deg,var(--blue),var(--violet));
   color:#050015;
   cursor:pointer;
   transition:.3s;
 }
-button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--purple);}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
+}
 
 .switch{
   text-align:center;
   margin-top:12px;
   font-size:14px;
   cursor:pointer;
-  color:var(--pink);
-  text-decoration:underline;
+  color:var(--blue);
 }
 
 .password-toggle{
@@ -89,7 +90,7 @@ button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px
   margin-top:-10px;
   margin-bottom:14px;
   cursor:pointer;
-  color:var(--pink);
+  color:var(--blue);
 }
 
 .modal-overlay{
@@ -108,7 +109,7 @@ button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px
   max-width:400px;
   width:90%;
   text-align:center;
-  box-shadow:0 0 20px var(--blue),0 0 40px var(--purple);
+  box-shadow:0 0 20px var(--blue),0 0 40px var(--violet);
 }
 .modal button{margin-top:12px;width:fit-content;}
 .modal a{color:var(--blue); text-decoration:none;}
@@ -140,7 +141,7 @@ button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px
 
   <button onclick="handleLogin()">Continue</button>
 
-  <div class="switch" onclick="goSignup()">Sign Up on Zep Swipe</div>
+  <div class="switch" onclick="goSignup()">Sign up on Zep Swipe</div>
 
 </div>
 
@@ -152,27 +153,26 @@ button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px
 </div>
 
 <script>
+// Show/Hide Password
 function togglePassword(){
   const pw = document.getElementById("password");
   pw.type = pw.type==="password"?"text":"password";
 }
 
+// Modal functions
 function showModal(text){
   const modal = document.getElementById("modalOverlay");
   document.getElementById("modalText").innerText=text;
   modal.style.display="flex";
 }
+function closeModal(){ document.getElementById("modalOverlay").style.display="none"; }
 
-function closeModal(){
-  document.getElementById("modalOverlay").style.display="none";
-}
-
-// Redirect to Zep Swipe login/signup page
+// Redirect to Zep Swipe signup
 function goSignup(){
   window.location.href="https://www.zepswipe.com/login.html";
 }
 
-// LOGIN using Zep Swipe users from localStorage
+// Login using Zep Swipe users from localStorage (temporary pilot)
 function handleLogin(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
@@ -182,9 +182,10 @@ function handleLogin(){
     return;
   }
 
-  // Read users from Zep Swipe localStorage
+  // Try reading Zep Swipe users
   const users = JSON.parse(localStorage.getItem("users")) || {};
-  const userEntry = Object.entries(users).find(([id,u])=>u.email===email && u.password===password);
+
+  const userEntry = Object.entries(users).find(([id,u]) => u.email===email && u.password===password);
 
   if(!userEntry){
     alert("Invalid credentials. Make sure you are registered on Zep Swipe.");
@@ -194,9 +195,16 @@ function handleLogin(){
   const [userId] = userEntry;
   localStorage.setItem("currentUserId", userId);
 
-  showModal("Login successful! Redirecting...");
+  showModal("Login successful! Redirecting to Campus Wave...");
   setTimeout(()=>{ window.location.href="discover.html"; },1200);
 }
+
+// Redirect to dashboard if already logged in
+window.addEventListener('load', ()=>{
+  const currentUserId = localStorage.getItem("currentUserId");
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+  if(currentUserId && users[currentUserId]) window.location.href = "discover.html";
+});
 </script>
 
 </body>
