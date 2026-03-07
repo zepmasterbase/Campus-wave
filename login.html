@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave — Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#00f0ff;
@@ -13,7 +13,6 @@
   --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
 }
-
 *{box-sizing:border-box;font-family:Poppins,sans-serif;margin:0;padding:0;}
 body{
   min-height:100vh;
@@ -23,7 +22,6 @@ body{
   background:var(--bg);
   color:#fff;
 }
-
 .card{
   width:100%;
   max-width:420px;
@@ -38,7 +36,6 @@ body{
   50%{box-shadow:0 0 30px rgba(0,240,255,.35),0 0 60px rgba(156,77,255,.35);}
   100%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
 }
-
 h1{
   font-family:Orbitron;
   text-align:center;
@@ -47,7 +44,6 @@ h1{
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
 input{
   width:100%;
   padding:12px;
@@ -58,7 +54,6 @@ input{
   color:#fff;
 }
 input::placeholder{color:rgba(255,255,255,0.6);}
-
 button{
   width:100%;
   padding:12px;
@@ -74,7 +69,6 @@ button:hover{
   transform:translateY(-2px);
   box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
 }
-
 .switch{
   text-align:center;
   margin-top:12px;
@@ -82,7 +76,6 @@ button:hover{
   cursor:pointer;
   color:var(--blue);
 }
-
 .password-toggle{
   display:flex;
   justify-content:flex-end;
@@ -92,7 +85,6 @@ button:hover{
   cursor:pointer;
   color:var(--blue);
 }
-
 .modal-overlay{
   position:fixed;
   inset:0;
@@ -114,7 +106,6 @@ button:hover{
 .modal button{margin-top:12px;width:fit-content;}
 .modal a{color:var(--blue); text-decoration:none;}
 .modal a:hover{text-decoration:underline;}
-
 .home-btn{
   display:block;
   text-align:center;
@@ -126,12 +117,10 @@ button:hover{
 .home-btn:hover{opacity:.8;}
 </style>
 </head>
-
 <body>
 
 <div class="card">
   <a href="index.html" class="home-btn">🏠 Home</a>
-
   <h1 id="title">Login</h1>
 
   <input type="email" id="email" placeholder="Email">
@@ -140,7 +129,7 @@ button:hover{
 
   <button onclick="handleLogin()">Continue</button>
 
-  <div class="switch" onclick="goSignup()">Sign up on Zep Swipe</div>
+  <div class="switch" onclick="goSignup()">Don’t have an account? Sign up on Zep Swipe</div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -151,26 +140,28 @@ button:hover{
 </div>
 
 <script>
-// Toggle password visibility
+// Show/Hide password
 function togglePassword(){
   const pw = document.getElementById("password");
   pw.type = pw.type==="password"?"text":"password";
 }
 
-// Show modal
+// Modal helpers
 function showModal(text){
   const modal = document.getElementById("modalOverlay");
   document.getElementById("modalText").innerText=text;
   modal.style.display="flex";
 }
-function closeModal(){ document.getElementById("modalOverlay").style.display="none"; }
-
-// Go to Zep Swipe login
-function goSignup(){
-  window.location.href="https://www.zepswipe.com/login.html";
+function closeModal(){
+  document.getElementById("modalOverlay").style.display="none";
 }
 
-// LOGIN with Zep Swipe users (shared localStorage)
+// Signup link
+function goSignup(){
+  window.open("https://www.zepswipe.com/login.html", "_blank");
+}
+
+// LOGIN using Zep Swipe localStorage
 function handleLogin(){
   const email = document.getElementById("email").value.trim().toLowerCase();
   const password = document.getElementById("password").value;
@@ -180,10 +171,8 @@ function handleLogin(){
     return;
   }
 
-  // Read users from Zep Swipe localStorage
   const users = JSON.parse(localStorage.getItem("users")) || {};
-
-  // Match email & password
+  // Match email & password ONLY, ignore verified
   const userEntry = Object.entries(users).find(([id,u])=>{
     return u.email.toLowerCase() === email && u.password === password;
   });
@@ -193,20 +182,25 @@ function handleLogin(){
     return;
   }
 
-  // Set current user
-  const [userId] = userEntry;
+  const [userId, userObj] = userEntry;
   localStorage.setItem("currentUserId", userId);
 
-  showModal("Login successful! Redirecting...");
+  if(!userObj.verified){
+    showModal("Login successful! Note: Your Zep Swipe account is not verified yet.");
+  } else {
+    showModal("Login successful! Redirecting...");
+  }
 
   setTimeout(()=>{ window.location.href="student-dashboard.html"; },800);
 }
 
-// Auto-redirect if already logged in
+// Redirect logged-in users
 window.addEventListener('load', ()=>{
   const currentUserId = localStorage.getItem("currentUserId");
   const users = JSON.parse(localStorage.getItem("users")) || {};
-  if(currentUserId && users[currentUserId]) window.location.href="student-dashboard.html";
+  if(currentUserId && users[currentUserId]){
+    window.location.href="student-dashboard.html";
+  }
 });
 </script>
 
