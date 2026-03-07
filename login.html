@@ -3,143 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Login with Wallet</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<title>Campus Wave — Login with Zep Swipe</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
-  --blue:#00f0ff;
-  --violet:#9c4dff;
-  --green:#00ff94;
+  --cw-blue:#00f0ff;
+  --cw-violet:#9c4dff;
   --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
   --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
 }
-
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
-body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:var(--bg);
-  color:#fff;
-}
-
-.card{
-  width:100%;
-  max-width:400px;
-  background:var(--glass);
-  padding:28px;
-  border-radius:20px;
-  box-shadow:0 0 30px rgba(0,240,255,.25);
-  text-align:center;
-  animation:pulse 2s infinite;
-}
-
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:var(--bg);color:#fff;}
+.card{width:100%;max-width:420px;background:var(--glass);padding:28px;border-radius:18px;box-shadow:0 0 30px rgba(0,240,255,.25);animation:pulse 2s infinite;text-align:center;}
 @keyframes pulse{
   0%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
   50%{box-shadow:0 0 30px rgba(0,240,255,.35),0 0 60px rgba(156,77,255,.35);}
   100%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
 }
-
-h1{
-  font-family:Orbitron;
-  font-size:2rem;
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  margin-bottom:30px;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  font-family:Orbitron;
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  color:#050015;
-  cursor:pointer;
-  font-size:1rem;
-  transition:.3s;
-  margin-bottom:14px;
-}
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
-}
-
-.switch{
-  text-align:center;
-  margin-top:12px;
-  font-size:14px;
-  cursor:pointer;
-  color:var(--blue);
-}
-
-.wallet-info{
-  margin:10px 0;
-  font-size:0.9rem;
-  color:var(--text-light);
-  word-break:break-word;
-}
-
+h1{font-family:Orbitron;text-align:center;margin-bottom:24px;background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+button{width:100%;padding:14px;border:none;border-radius:999px;font-family:Orbitron;background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));color:#050015;cursor:pointer;transition:.3s;margin-top:12px;}
+button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--cw-blue),0 0 30px var(--cw-violet);}
 </style>
 </head>
 <body>
 
 <div class="card">
-  <h1>Connect Your Wallet</h1>
-  <button id="connectWalletBtn">Connect MetaMask / Base Wallet</button>
-  <div class="wallet-info" id="walletInfo"></div>
-  <div class="switch">
-    <a href="https://www.zepswipe.com/login.html" target="_blank" style="color:var(--blue); text-decoration:none;">Sign up on Zep Swipe</a>
-  </div>
+  <h1>Campus Wave Login</h1>
+  <p>Login with your <strong>Zep Swipe</strong> account to access Campus Wave.</p>
+  <button id="zepLoginBtn">Login with Zep Swipe</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
-const connectWalletBtn = document.getElementById('connectWalletBtn');
-const walletInfo = document.getElementById('walletInfo');
+// ======= CONFIG =======
+const DASHBOARD_URL = "dashboard.html";
+const ZEP_SWIPE_LOGIN = "https://www.zepswipe.com/login.html";
 
-async function connectWallet(){
-  if(typeof window.ethereum === 'undefined'){
-    alert("MetaMask or Base Wallet not detected. Please install.");
-    return;
-  }
+// ======= STATE =======
+let currentUser = null;
 
-  try {
-    // Request account access
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const walletAddress = accounts[0];
-    walletInfo.innerText = `Connected wallet: ${walletAddress}`;
+// ======= LOGIN FLOW =======
+document.getElementById("zepLoginBtn").addEventListener("click",()=>{
+  // Step 1: Redirect to Zep Swipe login
+  window.location.href = ZEP_SWIPE_LOGIN + "?redirect_back=" + encodeURIComponent(window.location.href);
+});
 
-    // Optionally check Zep Swipe verification
-    // For demo, we'll just save wallet address locally
-    localStorage.setItem('campusWaveWallet', walletAddress);
-
-    // Redirect to dashboard
-    setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 1200);
-
-  } catch (err) {
-    console.error(err);
-    alert('Wallet connection failed.');
+// ======= SIMULATE RETURN FROM ZEP SWIPE LOGIN =======
+// Campus Wave receives Zep Swipe login info via query string (for demo)
+function simulateZepSwipeLogin(){
+  // Extract query string "user" param (simulating logged in Zep Swipe user)
+  const urlParams = new URLSearchParams(window.location.search);
+  const userEmail = urlParams.get("user") || "student@example.com";
+  
+  if(userEmail){
+    // Treat all users as verified
+    currentUser = {
+      name: userEmail.split("@")[0],
+      email: userEmail,
+      verified: true,
+      country: "Unknown",
+      university: "Unknown",
+      walletAddress: ""
+    };
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    // Step 2: Prompt wallet connection
+    connectWallet();
   }
 }
 
-connectWalletBtn.addEventListener('click', connectWallet);
-
-// Listen for account changes
-if(window.ethereum){
-  window.ethereum.on('accountsChanged', (accounts)=>{
-    if(accounts.length === 0){
-      walletInfo.innerText = 'Wallet disconnected';
-      localStorage.removeItem('campusWaveWallet');
-    } else {
-      walletInfo.innerText = `Connected wallet: ${accounts[0]}`;
-      localStorage.setItem('campusWaveWallet', accounts[0]);
+// ======= WALLET CONNECT =======
+async function connectWallet(){
+  if(window.ethereum){
+    try{
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      currentUser.walletAddress = accounts[0];
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      alert("Wallet connected! Redirecting to Dashboard...");
+      window.location.href = DASHBOARD_URL;
+    }catch(err){
+      alert("Wallet connection rejected. Please try again.");
     }
-  });
+  }else{
+    alert("Metamask or Base wallet not detected. Please install a wallet.");
+  }
+}
+
+// ======= INIT =======
+window.onload = ()=>{
+  // If user already logged in locally, skip Zep Swipe login
+  const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+  if(storedUser && storedUser.walletAddress){
+    window.location.href = DASHBOARD_URL;
+  }else{
+    // Otherwise check if returned from Zep Swipe login
+    simulateZepSwipeLogin();
+  }
 }
 </script>
 
