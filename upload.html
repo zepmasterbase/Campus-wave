@@ -3,221 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave | Upload Track</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Campus Wave — Upload</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Poppins,sans-serif;
+:root{
+  --blue:#00f0ff;
+  --violet:#9c4dff;
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,0.08);
+  --text-light:rgba(255,255,255,.85);
 }
 
-body{
-  background:#0a0a0f;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
+body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
 header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  background:linear-gradient(90deg,#12121a,#0b0b12);
-  border-bottom:1px solid rgba(255,255,255,.1);
+  display:flex;justify-content:space-between;align-items:center;padding:16px 20px;
+  backdrop-filter:blur(12px);background:rgba(0,0,0,.35);
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
-
-.logo{
-  font-size:22px;
-  font-weight:600;
-  color:#00ffd5;
-  cursor:pointer;
+header .brand{
+  font-family:Orbitron;
+  font-size:1.5rem;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-
-.header-btn{
-  background:linear-gradient(135deg,#00ffd5,#6a5cff);
-  color:black;
-  border:none;
-  padding:10px 18px;
-  border-radius:999px;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.header-btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
-}
-
 .container{
-  max-width:800px;
-  margin:30px auto;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:30px;
-}
-
-.upload-card{
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(15px);
-  border-radius:20px;
-  padding:30px;
+  max-width:600px;
+  margin:20px auto;
+  padding:16px;
   display:flex;
   flex-direction:column;
   gap:20px;
 }
-
-.upload-card h2{
-  color:#00ffd5;
+.card{
+  background:var(--glass);
+  padding:20px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
-
-.upload-card label{
-  display:block;
-  margin-bottom:6px;
-  font-weight:500;
-}
-
-.upload-card input, .upload-card textarea{
-  width:100%;
+.card input, .card textarea, .card select{
   padding:12px;
+  border:none;
   border-radius:12px;
-  border:none;
-  background:rgba(255,255,255,.1);
-  color:white;
-  font-size:14px;
-  outline:none;
+  background:rgba(255,255,255,0.05);
+  color:#fff;
 }
-
-.upload-card input[type="file"]{
-  padding:6px;
-  background:rgba(255,255,255,.05);
+.card input::placeholder, .card textarea::placeholder{
+  color:rgba(255,255,255,0.6);
 }
-
-.upload-card button{
-  align-self:flex-start;
-  background:linear-gradient(135deg,#6a5cff,#00ffd5);
+.card button{
+  padding:12px;
   border:none;
-  padding:12px 20px;
   border-radius:999px;
-  color:white;
-  font-weight:600;
+  font-family:Orbitron;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  color:#050015;
   cursor:pointer;
   transition:.3s;
 }
-
-.upload-card button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+.card button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
 }
-
-/* Preview */
-.track-preview{
+.preview{
   display:flex;
   flex-direction:column;
-  gap:10px;
-  margin-top:10px;
+  gap:8px;
 }
-
-.track-preview img{
-  width:150px;
-  height:150px;
-  border-radius:12px;
+.preview img{
+  width:100px;
+  height:100px;
   object-fit:cover;
-  border:2px solid #00ffd5;
+  border-radius:12px;
+  box-shadow:0 0 10px var(--blue),0 0 15px var(--violet);
 }
-
-.track-preview span{
-  font-size:14px;
-  color:#aaa;
+.track-card{
+  background:rgba(255,255,255,.05);
+  padding:12px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
-/* Responsive */
-@media(max-width:600px){
-  header{
-    flex-direction:column;
-    gap:15px;
-  }
+.track-card:hover{
+  transform:scale(1.02);
+  box-shadow:0 0 10px var(--blue),0 0 20px var(--violet);
+  transition:.3s;
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo" onclick="location.href='index.html'">Campus Wave</div>
-  <button class="header-btn" onclick="location.href='discover.html'">Discover Music</button>
+  <div class="brand">Campus Wave</div>
+  <button onclick="location.href='discover.html'">Discover</button>
 </header>
 
 <div class="container">
-
-<div class="upload-card">
-  <h2>🎵 Upload Your Track</h2>
-
-  <label for="trackTitle">Track Title</label>
-  <input type="text" id="trackTitle" placeholder="Enter your track title">
-
-  <label for="trackDescription">Description</label>
-  <textarea id="trackDescription" rows="3" placeholder="Describe your track"></textarea>
-
-  <label for="trackFile">Audio File</label>
-  <input type="file" id="trackFile" accept="audio/*">
-
-  <label for="trackCover">Cover Image</label>
-  <input type="file" id="trackCover" accept="image/*">
-
-  <button onclick="uploadTrack()">Upload Track</button>
-
-  <div class="track-preview" id="trackPreview" style="display:none">
-    <img id="coverPreview" src="">
-    <span id="audioFileName"></span>
+  <h2>Upload Music / Podcast</h2>
+  <div class="card">
+    <label>Upload Cover Art</label>
+    <input type="file" id="coverArt" accept="image/*">
+    
+    <label>Title</label>
+    <input type="text" id="trackTitle" placeholder="Track / Podcast Title">
+    
+    <label>Genre</label>
+    <select id="trackGenre">
+      <option value="">Select Genre</option>
+      <option>Hip-Hop</option>
+      <option>Afrobeats</option>
+      <option>R&B</option>
+      <option>Pop</option>
+      <option>Jazz</option>
+      <option>Podcast</option>
+      <option>Other</option>
+    </select>
+    
+    <label>Description</label>
+    <textarea id="trackDesc" placeholder="Brief description of your track / podcast"></textarea>
+    
+    <label>Upload Audio File</label>
+    <input type="file" id="audioFile" accept="audio/*">
+    
+    <button onclick="uploadTrack()">Upload</button>
   </div>
 
-</div>
-
+  <h3>Your Uploaded Tracks</h3>
+  <div id="uploadedTracks" class="preview">
+    <!-- Uploaded tracks preview will appear here -->
+  </div>
 </div>
 
 <script>
-// Simulated upload with localStorage
-let currentUserId = localStorage.getItem("currentUserId");
-let users = JSON.parse(localStorage.getItem("users")) || {};
-if(!currentUserId || !users[currentUserId]) location.href="login.html";
+// Check logged-in student
+const currentUserId = localStorage.getItem("currentUserId");
+const users = JSON.parse(localStorage.getItem("users")) || {};
+if(!currentUserId || !users[currentUserId]) window.location.href="login.html";
+const currentUser = users[currentUserId];
 
+let uploadedTracks = currentUser.uploadedMusic || [];
+
+// Upload Track
 function uploadTrack(){
   const title = document.getElementById("trackTitle").value.trim();
-  const desc = document.getElementById("trackDescription").value.trim();
-  const audioFile = document.getElementById("trackFile").files[0];
-  const coverFile = document.getElementById("trackCover").files[0];
+  const genre = document.getElementById("trackGenre").value;
+  const desc = document.getElementById("trackDesc").value.trim();
+  const coverArtInput = document.getElementById("coverArt");
+  const audioInput = document.getElementById("audioFile");
 
-  if(!title || !audioFile || !coverFile){
-    alert("Please provide all required info!");
+  if(!title || !genre || !audioInput.files.length){
+    alert("Please fill all required fields and upload audio file.");
     return;
   }
 
-  // Preview
-  const coverPreview = document.getElementById("coverPreview");
-  const audioFileName = document.getElementById("audioFileName");
-  coverPreview.src = URL.createObjectURL(coverFile);
-  audioFileName.innerText = audioFile.name;
-  document.getElementById("trackPreview").style.display = "flex";
-
-  // Save to localStorage (demo)
-  let user = users[currentUserId];
-  if(!user.uploads) user.uploads = [];
-  user.uploads.push({
-    title, description: desc,
-    audioFileName: audioFile.name,
-    coverFileName: coverFile.name,
-    timestamp: Date.now()
-  });
-  users[currentUserId] = user;
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Track uploaded successfully! 🎉");
+  // Read cover image as DataURL
+  let coverArtURL = "";
+  if(coverArtInput.files.length){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      coverArtURL = e.target.result;
+      saveTrack(title, genre, desc, coverArtURL, audioInput.files[0].name);
+    }
+    reader.readAsDataURL(coverArtInput.files[0]);
+  } else {
+    saveTrack(title, genre, desc, coverArtURL, audioInput.files[0].name);
+  }
 }
-</script>
 
+function saveTrack(title, genre, desc, coverArtURL, audioFileName){
+  const track = {title, genre, desc, coverArtURL, audioFileName};
+  uploadedTracks.push(track);
+  currentUser.uploadedMusic = uploadedTracks;
+  users[currentUserId] = currentUser;
+  localStorage.setItem("users", JSON.stringify(users));
+  renderTracks();
+  alert("Track uploaded successfully!");
+  document.getElementById("trackTitle").value="";
+  document.getElementById("trackGenre").value="";
+  document.getElementById("trackDesc").value="";
+  document.getElementById("coverArt").value="";
+  document.getElementById("audioFile").value="";
+}
+
+// Render uploaded tracks
+function renderTracks(){
+  const container = document.getElementById("uploadedTracks");
+  container.innerHTML="";
+  uploadedTracks.forEach((track,i)=>{
+    const div = document.createElement("div");
+    div.className="track-card";
+    div.innerHTML=`
+      <div>
+        <strong>${track.title}</strong> <br>
+        ${track.genre} ${track.desc ? "- "+track.desc : ""}
+      </div>
+      <div>
+        ${track.coverArtURL ? `<img src="${track.coverArtURL}" alt="Cover Art">` : ""}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Initial render
+renderTracks();
+</script>
 </body>
 </html>
