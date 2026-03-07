@@ -1,7 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Wave — Discover Student Music</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #00f0ff;
+  --violet: #9c4dff;
+  --green: #00ff94;
+  --yellow: #ffcc00;
+  --bg: #0a0a12;
+  --glass: rgba(255,255,255,0.08);
+  --glass-hover: rgba(255,255,255,0.12);
+  --text-light: rgba(255,255,255,0.9);
+}
+
+/* RESET */
+* { box-sizing:border-box; margin:0; padding:0; font-family:Poppins,sans-serif; }
+body { background: var(--bg); color: #fff; min-height:100vh; display:flex; flex-direction:column; }
+
+/* HEADER */
+header {
+  display:flex; justify-content:space-between; align-items:center; padding:16px 24px;
+  backdrop-filter:blur(12px); background: rgba(10,10,18,0.6); border-bottom:1px solid rgba(255,255,255,.1);
+  position:sticky; top:0; z-index:999;
+}
+.brand {
+  display:flex; align-items:center; gap:12px; cursor:pointer;
+}
+.brand svg {
+  width:48px; height:48px; filter: drop-shadow(0 0 15px var(--blue));
+}
+.brand span {
+  font-family: Orbitron; font-size:1.5rem; background: linear-gradient(90deg,var(--blue),var(--violet));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+header nav button {
+  margin-left:12px; padding:10px 18px; border:none; border-radius:999px;
+  background: linear-gradient(90deg,var(--blue),var(--violet)); color:#050015;
+  font-family:Orbitron; cursor:pointer; transition:.3s;
+}
+header nav button:hover { transform:translateY(-2px); box-shadow:0 0 15px var(--blue),0 0 25px var(--violet); }
+
+/* MAIN CONTAINER */
+.container { max-width:1200px; margin:24px auto; padding:0 16px; display:flex; flex-direction:column; gap:32px; }
+
+/* CARDS */
+.cards-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.card {
+  background: var(--glass); border-radius:18px; padding:16px; cursor:pointer;
+  position:relative; overflow:hidden; transition:.3s; border:1px solid rgba(255,255,255,.12);
+}
+.card:hover { background: var(--glass-hover); transform:translateY(-6px); box-shadow:0 0 30px var(--blue),0 0 40px var(--violet);}
+.card img { width:100%; border-radius:14px; display:block; }
+.card strong { display:block; margin-top:10px; font-family:Orbitron; font-size:1.1rem; }
+.card p { font-size:.85rem; margin-top:4px; color:var(--text-light);}
+.play-overlay {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:50px; height:50px; border-radius:50%; background: linear-gradient(90deg,var(--blue),var(--violet));
+  display:flex; align-items:center; justify-content:center; opacity:0; transition:.3s;
+}
+.card:hover .play-overlay { opacity:1; }
+.waveform { display:flex; gap:2px; margin-top:10px; height:6px; }
+.waveform div { flex:1; background: var(--green); animation: wave 1s infinite ease-in-out alternate; }
+.waveform div:nth-child(2) { animation-delay:.1s; }
+.waveform div:nth-child(3) { animation-delay:.2s; }
+.waveform div:nth-child(4) { animation-delay:.3s; }
+.waveform div:nth-child(5) { animation-delay:.4s; }
+
+@keyframes wave {
+  0% { height:4px; } 50% { height:12px; } 100% { height:4px; }
+}
+
+/* CAMPUS DISCOVERY MAP */
+.map-section { background:var(--glass); padding:24px; border-radius:18px; text-align:center; border:1px solid rgba(255,255,255,.12); }
+.map-section h3 { font-family:Orbitron; font-size:1.3rem; margin-bottom:16px; }
+.map-placeholder { width:100%; height:200px; border-radius:14px; background: linear-gradient(135deg,#050018,#00000c); display:flex; align-items:center; justify-content:center; color:var(--text-light); font-size:1.1rem; }
+
+/* 3D MUSIC PLAYER */
+.player {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  background: var(--glass); border-radius:24px; padding:16px 24px; display:flex; align-items:center; gap:20px;
+  backdrop-filter: blur(12px); border:1px solid rgba(255,255,255,.12); box-shadow:0 0 40px var(--blue),0 0 60px var(--violet);
+  max-width:600px; width:90%;
+}
+.player .track-info { flex:1; }
+.player .track-info strong { font-family:Orbitron; display:block; }
+.player .track-info span { font-size:.85rem; color:var(--text-light); }
+.player .controls { display:flex; align-items:center; gap:12px; }
+.player button { border:none; border-radius:50%; width:40px; height:40px; background: linear-gradient(90deg,var(--blue),var(--violet)); display:flex; align-items:center; justify-content:center; color:#050015; cursor:pointer; transition:.3s; }
+.player button:hover { transform:scale(1.1); box-shadow:0 0 20px var(--blue),0 0 30px var(--violet); }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .cards-container { grid-template-columns:1fr; }
+  .player { flex-direction:column; gap:12px; }
+}
+</style>
+</head>
+<body>
+
 <header>
-  <div class="brand" onclick="location.href='#'">
+  <div class="brand">
     <!-- 3D Glowing Music Icon -->
-    <svg width="50" height="50" viewBox="0 0 24 24" fill="url(#gradient)" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 15px #00f0ff);">
+    <svg viewBox="0 0 24 24" fill="url(#gradient)" xmlns="http://www.w3.org/2000/svg" style="width:50px;height:50px;filter:drop-shadow(0 0 15px var(--blue));">
       <defs>
         <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#00f0ff"/>
@@ -18,16 +122,50 @@
   </nav>
 </header>
 
-<!-- Add Campus Chart card in cards-container -->
-<section class="cards-container">
-  <!-- Existing artist cards here -->
-  
-  <!-- Campus Chart Card -->
-  <div class="card" onclick="location.href='campus-chart.html'">
-    <img src="https://images.unsplash.com/photo-1518709268801-5e0f12d24d1d?auto=format&fit=crop&w=220&q=80" alt="Campus Chart">
-    <div class="play-overlay"><span>📊</span></div>
-    <strong>Campus Chart</strong>
-    <p>Top Student Artists</p>
-    <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
+<div class="container">
+  <section class="cards-container">
+    <!-- Example artist card -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80" alt="Artist 1">
+      <div class="play-overlay">▶</div>
+      <strong>Student Artist 1</strong>
+      <p>Latest Track</p>
+      <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <!-- Campus Chart Card -->
+    <div class="card" onclick="location.href='campus-chart.html'">
+      <img src="https://images.unsplash.com/photo-1518709268801-5e0f12d24d1d?auto=format&fit=crop&w=400&q=80" alt="Campus Chart">
+      <div class="play-overlay">📊</div>
+      <strong>Campus Chart</strong>
+      <p>Top Student Artists</p>
+      <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </section>
+
+  <!-- Campus Discovery Map -->
+  <section class="map-section">
+    <h3>Discover Universities</h3>
+    <div class="map-placeholder">Interactive Campus Map Placeholder</div>
+  </section>
+</div>
+
+<!-- 3D Floating Player -->
+<div class="player">
+  <div class="track-info">
+    <strong>Track Name</strong>
+    <span>Student Artist</span>
   </div>
-</section>
+  <div class="controls">
+    <button onclick="playTrack()">⏯</button>
+    <button onclick="skipTrack()">⏭</button>
+  </div>
+</div>
+
+<script>
+// Placeholder functions
+function playTrack(){ alert('Play / Pause track'); }
+function skipTrack(){ alert('Skip track'); }
+</script>
+</body>
+</html>
