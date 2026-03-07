@@ -3,147 +3,410 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Discover, Create, Earn</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Campus Wave — The Sound of African Campuses</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
 <style>
-:root {
-  --blue: #00f0ff;
-  --violet: #9c4dff;
-  --pink: #ff4de3;
-  --green: #00ff94;
-  --bg-dark: #050018;
-  --glass: rgba(255,255,255,0.08);
-  --text-light: rgba(255,255,255,0.85);
+
+:root{
+--wave-blue:#00eaff;
+--wave-purple:#8a5cff;
+--wave-pink:#ff4fd8;
+--dark:#070012;
+--glass:rgba(255,255,255,0.06);
 }
 
-/* RESET */
-* { box-sizing: border-box; margin:0; padding:0; font-family:Poppins,sans-serif; }
-body { background: var(--bg-dark); color: #fff; min-height:100vh; }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:radial-gradient(circle at top,#120022,#050010);
+color:white;
+}
 
 /* HEADER */
-header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:16px 20px; backdrop-filter: blur(12px); background: rgba(0,0,0,.35);
-  border-bottom:1px solid rgba(255,255,255,.08);
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 6%;
+position:sticky;
+top:0;
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(10px);
+border-bottom:1px solid rgba(255,255,255,.08);
 }
-.brand { display:flex; align-items:center; gap:10px; cursor:pointer; }
-.brand img { width:50px; height:50px; object-fit:contain; }
-.brand span { font-family:Orbitron; font-size:1.5rem; background:linear-gradient(90deg,var(--blue),var(--violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.nav-buttons button { margin-left:10px; padding:10px 16px; border:none; border-radius:999px; background:linear-gradient(90deg,var(--blue),var(--violet)); color:#050015; cursor:pointer; transition:.3s; font-family:Orbitron; }
-.nav-buttons button:hover { transform:translateY(-2px); box-shadow:0 0 15px var(--blue),0 0 25px var(--violet); }
+
+.logo{
+font-family:Orbitron;
+font-size:1.6rem;
+background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav{
+display:flex;
+gap:28px;
+}
+
+nav a{
+text-decoration:none;
+color:#ddd;
+font-weight:500;
+}
+
+.cta{
+padding:10px 20px;
+border-radius:30px;
+background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
+color:black;
+font-weight:600;
+}
 
 /* HERO */
-.hero {
-  display:flex; flex-direction:column; justify-content:center; align-items:center;
-  text-align:center; padding:80px 20px; background: linear-gradient(180deg, rgba(5,0,24,.9), rgba(5,0,24,0.7)), url('https://images.unsplash.com/photo-1618219600494-0566c32e1467?auto=format&fit=crop&w=1740&q=80') no-repeat center/cover;
-}
-.hero h1 { font-family:Orbitron; font-size:2.8rem; margin-bottom:16px; background:linear-gradient(90deg,var(--blue),var(--violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.hero p { font-size:1.2rem; margin-bottom:24px; color: var(--text-light); }
-.hero .cta-buttons button { margin:8px; padding:14px 24px; border:none; border-radius:999px; font-family:Orbitron; font-weight:600; background:linear-gradient(90deg,var(--blue),var(--violet)); color:#050015; cursor:pointer; transition:.3s; }
-.hero .cta-buttons button:hover { transform:translateY(-2px); box-shadow:0 0 20px var(--blue),0 0 35px var(--violet); }
 
-/* CARDS SECTIONS */
-.container { max-width:1200px; margin:40px auto; padding:0 20px; display:flex; flex-direction:column; gap:40px; }
-.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
-.card {
-  background: var(--glass); border-radius:18px; border:1px solid rgba(255,255,255,.12);
-  padding:20px; cursor:pointer; transition:.3s; display:flex; flex-direction:column; gap:10px;
+.hero{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+align-items:center;
+padding:80px 8%;
 }
-.card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 0 30px var(--blue),0 0 50px var(--violet); }
-.card img { width:100%; border-radius:14px; object-fit:cover; }
-.card h4 { font-family:Orbitron; font-size:1.2rem; }
-.card p { color: var(--text-light); font-size:0.95rem; }
 
-/* WALLET CARD */
-.wallet-card { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; padding:20px; border-radius:18px; background: var(--glass); border:1px solid rgba(255,255,255,.12); }
-.wallet-card h3 { font-family:Orbitron; }
-.wallet-card .balance { font-family:Orbitron; font-size:1.6rem; }
+.hero h1{
+font-size:3rem;
+line-height:1.2;
+}
+
+.hero span{
+background:linear-gradient(90deg,var(--wave-blue),var(--wave-pink));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+margin-top:20px;
+opacity:.85;
+max-width:420px;
+}
+
+.hero-buttons{
+margin-top:30px;
+display:flex;
+gap:16px;
+}
+
+.btn{
+padding:14px 28px;
+border-radius:40px;
+font-weight:600;
+border:none;
+cursor:pointer;
+}
+
+.btn-primary{
+background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
+color:black;
+}
+
+.btn-outline{
+background:none;
+border:1px solid rgba(255,255,255,.2);
+color:white;
+}
+
+/* FEATURED */
+
+.section{
+padding:60px 8%;
+}
+
+.section h2{
+font-size:1.8rem;
+margin-bottom:30px;
+}
+
+/* SONG GRID */
+
+.song-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:22px;
+}
+
+.song-card{
+background:var(--glass);
+border-radius:16px;
+padding:16px;
+transition:.3s;
+cursor:pointer;
+}
+
+.song-card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+
+.song-card img{
+width:100%;
+border-radius:12px;
+}
+
+.song-card h4{
+margin-top:12px;
+font-size:1rem;
+}
+
+.song-card span{
+font-size:.85rem;
+opacity:.7;
+}
+
+/* ARTIST SECTION */
+
+.artist-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:24px;
+}
+
+.artist{
+background:var(--glass);
+padding:18px;
+border-radius:18px;
+text-align:center;
+}
+
+.artist img{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:12px;
+}
+
+/* CTA SECTION */
+
+.join{
+text-align:center;
+padding:80px 10%;
+background:linear-gradient(90deg,#120022,#050010);
+}
+
+.join h2{
+font-size:2rem;
+margin-bottom:18px;
+}
 
 /* FOOTER */
-footer { text-align:center; padding:24px; color: var(--text-light); font-size:0.9rem; }
 
-/* RESPONSIVE */
-@media(max-width:768px){ .hero h1 { font-size:2rem; } .cards { grid-template-columns:1fr; } .wallet-card { flex-direction:column; align-items:flex-start; } }
+footer{
+padding:30px;
+text-align:center;
+opacity:.6;
+font-size:.9rem;
+}
+
+/* PLAYER */
+
+.player{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#0b001a;
+padding:14px 6%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-top:1px solid rgba(255,255,255,.08);
+}
+
+.player-controls{
+display:flex;
+gap:16px;
+}
+
+.play-btn{
+width:46px;
+height:46px;
+border-radius:50%;
+border:none;
+background:linear-gradient(90deg,var(--wave-blue),var(--wave-purple));
+font-size:18px;
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.hero{
+grid-template-columns:1fr;
+text-align:center;
+}
+
+.hero p{
+margin:auto;
+}
+
+nav{
+display:none;
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="brand" onclick="location.href='index.html'">
-    <img src="https://payhip.com/cdn-cgi/image/format/auto/https://pe56d.s3.amazonaws.com/o_1jhp2503i1gm41unj1tlt1me117of15.png" alt="Campus Wave Logo">
-    <span>Campus Wave</span>
-  </div>
-  <div class="nav-buttons">
-    <button onclick="location.href='index.html'">Home</button>
-    <button onclick="location.href='discover.html'">Discover</button>
-    <button onclick="location.href='player.html'">Player</button>
-    <button onclick="location.href='upload.html'">Upload</button>
-    <button onclick="location.href='artist.html'">Artists</button>
-    <button onclick="location.href='profile.html'">Profile</button>
-    <button onclick="location.href='wallet.html'">Wallet</button>
-    <button onclick="location.href='campus-chat.html'">Chat</button>
-  </div>
+
+<div class="logo">Campus Wave</div>
+
+<nav>
+<a href="#">Discover</a>
+<a href="#">Artists</a>
+<a href="#">Playlists</a>
+<a href="#">Radio</a>
+</nav>
+
+<a class="cta">Join Campus</a>
+
 </header>
 
+
 <section class="hero">
-  <h1>Discover. Create. Earn. Connect.</h1>
-  <p>The ultimate campus music platform. Stream, tip, and support African student artists globally.</p>
-  <div class="cta-buttons">
-    <button onclick="location.href='discover.html'">Explore Music</button>
-    <button onclick="location.href='upload.html'">Upload Your Track</button>
-  </div>
-</section>
 
-<div class="container">
+<div>
 
-  <h2>Trending Student Artists</h2>
-  <div class="cards" id="trendingArtists"></div>
+<h1>The Sound of <span>African Campuses</span></h1>
 
-  <h2>Your Wallet</h2>
-  <div class="wallet-card">
-    <div>
-      <h3>Zep Swipe Wallet</h3>
-      <p class="balance" id="usdBalance">$0.00</p>
-    </div>
-    <div>
-      <h3>ZAC Balance</h3>
-      <p class="balance" id="zacBalance">0 ZAC</p>
-    </div>
-    <button onclick="location.href='wallet.html'">Go to Wallet</button>
-  </div>
+<p>
+Discover student artists, stream campus music, tip creators, and support the next generation of global talent.
+</p>
+
+<div class="hero-buttons">
+<button class="btn btn-primary">Start Listening</button>
+<button class="btn btn-outline">Upload Music</button>
+</div>
 
 </div>
 
+<img src="https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=1200" style="width:100%;border-radius:20px">
+
+</section>
+
+
+<section class="section">
+
+<h2>🔥 Trending on Campus</h2>
+
+<div class="song-grid">
+
+<div class="song-card">
+<img src="https://picsum.photos/300?1">
+<h4>Midnight Code</h4>
+<span>Jay KNUST</span>
+</div>
+
+<div class="song-card">
+<img src="https://picsum.photos/300?2">
+<h4>Campus Love</h4>
+<span>Lisa UNZA</span>
+</div>
+
+<div class="song-card">
+<img src="https://picsum.photos/300?3">
+<h4>Digital Dreams</h4>
+<span>Neo UCT</span>
+</div>
+
+<div class="song-card">
+<img src="https://picsum.photos/300?4">
+<h4>Late Night Study</h4>
+<span>Kwame UG</span>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<h2>🎤 Rising Campus Artists</h2>
+
+<div class="artist-grid">
+
+<div class="artist">
+<img src="https://randomuser.me/api/portraits/men/32.jpg">
+<h4>Jay KNUST</h4>
+<span>KNUST</span>
+</div>
+
+<div class="artist">
+<img src="https://randomuser.me/api/portraits/women/44.jpg">
+<h4>Lisa Banda</h4>
+<span>UNZA</span>
+</div>
+
+<div class="artist">
+<img src="https://randomuser.me/api/portraits/men/67.jpg">
+<h4>Neo Mokoena</h4>
+<span>UCT</span>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="join">
+
+<h2>Are You a Campus Artist?</h2>
+
+<p>Upload your music, grow fans, earn tips, and sell digital merch.</p>
+
+<br>
+
+<button class="btn btn-primary">Upload Your Music</button>
+
+</section>
+
+
 <footer>
-  &copy; 2026 Campus Wave. All Rights Reserved. Powered by Zep Swipe Ecosystem.
+
+Campus Wave © 2026  
+The Sound of African Campuses 🌍🎧
+
 </footer>
 
-<script>
-// ===== SAMPLE TRENDING ARTISTS DATA =====
-const trendingArtists = [
-  {name:"Ayo Beats", track:"Campus Vibes", img:"https://images.unsplash.com/photo-1508923567004-3a6b8004f3d3?auto=format&fit=crop&w=400&q=80"},
-  {name:"Lina Flow", track:"Study Jam", img:"https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=400&q=80"},
-  {name:"Kwame FX", track:"Night Grooves", img:"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80"},
-  {name:"Maya K", track:"Afro Beats Live", img:"https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80"}
-];
-const trendingContainer = document.getElementById("trendingArtists");
-trendingArtists.forEach(artist=>{
-  const div = document.createElement("div");
-  div.className="card";
-  div.innerHTML=`<img src="${artist.img}" alt="${artist.name}"><h4>${artist.name}</h4><p>${artist.track}</p>`;
-  trendingContainer.appendChild(div);
-});
 
-// ===== WALLET DATA =====
-let users = JSON.parse(localStorage.getItem("users")) || {};
-let currentUserId = localStorage.getItem("currentUserId");
-if(!currentUserId || !users[currentUserId]) location.href="login.html";
-let user = users[currentUserId];
-if(user.walletBalance===undefined) user.walletBalance=0;
-if(user.zacBalance===undefined) user.zacBalance=0;
-document.getElementById("usdBalance").innerText=`$${user.walletBalance.toFixed(2)}`;
-document.getElementById("zacBalance").innerText=`${user.zacBalance} ZAC`;
-</script>
+<div class="player">
+
+<div>
+<strong>Midnight Code</strong><br>
+<small>Jay KNUST</small>
+</div>
+
+<div class="player-controls">
+
+<button class="play-btn">⏮</button>
+<button class="play-btn">▶</button>
+<button class="play-btn">⏭</button>
+
+</div>
+
+</div>
 
 </body>
 </html>
