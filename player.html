@@ -3,254 +3,340 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave | Music Player</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Campus Wave Player</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Poppins,sans-serif;
+
+:root{
+--neon-blue:#00f0ff;
+--neon-purple:#8a2bff;
+--neon-green:#1db954;
+--bg:#070713;
 }
 
 body{
-  background:#0a0a0f;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
+margin:0;
+background:radial-gradient(circle at top,var(--neon-purple),var(--bg));
+color:white;
+font-family:Poppins;
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:20px;
 }
 
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  background:linear-gradient(90deg,#12121a,#0b0b12);
-  border-bottom:1px solid rgba(255,255,255,.1);
+/* Header */
+
+.header{
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:600;
-  color:#00ffd5;
-  cursor:pointer;
+.header button{
+background:none;
+border:none;
+color:white;
+font-size:20px;
 }
 
-.header-btn{
-  background:linear-gradient(135deg,#00ffd5,#6a5cff);
-  color:black;
-  border:none;
-  padding:10px 18px;
-  border-radius:999px;
-  cursor:pointer;
-  transition:.3s;
+/* Album Cover */
+
+.album-container{
+margin-top:20px;
+position:relative;
 }
 
-.header-btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+.album{
+width:260px;
+height:260px;
+border-radius:20px;
+box-shadow:0 0 25px var(--neon-blue);
+animation:spin 12s linear infinite;
 }
 
-.container{
-  max-width:800px;
-  margin:30px auto;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:30px;
+@keyframes spin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
 }
 
-/* PLAYER CARD */
-.player-card{
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(15px);
-  border-radius:20px;
-  padding:30px;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-  align-items:center;
-}
-
-.player-card img{
-  width:200px;
-  height:200px;
-  border-radius:20px;
-  object-fit:cover;
-  border:3px solid #00ffd5;
-}
+/* Track info */
 
 .track-info{
-  text-align:center;
+text-align:center;
+margin-top:20px;
 }
 
-.track-info h2{
-  color:#00ffd5;
-  margin-bottom:6px;
+.track-title{
+font-size:22px;
+font-weight:600;
 }
 
-.track-info p{
-  font-size:14px;
-  color:#aaa;
+.artist{
+opacity:.8;
 }
 
-audio{
-  width:100%;
-  margin-top:15px;
-  outline:none;
+/* Waveform */
+
+.waveform{
+display:flex;
+gap:4px;
+margin:30px 0;
+height:40px;
+align-items:flex-end;
 }
 
-/* CONTROLS */
+.bar{
+width:5px;
+background:var(--neon-green);
+animation:wave 1s infinite ease-in-out;
+}
+
+.bar:nth-child(2){animation-delay:.1s}
+.bar:nth-child(3){animation-delay:.2s}
+.bar:nth-child(4){animation-delay:.3s}
+.bar:nth-child(5){animation-delay:.4s}
+.bar:nth-child(6){animation-delay:.5s}
+
+@keyframes wave{
+0%{height:8px}
+50%{height:40px}
+100%{height:8px}
+}
+
+/* Controls */
+
 .controls{
-  display:flex;
-  justify-content:space-around;
-  width:100%;
-  margin-top:15px;
+display:flex;
+gap:30px;
+align-items:center;
+margin:20px 0;
 }
 
 .controls button{
-  background:linear-gradient(135deg,#6a5cff,#00ffd5);
-  border:none;
-  padding:12px 18px;
-  border-radius:50%;
-  cursor:pointer;
-  font-size:18px;
-  transition:.3s;
-  color:white;
+background:var(--neon-green);
+border:none;
+width:55px;
+height:55px;
+border-radius:50%;
+font-size:20px;
+cursor:pointer;
 }
 
-.controls button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+/* Actions */
+
+.actions{
+display:flex;
+gap:16px;
+margin-top:10px;
 }
 
-/* TIP BUTTON */
-.tip-section{
-  margin-top:20px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  width:100%;
+.actions button{
+background:#111;
+border:1px solid var(--neon-blue);
+color:white;
+padding:10px 16px;
+border-radius:20px;
+cursor:pointer;
 }
 
-.tip-section button{
-  background:linear-gradient(135deg,#00ffd5,#6a5cff);
-  border:none;
-  padding:12px 20px;
-  border-radius:999px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.3s;
-  color:black;
+.actions button:hover{
+box-shadow:0 0 10px var(--neon-blue);
 }
 
-.tip-section button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
+/* Lyrics */
+
+.lyrics{
+margin-top:30px;
+width:100%;
+max-width:400px;
+background:#111;
+padding:20px;
+border-radius:14px;
+max-height:200px;
+overflow-y:auto;
+font-size:14px;
+line-height:1.6;
 }
 
-/* RESPONSIVE */
-@media(max-width:600px){
-  header{
-    flex-direction:column;
-    gap:15px;
-  }
-  .player-card img{
-    width:150px;
-    height:150px;
-  }
+/* Responsive */
+
+@media(max-width:500px){
+
+.album{
+width:220px;
+height:220px;
 }
+
+}
+
+audio{display:none}
+
 </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo" onclick="location.href='index.html'">Campus Wave</div>
-  <button class="header-btn" onclick="location.href='discover.html'">Discover Music</button>
-</header>
+<div class="header">
 
-<div class="container">
+<button onclick="history.back()">⬅</button>
 
-  <div class="player-card">
-    <img id="trackCover" src="https://via.placeholder.com/200" alt="Track Cover">
-    <div class="track-info">
-      <h2 id="trackTitle">Track Title</h2>
-      <p id="trackArtist">Artist Name</p>
-    </div>
+<h3>Now Playing</h3>
 
-    <audio id="audioPlayer" controls>
-      <source id="audioSource" src="" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-
-    <div class="controls">
-      <button onclick="prevTrack()">⏮️</button>
-      <button onclick="togglePlay()">▶️/⏸️</button>
-      <button onclick="nextTrack()">⏭️</button>
-    </div>
-
-    <div class="tip-section">
-      <button onclick="tipArtist(1)">Tip 1 ZAC</button>
-      <button onclick="tipArtist(5)">Tip 5 ZAC</button>
-      <button onclick="tipArtist(10)">Tip 10 ZAC</button>
-    </div>
-  </div>
+<button onclick="shareTrack()">🔗</button>
 
 </div>
 
+<div class="album-container">
+<img id="cover" class="album">
+</div>
+
+<div class="track-info">
+<div id="title" class="track-title">Track Title</div>
+<div id="artist" class="artist">Artist</div>
+</div>
+
+<div class="waveform">
+
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+
+</div>
+
+<div class="controls">
+
+<button onclick="prev()">⏮</button>
+<button onclick="togglePlay()">▶</button>
+<button onclick="next()">⏭</button>
+
+</div>
+
+<div class="actions">
+
+<button onclick="tipArtist()">💸 Tip Artist</button>
+<button onclick="shareTrack()">📤 Share</button>
+
+</div>
+
+<div class="lyrics">
+
+<strong>Lyrics</strong>
+
+<p id="lyricsText">
+
+No lyrics uploaded yet.
+
+Student artists will be able to upload lyrics from their dashboard.
+
+Campus Wave is powering the future of campus music 🌊
+
+</p>
+
+</div>
+
+<audio id="audio"></audio>
+
 <script>
-// Sample localStorage tracks
-let currentUserId = localStorage.getItem("currentUserId");
-let users = JSON.parse(localStorage.getItem("users")) || {};
-if(!currentUserId || !users[currentUserId]) location.href="login.html";
 
-let trackIndex = 0;
-let trackList = [];
+/* Demo tracks */
 
-if(users[currentUserId].uploads){
-  trackList = users[currentUserId].uploads;
+let tracks = JSON.parse(localStorage.getItem("campusUploads")) || [
+
+{
+title:"Campus Vibes",
+artist:"Student Artist",
+cover:"https://picsum.photos/300?1",
+url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 }
 
-const trackCover = document.getElementById("trackCover");
-const trackTitle = document.getElementById("trackTitle");
-const trackArtist = document.getElementById("trackArtist");
-const audioPlayer = document.getElementById("audioPlayer");
-const audioSource = document.getElementById("audioSource");
+]
 
-function loadTrack(index){
-  if(trackList.length===0) return;
-  const track = trackList[index];
-  trackCover.src = track.coverFileName ? URL.createObjectURL(new File([], track.coverFileName)) : "https://via.placeholder.com/200";
-  trackTitle.innerText = track.title;
-  trackArtist.innerText = "You"; // Can later set actual artist name
-  audioSource.src = track.audioFileName ? URL.createObjectURL(new File([], track.audioFileName)) : "";
-  audioPlayer.load();
+let current=0
+
+const audio=document.getElementById("audio")
+
+function loadTrack(){
+
+let track=tracks[current]
+
+document.getElementById("cover").src=track.cover
+document.getElementById("title").innerText=track.title
+document.getElementById("artist").innerText=track.artist
+
+audio.src=track.url
+
 }
+
+loadTrack()
 
 function togglePlay(){
-  if(audioPlayer.paused) audioPlayer.play();
-  else audioPlayer.pause();
+
+if(audio.paused){
+audio.play()
+}else{
+audio.pause()
 }
 
-function nextTrack(){
-  trackIndex = (trackIndex + 1) % trackList.length;
-  loadTrack(trackIndex);
 }
 
-function prevTrack(){
-  trackIndex = (trackIndex - 1 + trackList.length) % trackList.length;
-  loadTrack(trackIndex);
+function next(){
+
+current++
+if(current>=tracks.length){current=0}
+
+loadTrack()
+audio.play()
+
 }
 
-function tipArtist(amount){
-  if(!users[currentUserId].zecBalance) users[currentUserId].zecBalance=0;
-  users[currentUserId].zecBalance += amount;
-  localStorage.setItem("users", JSON.stringify(users));
-  alert(`Tipped ${amount} ZAC! 🎉`);
+function prev(){
+
+current--
+if(current<0){current=tracks.length-1}
+
+loadTrack()
+audio.play()
+
 }
 
-loadTrack(trackIndex);
+/* Zep Cash tip simulation */
+
+function tipArtist(){
+
+let tips=JSON.parse(localStorage.getItem("zepTips"))||{}
+
+let track=tracks[current].title
+
+tips[track]=(tips[track]||0)+5
+
+localStorage.setItem("zepTips",JSON.stringify(tips))
+
+alert("You tipped 5 Zep Cash 💸")
+
+}
+
+/* Share */
+
+function shareTrack(){
+
+let track=tracks[current]
+
+navigator.share?.({
+title:track.title,
+text:"Listen on Campus Wave",
+url:window.location.href
+}) || alert("Share this track with friends!")
+
+}
+
 </script>
 
 </body>
