@@ -9,17 +9,18 @@
 :root {
   --wave-blue: #00f0ff;
   --wave-violet: #9c4dff;
+  --green: #00ff94;
+  --yellow: #ffcc00;
   --glass: rgba(255,255,255,.08);
   --bg-dark: #050018;
   --text-light: rgba(255,255,255,.9);
-  --green: #00ff94;
-  --yellow: #ffcc00;
   --transition: 0.3s;
+  --player-height: 100px;
 }
 
 /* RESET */
 * {margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-body {background: linear-gradient(135deg, #050018, #0c0025); color:#fff; min-height:100vh; display:flex; flex-direction:column;}
+body {background: linear-gradient(135deg, #050018, #0c0025); color:#fff; min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;}
 a {text-decoration:none;color:inherit;}
 button {cursor:pointer; transition: var(--transition); font-family:Orbitron;}
 
@@ -42,9 +43,10 @@ nav button:hover {transform:scale(1.05);}
 
 /* HERO */
 .hero {padding:60px 24px; text-align:center; position:relative;}
-.hero h1 {font-family:Orbitron; font-size:2.5rem; margin-bottom:16px; background: linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.hero h1 {font-family:Orbitron; font-size:2.8rem; margin-bottom:16px; background: linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
 .hero p {font-size:1.2rem; color:var(--text-light);}
 .hero button {margin-top:24px; padding:14px 28px; border-radius:999px; border:none; font-family:Orbitron; background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet)); color:#050015;}
+.hero button:hover {transform:scale(1.05);}
 
 /* MUSIC CARDS */
 .cards-container {
@@ -83,7 +85,7 @@ nav button:hover {transform:scale(1.05);}
 }
 
 /* MAP DISCOVERY */
-.map-container {background: var(--glass); margin:24px; border-radius:20px; padding:16px; height:300px; text-align:center; line-height:300px; color:var(--text-light);}
+.map-container {background: var(--glass); margin:24px; border-radius:20px; padding:16px; height:300px; text-align:center; line-height:300px; color:var(--text-light); font-weight:bold; font-size:1.2rem;}
 
 /* LOGIN MODAL */
 .modal-bg {position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:999;}
@@ -95,14 +97,27 @@ nav button:hover {transform:scale(1.05);}
 /* FLOATING PLAYER */
 .player {
   position:fixed; bottom:0; left:50%; transform:translateX(-50%);
-  width:95%; max-width:1000px; background:var(--glass); border-radius:24px;
-  padding:14px; display:flex; align-items:center; justify-content:space-between;
+  width:95%; max-width:1000px; height:var(--player-height);
+  background:rgba(255,255,255,0.06); backdrop-filter:blur(15px);
+  border-radius:24px; padding:12px; display:flex; align-items:center; justify-content:space-between;
   box-shadow:0 0 25px rgba(0,0,0,.5); z-index:1000;
 }
 .player-info {display:flex; align-items:center; gap:14px;}
-.player-info img {width:50px; height:50px; border-radius:12px; object-fit:cover;}
+.player-info img {width:60px; height:60px; border-radius:12px; object-fit:cover;}
+.player-details {display:flex; flex-direction:column;}
+.player-details strong {font-family:Orbitron; font-size:1rem; margin-bottom:4px;}
+.player-details .waveform {height:20px; margin-top:4px;}
 .player-controls {display:flex; align-items:center; gap:10px;}
-.player-controls button {padding:10px; border-radius:50%; border:none; background:var(--wave-blue); color:#050015;}
+.player-controls button {padding:10px; border-radius:50%; border:none; background:var(--wave-blue); color:#050015; font-size:16px;}
+.player-progress {flex:1; height:6px; background:rgba(255,255,255,.2); border-radius:3px; margin:0 12px; position:relative;}
+.player-progress div {height:100%; width:50%; background:var(--wave-violet); border-radius:3px; transition:width 0.3s;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .cards-container{grid-template-columns:1fr;}
+  .player{flex-direction:column; height:auto; padding:12px;}
+  .player-info{margin-bottom:8px;}
+}
 </style>
 </head>
 <body>
@@ -125,26 +140,22 @@ nav button:hover {transform:scale(1.05);}
 
 <section class="cards-container">
   <div class="card">
-    <img src="https://via.placeholder.com/220x220.png?text=Artist+1" alt="">
+    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=220&q=80" alt="">
     <div class="play-overlay"><span>▶</span></div>
-    <strong>Artist 1</strong>
-    <p>Kwame Nkrumah University</p>
-    <div class="waveform">
-      <div></div><div></div><div></div><div></div><div></div>
-    </div>
+    <strong>Kwame Nkrumah</strong>
+    <p>University of Ghana</p>
+    <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
     <button>Tip $1</button>
   </div>
   <div class="card">
-    <img src="https://via.placeholder.com/220x220.png?text=Artist+2" alt="">
+    <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=220&q=80" alt="">
     <div class="play-overlay"><span>▶</span></div>
-    <strong>Artist 2</strong>
-    <p>University of Ghana</p>
-    <div class="waveform">
-      <div></div><div></div><div></div><div></div><div></div>
-    </div>
+    <strong>Nana Ama</strong>
+    <p>University of Cape Coast</p>
+    <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
     <button>Tip $1</button>
   </div>
-  <!-- Repeat cards -->
+  <!-- Add more artist cards as needed -->
 </section>
 
 <section class="map-container">
@@ -163,12 +174,13 @@ nav button:hover {transform:scale(1.05);}
 
 <div class="player">
   <div class="player-info">
-    <img src="https://via.placeholder.com/50" alt="Current Song">
-    <div>
-      <strong>Artist 1 - Song Title</strong>
+    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=60&q=80" alt="Current Song">
+    <div class="player-details">
+      <strong>Kwame Nkrumah - Beat Track</strong>
       <div class="waveform"><div></div><div></div><div></div><div></div><div></div></div>
     </div>
   </div>
+  <div class="player-progress"><div></div></div>
   <div class="player-controls">
     <button>⏮</button>
     <button>▶</button>
