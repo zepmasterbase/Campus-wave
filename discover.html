@@ -13,148 +13,140 @@
   --yellow:#ffcc00;
   --bg:#050018;
   --glass:rgba(255,255,255,.08);
-  --shadow-glow:0 0 20px rgba(0,240,255,0.5),0 0 30px rgba(156,77,255,0.5);
+  --text-light:rgba(255,255,255,.85);
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
 body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);}
-header h1{font-family:Orbitron;font-size:1.6rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.container{max-width:1000px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-.card{
-  background:var(--glass);
-  border-radius:20px;
-  padding:20px;
-  transition:.4s;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  border:2px solid transparent;
-  perspective:1000px;
-  cursor:pointer;
+header{
+  display:flex;justify-content:space-between;align-items:center;padding:16px 20px;
+  backdrop-filter:blur(12px);background:rgba(0,0,0,.35);
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
-.card:hover{
-  transform:rotateY(10deg) scale(1.05);
-  border-image: linear-gradient(90deg,var(--blue),var(--violet)) 1;
-  box-shadow: var(--shadow-glow);
-}
-.card h3{font-family:Orbitron;margin-bottom:8px;}
-.card p{margin-bottom:12px;opacity:.85;transition:.3s;}
-.card:hover p{opacity:1;}
-button{
-  padding:10px 16px;
-  border:none;
-  border-radius:999px;
+header h1{font-family:Orbitron;font-size:1.5rem;}
+header .nav-buttons{display:flex;gap:12px;}
+header .nav-buttons button{
+  padding:8px 14px;border:none;border-radius:999px;font-family:Orbitron;
   background:linear-gradient(90deg,var(--blue),var(--violet));
-  color:#050015;
-  font-family:Orbitron;
-  cursor:pointer;
-  transition:.3s;
+  color:#050015;cursor:pointer;transition:.3s;
 }
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
+header .nav-buttons button:hover{transform:scale(1.05);}
+.container{
+  max-width:1200px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;
 }
-
-/* Floating Player */
-#floatingPlayer{
-  position:fixed;bottom:0;left:0;width:100%;
-  background:rgba(0,0,0,.85);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 20px;backdrop-filter:blur(12px);
-  border-top:1px solid rgba(255,255,255,.12);z-index:999;display:none;
+.card{
+  background:var(--glass);padding:16px;border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);transition:.3s;cursor:pointer;
 }
-#waveform{height:40px;width:150px;}
-
-/* Hover Track Preview Overlay */
-.track-preview{
-  position:absolute;
-  top:0;left:0;width:100%;height:100%;
-  background:linear-gradient(0deg,rgba(0,0,0,0.3),rgba(0,0,0,0.1));
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:.3s;border-radius:20px;
+.card:hover{transform:translateY(-5px);box-shadow:0 0 20px var(--blue),0 0 30px var(--violet);}
+.card h3{font-family:Orbitron;margin-bottom:6px;}
+.card p{color:var(--text-light);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+button.tip-btn{
+  padding:8px 14px;margin-top:8px;border:none;border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--blue));
+  color:#050015;font-family:Orbitron;cursor:pointer;transition:.3s;
 }
-.card:hover .track-preview{opacity:1;}
-.track-preview span{font-family:Orbitron;font-size:1rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-
-@media(max-width:600px){.cards{grid-template-columns:1fr;}}
+button.tip-btn:hover{transform:scale(1.05);box-shadow:0 0 20px var(--green);}
+.floating-player{
+  position:fixed;bottom:0;left:0;width:100%;padding:12px 20px;
+  background:rgba(0,0,0,.9);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-top:1px solid rgba(255,255,255,.12);z-index:999;
+}
+.floating-player audio{flex:1;width:100%;margin:0 12px;}
+.floating-player button{padding:8px 12px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;font-family:Orbitron;cursor:pointer;transition:.3s;}
+.floating-player button:hover{transform:scale(1.05);box-shadow:0 0 20px var(--blue);}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr;}
+  header{flex-direction:column;align-items:flex-start;gap:12px;}
+}
 </style>
 </head>
 <body>
 
 <header>
-<h1>Campus Wave — Discover</h1>
+  <h1>Campus Wave Discover</h1>
+  <div class="nav-buttons">
+    <button onclick="location.href='campus-chart.html'">Campus Chart</button>
+    <button onclick="location.href='login.html'">Login to Upload</button>
+  </div>
 </header>
 
 <div class="container">
 
-<div class="cards">
-  <!-- Campus Chart Card -->
-  <div class="card">
-    <h3>📊 Campus Chart</h3>
-    <p>Check the top tracks and trending music across universities.</p>
-    <button onclick="location.href='campus-chart.html'">Go to Campus Chart</button>
-    <div class="track-preview"><span>Preview Chart Tracks</span></div>
-  </div>
-
-  <!-- Login to Upload Music Card -->
-  <div class="card">
-    <h3>🎵 Upload Your Music</h3>
-    <p>Student artists can log in to upload music and gain fans.</p>
-    <button onclick="location.href='login.html'">Login to Upload</button>
-    <div class="track-preview"><span>Preview Upload Flow</span></div>
-  </div>
-
-  <!-- Discover New Tracks Card -->
-  <div class="card">
-    <h3>🔥 Discover New Tracks</h3>
-    <p>Explore the freshest beats from students across campuses.</p>
-    <button onclick="alert('Coming Soon!')">Listen Now</button>
-    <div class="track-preview"><span>Preview Tracks</span></div>
+  <!-- Top Tracks Grid -->
+  <h2>Trending Student Tracks</h2>
+  <div class="grid" id="tracksGrid">
+    <!-- JS will populate cards -->
   </div>
 
   <!-- Campus Radio Card -->
-  <div class="card">
-    <h3>📻 Campus Radio Live</h3>
-    <p>Listen to live campus radio streams and feel the vibe now!</p>
-    <button onclick="location.href='radio.html'">Listen Live</button>
-    <div class="track-preview"><span>Preview Live Radio</span></div>
+  <div class="card" id="campusRadioCard">
+    <h3>Campus Radio 🎧</h3>
+    <p>Listen to live campus music and student tracks from all universities.</p>
+    <button onclick="playRadio()">Listen Live</button>
   </div>
-</div>
+
+  <!-- University Map Card -->
+  <div class="card" id="universityMapCard">
+    <h3>University Map 🌍</h3>
+    <p>Discover top tracks by university with interactive 3D map visuals.</p>
+    <button onclick="location.href='university-map.html'">Discover Map</button>
+  </div>
 
 </div>
 
 <!-- Floating Player -->
-<div id="floatingPlayer">
-  <div>
-    <strong id="playerTitle">Select a track</strong>
-    <div id="waveform"></div>
-  </div>
-  <div>
-    <button onclick="player.pause()">⏸️</button>
-    <button onclick="player.play()">▶️</button>
-  </div>
+<div class="floating-player">
+  <span id="playerTrack">No track playing</span>
+  <audio id="playerAudio" controls></audio>
+  <button onclick="location.href='player.html'">Open Player</button>
 </div>
 
-<audio id="player" controls></audio>
-
-<script src="https://cdn.jsdelivr.net/npm/wavesurfer.js"></script>
 <script>
-// Floating Player Waveform
-const player=document.getElementById('player');
-const waveform=Wavesurfer.create({
-  container:'#waveform',
-  waveColor:'#00f0ff',
-  progressColor:'#00ff94',
-  height:40
+// Demo localStorage tracks for now
+let demoTracks = [
+  {title:"Campus Vibe",artist:"Student A",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+  {title:"Lecture Beats",artist:"Student B",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+  {title:"Study Flow",artist:"Student C",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+  {title:"Library Nights",artist:"Student D",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
+];
+
+// Render Tracks
+const tracksGrid = document.getElementById("tracksGrid");
+demoTracks.forEach((track,i)=>{
+  const div = document.createElement("div");
+  div.className="card";
+  div.innerHTML=`<h3>${track.title}</h3><p>by ${track.artist}</p>
+  <button class="tip-btn" onclick="playTrack(${i})">Play Preview</button>
+  <button class="tip-btn" onclick="tipArtist(${i})">Tip Artist</button>`;
+  tracksGrid.appendChild(div);
 });
 
-function playSample(url,title){
-  player.src=url;
-  document.getElementById('playerTitle').innerText=title;
-  waveform.load(url);
-  waveform.on('ready',()=>waveform.play());
-  document.getElementById('floatingPlayer').style.display='flex';
+// Floating Player Controls
+const playerAudio = document.getElementById("playerAudio");
+const playerTrack = document.getElementById("playerTrack");
+function playTrack(index){
+  const track = demoTracks[index];
+  playerAudio.src = track.url;
+  playerAudio.play();
+  playerTrack.innerText = `${track.title} — ${track.artist}`;
+}
+
+// Tip Artist Simulation (localStorage)
+function tipArtist(index){
+  const track = demoTracks[index];
+  let tips = JSON.parse(localStorage.getItem("trackTips")) || {};
+  tips[track.title] = (tips[track.title]||0)+1; // +1 simulated Zep Cash tip
+  localStorage.setItem("trackTips",JSON.stringify(tips));
+  alert(`You tipped ${track.artist}! Total Tips: ${tips[track.title]} Zep Cash`);
+}
+
+// Campus Radio
+function playRadio(){
+  playerAudio.src = demoTracks[Math.floor(Math.random()*demoTracks.length)].url;
+  playerAudio.play();
+  playerTrack.innerText = "Campus Radio Live 🎧";
 }
 </script>
 
