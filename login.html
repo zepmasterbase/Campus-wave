@@ -11,103 +11,90 @@
   --violet:#9c4dff;
   --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
   --glass:rgba(255,255,255,0.08);
-  --text-light:rgba(255,255,255,.85);
 }
 
-*{box-sizing:border-box;font-family:Poppins,sans-serif;margin:0;padding:0;}
-body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:var(--bg);color:#fff;}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Poppins,sans-serif;
+  background:var(--bg);
+  color:white;
+}
 
 .card{
-  width:100%;
-  max-width:420px;
   background:var(--glass);
-  padding:28px;
-  border-radius:18px;
+  backdrop-filter:blur(20px);
+  padding:32px;
+  border-radius:20px;
+  text-align:center;
   box-shadow:0 0 30px rgba(0,240,255,.25);
-  animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-  0%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
-  50%{box-shadow:0 0 30px rgba(0,240,255,.35),0 0 60px rgba(156,77,255,.35);}
-  100%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
 }
 
 h1{
   font-family:Orbitron;
-  text-align:center;
-  margin-bottom:20px;
   background:linear-gradient(90deg,var(--blue),var(--violet));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  margin-bottom:28px;
 }
 
 button{
-  width:100%;
-  padding:12px;
+  padding:14px 28px;
   border:none;
   border-radius:999px;
   font-family:Orbitron;
+  font-size:16px;
+  cursor:pointer;
   background:linear-gradient(90deg,var(--blue),var(--violet));
   color:#050015;
-  cursor:pointer;
   transition:.3s;
 }
-button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
 
-.switch{
-  text-align:center;
-  margin-top:12px;
-  font-size:14px;
-  cursor:pointer;
-  color:var(--blue);
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
 }
-
 </style>
 </head>
-
 <body>
 
 <div class="card">
   <h1>Campus Wave</h1>
-  <button id="loginBtn">Login with Zep Swipe</button>
-  <div class="switch">Don’t have an account? <a href="https://www.zepswipe.com/login.html" style="color:var(--blue);text-decoration:none;">Sign up on Zep Swipe</a></div>
+  <button id="connectBtn">Connect Base / MetaMask Wallet</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
 <script>
-// ================== CONFIG ==================
-const ZEP_LOGIN_URL = "https://www.zepswipe.com/login.html";
-const CAMPUS_WAVE_URL = window.location.origin + "/dashboard.html"; // redirect here after login
+const connectBtn = document.getElementById("connectBtn");
 
-// ================== HANDLE LOGIN ==================
-document.getElementById("loginBtn").addEventListener("click",()=>{
-  // Redirect user to Zep Swipe login page with redirect back to Campus Wave
-  const redirectUrl = encodeURIComponent(CAMPUS_WAVE_URL + "?fromZep=1");
-  window.location.href = `${ZEP_LOGIN_URL}?redirect=${redirectUrl}`;
-});
-
-// ================== FETCH USER AFTER REDIRECT ==================
-window.addEventListener('load', async ()=>{
-  const urlParams = new URLSearchParams(window.location.search);
-  if(urlParams.get("fromZep") === "1"){
-    // Simulate fetching user info from Zep Swipe API
-    // In production, replace this with actual fetch to Zep Swipe server
-    const userInfo = {
-      name: "Student Name",
-      email: "student@example.com",
-      country: "Nigeria",
-      university: "University of Lagos",
-      verified: true,
-      profileImage: "https://via.placeholder.com/120"
-    };
-    
-    // Store in localStorage for Campus Wave pages
-    localStorage.setItem("campusUser", JSON.stringify(userInfo));
-    
-    // Redirect to dashboard automatically
-    window.location.href = CAMPUS_WAVE_URL;
+async function connectWallet(){
+  if(typeof window.ethereum === "undefined"){
+    alert("MetaMask or Base wallet not detected. Please install a wallet.");
+    return;
   }
-});
+
+  try{
+    // Request account access
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const userAddress = await signer.getAddress();
+
+    // Save user address to localStorage for dashboard
+    localStorage.setItem("campusWallet", userAddress);
+
+    // Redirect to dashboard after connection
+    window.location.href = "dashboard.html";
+  }catch(err){
+    console.error(err);
+    alert("Wallet connection failed. Try again.");
+  }
+}
+
+connectBtn.addEventListener("click", connectWallet);
 </script>
 
 </body>
