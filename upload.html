@@ -4,214 +4,262 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave — Upload</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#00f0ff;
   --violet:#9c4dff;
+  --green:#00ff94;
   --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
-  --glass:rgba(255,255,255,0.08);
+  --glass:rgba(255,255,255,.08);
   --text-light:rgba(255,255,255,.85);
+  --card-radius:20px;
+  --tip-color:#ffd700;
 }
 
+/* RESET */
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
-body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
+body{background:var(--bg);color:#fff;min-height:100vh;padding:0 12px;}
+
+/* HEADER */
 header{
-  display:flex;justify-content:space-between;align-items:center;padding:16px 20px;
-  backdrop-filter:blur(12px);background:rgba(0,0,0,.35);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-header .brand{
-  font-family:Orbitron;
-  font-size:1.5rem;
-  background:linear-gradient(90deg,var(--blue),var(--violet));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.container{
-  max-width:600px;
-  margin:20px auto;
-  padding:16px;
+  width:100%;
   display:flex;
-  flex-direction:column;
-  gap:20px;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 0;
+  margin-bottom:16px;
 }
-.card{
-  background:var(--glass);
-  padding:20px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.12);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+header h1{font-family:Orbitron;font-size:1.6rem;}
+.home-btn{
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  border:none;border-radius:50%;
+  width:50px;height:50px;cursor:pointer;
+  font-size:20px;color:#050015;
+  display:flex;align-items:center;justify-content:center;
+  transition:.3s;
 }
-.card input, .card textarea, .card select{
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:rgba(255,255,255,0.05);
-  color:#fff;
+.home-btn:hover{transform:scale(1.05);}
+
+/* FORM */
+.upload-form{
+  display:flex;flex-direction:column;gap:12px;
+  max-width:600px;margin:0 auto 24px;
 }
-.card input::placeholder, .card textarea::placeholder{
-  color:rgba(255,255,255,0.6);
+.upload-form input, .upload-form select, .upload-form textarea{
+  width:100%;padding:12px;border:none;border-radius:12px;
+  background:rgba(255,255,255,0.05);color:#fff;
 }
-.card button{
-  padding:12px;
-  border:none;
-  border-radius:999px;
+.upload-form input::placeholder, .upload-form textarea::placeholder{color:rgba(255,255,255,0.6);}
+.upload-form button{
+  padding:14px;border:none;border-radius:999px;
   font-family:Orbitron;
   background:linear-gradient(90deg,var(--blue),var(--violet));
   color:#050015;
   cursor:pointer;
   transition:.3s;
 }
-.card button:hover{
+.upload-form button:hover{
   transform:translateY(-2px);
-  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
+  box-shadow:0 0 20px var(--blue),0 0 40px var(--violet);
 }
-.preview{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-.preview img{
-  width:100px;
-  height:100px;
-  object-fit:cover;
-  border-radius:12px;
-  box-shadow:0 0 10px var(--blue),0 0 15px var(--violet);
+
+/* TRACK CARDS */
+.track-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;margin-bottom:24px;
 }
 .track-card{
-  background:rgba(255,255,255,.05);
-  padding:12px;
-  border-radius:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.track-card:hover{
-  transform:scale(1.02);
-  box-shadow:0 0 10px var(--blue),0 0 20px var(--violet);
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:16px;
+  box-shadow:0 0 20px rgba(0,240,255,.2),0 0 40px rgba(156,77,255,.2);
+  display:flex;flex-direction:column;gap:8px;
   transition:.3s;
+}
+.track-card:hover{transform:scale(1.02);box-shadow:0 0 25px var(--blue),0 0 50px var(--violet);}
+.track-cover{
+  width:100%;aspect-ratio:1/1;border-radius:16px;object-fit:cover;
+  cursor:pointer;
+}
+.track-title{font-family:Orbitron;font-size:1rem;font-weight:600;}
+.track-sub{font-size:.85rem;color:var(--text-light);}
+.waveform{height:40px;width:100%;background:rgba(255,255,255,.05);border-radius:6px;position:relative;overflow:hidden;}
+.waveform-bar{height:100%;background:var(--blue);position:absolute;left:0;top:0;}
+
+/* BUTTONS */
+.track-buttons{display:flex;justify-content:space-between;margin-top:6px;}
+.track-buttons button{
+  padding:6px 12px;font-size:.85rem;border:none;border-radius:12px;
+  cursor:pointer;transition:.3s;
+}
+.play-btn{background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;}
+.tip-btn{background:var(--tip-color);color:#050015;}
+.publish-btn{background:var(--green);color:#050015;}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+  .upload-form{padding:0 8px;}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">Campus Wave</div>
-  <button onclick="location.href='discover.html'">Discover</button>
+  <h1>Upload Music / Podcast</h1>
+  <button class="home-btn" onclick="location.href='discover.html'">🏠</button>
 </header>
 
-<div class="container">
-  <h2>Upload Music / Podcast</h2>
-  <div class="card">
-    <label>Upload Cover Art</label>
-    <input type="file" id="coverArt" accept="image/*">
-    
-    <label>Title</label>
-    <input type="text" id="trackTitle" placeholder="Track / Podcast Title">
-    
-    <label>Genre</label>
-    <select id="trackGenre">
-      <option value="">Select Genre</option>
-      <option>Hip-Hop</option>
-      <option>Afrobeats</option>
-      <option>R&B</option>
-      <option>Pop</option>
-      <option>Jazz</option>
-      <option>Podcast</option>
-      <option>Other</option>
-    </select>
-    
-    <label>Description</label>
-    <textarea id="trackDesc" placeholder="Brief description of your track / podcast"></textarea>
-    
-    <label>Upload Audio File</label>
-    <input type="file" id="audioFile" accept="audio/*">
-    
-    <button onclick="uploadTrack()">Upload</button>
-  </div>
-
-  <h3>Your Uploaded Tracks</h3>
-  <div id="uploadedTracks" class="preview">
-    <!-- Uploaded tracks preview will appear here -->
-  </div>
+<!-- UPLOAD FORM -->
+<div class="upload-form">
+  <input type="text" id="trackTitle" placeholder="Track / Podcast Title">
+  <select id="trackType">
+    <option value="music">Music</option>
+    <option value="podcast">Podcast</option>
+  </select>
+  <input type="text" id="trackGenre" placeholder="Genre">
+  <textarea id="trackDescription" rows="3" placeholder="Description"></textarea>
+  <input type="file" id="coverArt" accept="image/*">
+  <input type="file" id="audioFile" accept="audio/*">
+  <button onclick="uploadTrack()">Upload Track</button>
 </div>
 
+<!-- TRACK CARDS -->
+<div class="track-container" id="trackContainer"></div>
+
 <script>
-// Check logged-in student
-const currentUserId = localStorage.getItem("currentUserId");
-const users = JSON.parse(localStorage.getItem("users")) || {};
-if(!currentUserId || !users[currentUserId]) window.location.href="login.html";
-const currentUser = users[currentUserId];
+// ======== LOAD CURRENT USER FROM ZEP SWIPE ========
+let users = JSON.parse(localStorage.getItem("users")) || {};
+let currentUserId = localStorage.getItem("currentUserId");
+if(!currentUserId || !users[currentUserId]) location.href="login.html";
+let currentUser = users[currentUserId];
 
-let uploadedTracks = currentUser.uploadedMusic || [];
+// ======== TRACK STORAGE ========
+let tracks = JSON.parse(localStorage.getItem("tracks")) || [];
 
-// Upload Track
+// ======== DOM ELEMENTS ========
+const trackContainer = document.getElementById("trackContainer");
+const trackTitle = document.getElementById("trackTitle");
+const trackType = document.getElementById("trackType");
+const trackGenre = document.getElementById("trackGenre");
+const trackDescription = document.getElementById("trackDescription");
+const coverArtInput = document.getElementById("coverArt");
+const audioFileInput = document.getElementById("audioFile");
+
+// ======== UPLOAD TRACK ========
 function uploadTrack(){
-  const title = document.getElementById("trackTitle").value.trim();
-  const genre = document.getElementById("trackGenre").value;
-  const desc = document.getElementById("trackDesc").value.trim();
-  const coverArtInput = document.getElementById("coverArt");
-  const audioInput = document.getElementById("audioFile");
+  const title = trackTitle.value.trim();
+  const type = trackType.value;
+  const genre = trackGenre.value.trim();
+  const description = trackDescription.value.trim();
+  const coverFile = coverArtInput.files[0];
+  const audioFile = audioFileInput.files[0];
 
-  if(!title || !genre || !audioInput.files.length){
-    alert("Please fill all required fields and upload audio file.");
+  if(!title || !type || !genre || !coverFile || !audioFile){
+    alert("Please fill all required fields and select files.");
     return;
   }
 
-  // Read cover image as DataURL
-  let coverArtURL = "";
-  if(coverArtInput.files.length){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      coverArtURL = e.target.result;
-      saveTrack(title, genre, desc, coverArtURL, audioInput.files[0].name);
+  const readerCover = new FileReader();
+  const readerAudio = new FileReader();
+
+  readerCover.onload = function(eCover){
+    readerAudio.onload = function(eAudio){
+      const track = {
+        id: "track-" + Date.now(),
+        title, type, genre, description,
+        coverArt: eCover.target.result,
+        audioFile: eAudio.target.result,
+        artistName: currentUser.name,
+        country: currentUser.country,
+        university: currentUser.university,
+        published:false,
+        tips:0,
+        uploadedAt:new Date().toISOString()
+      };
+      tracks.push(track);
+      localStorage.setItem("tracks",JSON.stringify(tracks));
+      addTrackCard(track);
+      alert("Track uploaded! You can publish it to Campus Radio.");
+      // reset form
+      trackTitle.value=""; trackType.value="music"; trackGenre.value=""; trackDescription.value="";
+      coverArtInput.value=""; audioFileInput.value="";
     }
-    reader.readAsDataURL(coverArtInput.files[0]);
-  } else {
-    saveTrack(title, genre, desc, coverArtURL, audioInput.files[0].name);
+    readerAudio.readAsDataURL(audioFile);
+  }
+  readerCover.readAsDataURL(coverFile);
+}
+
+// ======== RENDER TRACK CARD ========
+function addTrackCard(track){
+  const card = document.createElement("div");
+  card.className="track-card";
+
+  card.innerHTML=`
+    <img src="${track.coverArt}" class="track-cover">
+    <div class="track-title">${track.title}</div>
+    <div class="track-sub">${track.genre} | ${track.type}</div>
+    <div class="track-sub">${track.university}, ${track.country}</div>
+    <div class="waveform" id="waveform-${track.id}"></div>
+    <div class="track-buttons">
+      <button class="play-btn" onclick="playTrack('${track.id}')">▶ Play</button>
+      <button class="tip-btn" onclick="tipArtist('${track.id}')">💰 Tip Artist (${track.tips})</button>
+      <button class="publish-btn" onclick="publishTrack('${track.id}')">📻 Publish</button>
+    </div>
+  `;
+  trackContainer.prepend(card);
+  renderWaveform(track);
+}
+
+// ======== WAVEFORM PREVIEW (SIMULATED) ========
+function renderWaveform(track){
+  const container = document.getElementById(`waveform-${track.id}`);
+  container.innerHTML="";
+  for(let i=0;i<50;i++){
+    const bar = document.createElement("div");
+    bar.className="waveform-bar";
+    bar.style.width=(Math.random()*4+2)+"%";
+    bar.style.left=(i*2)+"%";
+    container.appendChild(bar);
   }
 }
 
-function saveTrack(title, genre, desc, coverArtURL, audioFileName){
-  const track = {title, genre, desc, coverArtURL, audioFileName};
-  uploadedTracks.push(track);
-  currentUser.uploadedMusic = uploadedTracks;
-  users[currentUserId] = currentUser;
-  localStorage.setItem("users", JSON.stringify(users));
-  renderTracks();
-  alert("Track uploaded successfully!");
-  document.getElementById("trackTitle").value="";
-  document.getElementById("trackGenre").value="";
-  document.getElementById("trackDesc").value="";
-  document.getElementById("coverArt").value="";
-  document.getElementById("audioFile").value="";
+// ======== PLAY TRACK (FAKE FOR NOW) ========
+function playTrack(trackId){
+  alert("Playing track: "+trackId);
 }
 
-// Render uploaded tracks
+// ======== TIP ARTIST ========
+function tipArtist(trackId){
+  const track = tracks.find(t=>t.id===trackId);
+  if(track){
+    track.tips++;
+    localStorage.setItem("tracks",JSON.stringify(tracks));
+    renderTracks();
+  }
+}
+
+// ======== PUBLISH TO CAMPUS RADIO ========
+function publishTrack(trackId){
+  const track = tracks.find(t=>t.id===trackId);
+  if(track){
+    track.published=true;
+    localStorage.setItem("tracks",JSON.stringify(tracks));
+    alert(`${track.title} published to Campus Radio!`);
+    renderTracks();
+  }
+}
+
+// ======== RENDER ALL TRACKS ========
 function renderTracks(){
-  const container = document.getElementById("uploadedTracks");
-  container.innerHTML="";
-  uploadedTracks.forEach((track,i)=>{
-    const div = document.createElement("div");
-    div.className="track-card";
-    div.innerHTML=`
-      <div>
-        <strong>${track.title}</strong> <br>
-        ${track.genre} ${track.desc ? "- "+track.desc : ""}
-      </div>
-      <div>
-        ${track.coverArtURL ? `<img src="${track.coverArtURL}" alt="Cover Art">` : ""}
-      </div>
-    `;
-    container.appendChild(div);
-  });
+  trackContainer.innerHTML="";
+  tracks.slice().reverse().forEach(addTrackCard);
 }
 
-// Initial render
+// INITIAL RENDER
 renderTracks();
 </script>
+
 </body>
 </html>
