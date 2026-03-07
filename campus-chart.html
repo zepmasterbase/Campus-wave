@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave — Campus Chart</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{
   --blue:#00f0ff;
@@ -18,134 +17,174 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
 body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
-header{
-  display:flex;justify-content:space-between;align-items:center;padding:16px 20px;
-  backdrop-filter:blur(12px);background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.08);
-}
-header h1{font-family:Orbitron;font-size:1.5rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-header button{padding:10px 16px;border:none;border-radius:999px;font-family:Orbitron;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;cursor:pointer;transition:.3s;}
-header button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);}
+header h1{font-family:Orbitron;font-size:1.6rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .container{max-width:1200px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
-.card{background:var(--glass);padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:12px;transition:.3s;}
-.card:hover{transform:translateY(-5px);box-shadow:0 0 30px var(--blue),0 0 50px var(--violet);}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.card{background:var(--glass);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;transition:.3s;position:relative;}
+.card:hover{transform:translateY(-4px);box-shadow:0 0 20px var(--blue),0 0 30px var(--violet);}
 .card h3{font-family:Orbitron;margin-bottom:8px;}
-.card p{font-size:0.9rem;color:var(--text-light);}
-.audio-player{position:fixed;bottom:0;left:0;width:100%;background:var(--glass);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:20px;z-index:999;border-top:1px solid rgba(255,255,255,.12);}
-.audio-player audio{width:70%;border-radius:12px;}
-.audio-player button{padding:8px 14px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;font-family:Orbitron;cursor:pointer;}
-.chart-container{background:var(--glass);padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,.12);}
-@media(max-width:600px){
-  .cards{grid-template-columns:1fr;}
-}
+button{padding:10px 16px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;font-family:Orbitron;cursor:pointer;transition:.3s;}
+button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
+#floatingPlayer{position:fixed;bottom:0;left:0;width:100%;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.12);z-index:999;display:none;}
+#waveform{height:40px;width:150px;}
+audio{display:none;}
+#universityMap{height:300px;border-radius:18px;overflow:hidden;}
+@media(max-width:600px){.cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Campus Wave — Campus Chart</h1>
-  <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+<h1>Campus Wave — Campus Chart</h1>
 </header>
 
 <div class="container">
 
-  <div class="chart-container">
-    <canvas id="campusChart"></canvas>
+<!-- Campus Radio Card -->
+<div class="cards">
+  <div class="card">
+    <h3>🎙️ Campus Radio Live</h3>
+    <p>Listen to live tracks streaming from Campus Wave</p>
+    <button onclick="playRadio()">Listen Live</button>
+    <div id="waveformRadio"></div>
   </div>
+</div>
 
-  <h2 style="margin-top:24px;">Top Tracks</h2>
-  <div class="cards" id="topTracks"></div>
+<!-- Top Tracks Cards -->
+<h2>Top Tracks</h2>
+<div class="cards" id="topTracksContainer"></div>
+
+<!-- University Map Discover -->
+<h2>University Map Discover</h2>
+<div class="card" id="universityMap">
+  <canvas id="mapCanvas"></canvas>
+</div>
 
 </div>
 
-<div class="audio-player" id="audioPlayer" style="display:none;">
-  <audio id="player" controls></audio>
-  <button onclick="tipArtist()">Tip Artist</button>
+<!-- Floating Player -->
+<div id="floatingPlayer">
+  <div>
+    <strong id="playerTitle">Select a track</strong>
+    <div id="waveform"></div>
+  </div>
+  <div>
+    <button onclick="player.pause()">⏸️</button>
+    <button onclick="player.play()">▶️</button>
+  </div>
 </div>
+
+<audio id="player" controls></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wavesurfer.js"></script>
 
 <script>
-// === LOAD USERS AND MUSIC ===
-let users = JSON.parse(localStorage.getItem("users")) || {};
-let allTracks = [];
-Object.values(users).forEach(u=>{
-  if(u.music){
-    u.music.forEach(t=>{
-      allTracks.push({...t, artist:u.name || "Unknown"});
-    });
-  }
+// ----- Simulated Campus Radio -----
+const radioTracks=[
+  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+];
+let radioIndex=0;
+const waveformRadio=Wavesurfer.create({
+  container:'#waveformRadio',
+  waveColor:'#00f0ff',
+  progressColor:'#00ff94',
+  height:50
+});
+function playRadio(){
+  const track=radioTracks[radioIndex];
+  waveformRadio.load(track);
+  waveformRadio.on('ready',()=>waveformRadio.play());
+  radioIndex=(radioIndex+1)%radioTracks.length;
+  document.getElementById('floatingPlayer').style.display='flex';
+  document.getElementById('player').src=track;
+  document.getElementById('playerTitle').innerText='Campus Radio Live';
+}
+
+// ----- Top Tracks Simulation -----
+let topTracks=[
+  {title:'Sunset Vibes',artist:'Kwame',university:'University of Ghana',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',tips:0},
+  {title:'Night Drive',artist:'Ama',university:'University of Cape Coast',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',tips:0},
+  {title:'Morning Light',artist:'Kojo',university:'Ashesi University',src:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',tips:0}
+];
+if(!localStorage.getItem('topTracks')) localStorage.setItem('topTracks',JSON.stringify(topTracks));
+else topTracks=JSON.parse(localStorage.getItem('topTracks'));
+
+const topTracksContainer=document.getElementById('topTracksContainer');
+const player=document.getElementById('player');
+const waveform=Wavesurfer.create({
+  container:'#waveform',
+  waveColor:'#00f0ff',
+  progressColor:'#00ff94',
+  height:40
 });
 
-// SORT TOP TRACKS BY LISTENERS DESC
-allTracks.sort((a,b)=>b.listeners - a.listeners);
-
-// === TOP TRACKS GRID ===
-const topTracksEl = document.getElementById("topTracks");
-const audioPlayer = document.getElementById("audioPlayer");
-const player = document.getElementById("player");
-
 function renderTopTracks(){
-  topTracksEl.innerHTML="";
-  allTracks.forEach((track, idx)=>{
-    const div = document.createElement("div");
-    div.className="card";
-    div.innerHTML = `<h3>${track.name}</h3>
-                     <p>Artist: ${track.artist}</p>
-                     <p>Listeners: ${track.listeners || 0}</p>
-                     <p>Tips: ${track.tips || 0} ZAC</p>
-                     <button onclick="playTrack(${idx})">Play</button>`;
-    topTracksEl.appendChild(div);
+  topTracksContainer.innerHTML='';
+  topTracks.forEach((track,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`
+      <h3>${track.title}</h3>
+      <p>Artist: ${track.artist}</p>
+      <p>University: ${track.university}</p>
+      <p>Tips: ${track.tips} Zep Cash</p>
+      <button onclick="playTrack(${i})">▶️ Play</button>
+      <button onclick="tipArtist(${i})">💰 Tip Artist</button>
+    `;
+    topTracksContainer.appendChild(div);
   });
 }
-function playTrack(idx){
-  const track = allTracks[idx];
-  player.src = track.url;
-  audioPlayer.style.display="flex";
-  // increment listeners locally
-  track.listeners = (track.listeners || 0)+1;
-  // Update user music count
-  Object.values(users).forEach(u=>{
-    if(u.music){
-      u.music.forEach(t=>{
-        if(t.url===track.url) t.listeners = track.listeners;
-      });
-    }
-  });
-  localStorage.setItem("users",JSON.stringify(users));
+
+function playTrack(i){
+  player.src=topTracks[i].src;
+  document.getElementById('playerTitle').innerText=topTracks[i].title+' — '+topTracks[i].artist;
+  waveform.load(topTracks[i].src);
+  waveform.on('ready',()=>waveform.play());
+  document.getElementById('floatingPlayer').style.display='flex';
+}
+
+function tipArtist(i){
+  topTracks[i].tips+=1; // Simulate 1 Zep Cash tip
+  localStorage.setItem('topTracks',JSON.stringify(topTracks));
   renderTopTracks();
+  alert(`You tipped ${topTracks[i].artist} 1 Zep Cash!`);
 }
-function tipArtist(){alert("Tips will be enabled after Zep Cash presale launch!");}
 
 renderTopTracks();
 
-// === CHART.JS ===
-const ctx = document.getElementById('campusChart').getContext('2d');
-const chartLabels = allTracks.slice(0,10).map(t=>t.name);
-const chartData = allTracks.slice(0,10).map(t=>t.listeners || 0);
-const campusChart = new Chart(ctx,{
-  type:'bar',
-  data:{
-    labels: chartLabels,
-    datasets:[{
-      label:'Listeners',
-      data: chartData,
-      backgroundColor:'rgba(0,240,255,0.5)',
-      borderColor:'#00f0ff',
-      borderWidth:2
-    }]
-  },
-  options:{
-    responsive:true,
-    plugins:{
-      legend:{display:false},
-      tooltip:{mode:'index',intersect:false}
-    },
-    scales:{
-      y:{beginAtZero:true,ticks:{stepSize:1}},
-      x:{ticks:{color:'#fff'}}
-    }
-  }
-});
-</script>
+// ----- University Map Discover Simulation -----
+const mapCanvas=document.getElementById('mapCanvas');
+const mapCtx=mapCanvas.getContext('2d');
+mapCanvas.width=mapCanvas.offsetWidth;
+mapCanvas.height=mapCanvas.offsetHeight;
 
+const universities=[
+  {name:'University of Ghana',x:50,y:80,color:'#00f0ff'},
+  {name:'University of Cape Coast',x:150,y:200,color:'#9c4dff'},
+  {name:'Ashesi University',x:250,y:120,color:'#00ff94'}
+];
+
+function drawMap(){
+  mapCtx.clearRect(0,0,mapCanvas.width,mapCanvas.height);
+  universities.forEach(u=>{
+    mapCtx.beginPath();
+    mapCtx.arc(u.x,u.y,15,0,Math.PI*2);
+    mapCtx.fillStyle=u.color;
+    mapCtx.shadowBlur=20;
+    mapCtx.shadowColor=u.color;
+    mapCtx.fill();
+    mapCtx.fillStyle='#fff';
+    mapCtx.font='12px Orbitron';
+    mapCtx.fillText(u.name,u.x-30,u.y+30);
+  });
+  requestAnimationFrame(drawMap);
+}
+drawMap();
+
+</script>
 </body>
 </html>
