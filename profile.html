@@ -3,276 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave | Profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Campus Wave • Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Poppins,sans-serif;
+:root{
+  --cw-blue:#00E5FF;
+  --cw-violet:#7B4DFF;
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,.08);
+  --text-light:rgba(255,255,255,.7);
+  --green:#00BFFF;
+  --card-radius:20px;
 }
 
-body{
-  background:#0a0a0f;
-  color:white;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
+body{background:var(--bg);color:white;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;}
 header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  background:linear-gradient(90deg,#12121a,#0b0b12);
-  border-bottom:1px solid rgba(255,255,255,.1);
+  width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;
+  background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 0 12px rgba(0,229,255,.2);
 }
+.brand{display:flex;align-items:center;gap:12px;font-family:Orbitron;font-size:1.5rem;cursor:pointer;}
+.brand img{width:50px;height:50px;}
+.logout-btn{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:50px;height:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:#050015;transition:.3s;}
+.logout-btn:hover{transform:scale(1.05);}
 
-.logo{
-  font-size:22px;
-  font-weight:600;
-  color:#00ffd5;
-  cursor:pointer;
-}
-
-.header-btn{
-  background:linear-gradient(135deg,#00ffd5,#6a5cff);
-  color:black;
-  border:none;
-  padding:10px 18px;
-  border-radius:999px;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.header-btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
-}
-
-.container{
-  max-width:900px;
-  margin:30px auto;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:30px;
-}
-
-/* PROFILE CARD */
-.profile-card{
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(15px);
-  border-radius:20px;
-  padding:30px;
-  display:flex;
-  gap:25px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-
-.profile-card img{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:3px solid #00ffd5;
-  object-fit:cover;
-}
-
-.profile-info{
-  flex:1;
-}
-
-.profile-info h2{
-  color:#00ffd5;
-  font-size:24px;
-  margin-bottom:6px;
-}
-
-.profile-info p{
-  font-size:14px;
-  color:#aaa;
-  margin-bottom:8px;
-}
-
-.profile-actions button{
-  background:linear-gradient(135deg,#00ffd5,#6a5cff);
-  border:none;
-  padding:10px 20px;
-  border-radius:999px;
-  cursor:pointer;
-  font-weight:600;
-  transition:.3s;
-  margin-right:10px;
-  color:black;
-}
-
-.profile-actions button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffd5,0 0 25px #6a5cff;
-}
-
-/* WALLET & STATS CARDS */
-.wallet-card, .stats-card{
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(15px);
-  border-radius:20px;
-  padding:20px;
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:20px;
-  border:1px solid rgba(255,255,255,.1);
-}
-
-.wallet-card h3, .stats-card h3{
-  color:#00ffd5;
-  font-size:18px;
-  margin-bottom:6px;
-}
-
-.wallet-card p, .stats-card p{
-  font-size:16px;
-}
-
-/* NOTIFICATIONS */
-.notification-center{
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(15px);
-  padding:20px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,.1);
-  max-height:300px;
-  overflow-y:auto;
-}
-
-.notification{
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:8px;
-  cursor:pointer;
-  transition:.2s;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.notification:hover{
-  background:rgba(255,255,255,.1);
-}
-
-.notification.pending{border-left:4px solid #ffcc00;}
-.notification.released{border-left:4px solid #00ff94;}
-.notification.submitted{border-left:4px solid #6a5cff;}
-
-/* RESPONSIVE */
-@media(max-width:600px){
-  .profile-card{
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-  }
-  .profile-actions button{
-    margin-bottom:10px;
-  }
-}
+.container{width:90%;max-width:700px;margin-top:24px;}
+.glass{background:var(--glass);backdrop-filter:blur(20px);border-radius:var(--card-radius);padding:24px;margin-bottom:20px;box-shadow:0 0 30px rgba(0,229,255,0.2);}
+.section-title{font-weight:600;margin-bottom:14px;font-size:18px;}
+input{width:100%;padding:12px;margin-top:10px;border-radius:12px;border:none;background:rgba(255,255,255,0.05);color:white;font-size:14px;}
+input::placeholder{color:var(--text-light);}
+.profile-image{width:120px;height:120px;border-radius:50%;border:3px solid rgba(255,255,255,.3);object-fit:cover;cursor:pointer;transition:.3s;}
+.profile-image:hover{transform:scale(1.05);}
+.verified-badge{display:flex;align-items:center;gap:8px;font-family:Orbitron;font-size:14px;background:linear-gradient(90deg,var(--green),var(--cw-blue));padding:6px 12px;border-radius:12px;color:#050015;margin-top:8px;}
+.save-btn{width:100%;padding:14px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--cw-blue),var(--cw-violet));font-weight:600;color:#050015;margin-top:16px;cursor:pointer;}
+.save-btn:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(123,77,255,.45);}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo" onclick="location.href='index.html'">Campus Wave</div>
-  <button class="header-btn" onclick="location.href='discover.html'">Discover Music</button>
+<div class="brand" onclick="window.location.href='dashboard.html'">
+<img src="https://payhip.com/cdn-cgi/image/format=auto/https://pe56d.s3.amazonaws.com/o_1jfnua21qtu1vi2pfom33p641h.png" alt="Campus Wave Logo">
+Campus Wave
+</div>
+<button class="logout-btn" title="Logout" onclick="logout()">⏻</button>
 </header>
 
 <div class="container">
 
-  <!-- PROFILE CARD -->
-  <div class="profile-card">
-    <img id="profileImg" src="https://via.placeholder.com/120" alt="Profile">
-    <div class="profile-info">
-      <h2 id="studentName">Student Name</h2>
-      <p id="studentUniversity">University Name</p>
-      <div class="profile-actions">
-        <button onclick="editProfile()">Edit Profile</button>
-        <button onclick="openSettings()">Settings</button>
-      </div>
-    </div>
-  </div>
+<!-- Profile Picture -->
+<div class="glass" style="text-align:center;">
+<img src="https://via.placeholder.com/120" alt="Profile Image" class="profile-image" id="profileImg">
+<div id="verifiedBadge" class="verified-badge" style="display:none;">✔ Verified</div>
+</div>
 
-  <!-- WALLET -->
-  <div class="wallet-card">
-    <div>
-      <h3>ZAC Balance</h3>
-      <p id="zacBalance">0 ZAC</p>
-    </div>
-    <div>
-      <h3>USD Balance</h3>
-      <p id="usdBalance">$0.00</p>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats-card">
-    <div>
-      <h3>Tracks Uploaded</h3>
-      <p id="tracksUploaded">0</p>
-    </div>
-    <div>
-      <h3>Tips Received</h3>
-      <p id="tipsReceived">0 ZAC</p>
-    </div>
-  </div>
-
-  <!-- NOTIFICATION CENTER -->
-  <div class="notification-center">
-    <h3>Recent Activity</h3>
-    <div id="notificationsList"></div>
-  </div>
+<!-- Profile Details -->
+<div class="glass">
+<div class="section-title">Profile Details</div>
+<input type="text" id="name" placeholder="Full Name">
+<input type="text" id="university" placeholder="University">
+<input type="text" id="country" placeholder="Country">
+<input type="text" id="city" placeholder="City">
+<input type="text" id="level" placeholder="Level (e.g., Student Artist)">
+<button class="save-btn" onclick="saveProfile()">Save Profile</button>
+</div>
 
 </div>
 
 <script>
-// Initialize user
-let users = JSON.parse(localStorage.getItem("users")) || {};
+// ======== USERS & SESSION =========
+let users = JSON.parse(localStorage.getItem("users"))||{};
 let currentUserId = localStorage.getItem("currentUserId");
-if(!currentUserId || !users[currentUserId]) location.href="login.html";
-let user = users[currentUserId];
+if(!currentUserId || !users[currentUserId]) window.location.href='login.html';
+let currentUser = users[currentUserId];
 
-// Populate profile info
-document.getElementById("profileImg").src = user.profileImage || "https://via.placeholder.com/120";
-document.getElementById("studentName").innerText = user.name || "Student Name";
-document.getElementById("studentUniversity").innerText = user.university || "University Name";
+// DOM
+const profileImg=document.getElementById("profileImg");
+const nameInput=document.getElementById("name");
+const universityInput=document.getElementById("university");
+const countryInput=document.getElementById("country");
+const cityInput=document.getElementById("city");
+const levelInput=document.getElementById("level");
+const verifiedBadge=document.getElementById("verifiedBadge");
 
-// Wallet
-user.zacBalance = user.zacBalance || 0;
-user.usdBalance = user.usdBalance || 0;
-document.getElementById("zacBalance").innerText = user.zacBalance + " ZAC";
-document.getElementById("usdBalance").innerText = "$" + user.usdBalance.toFixed(2);
-
-// Stats
-document.getElementById("tracksUploaded").innerText = user.uploads ? user.uploads.length : 0;
-document.getElementById("tipsReceived").innerText = user.tipsReceived || 0;
-
-// Notifications
-let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-const notificationsList = document.getElementById("notificationsList");
-function renderNotifications(){
-  notificationsList.innerHTML = "";
-  notifications.forEach(n=>{
-    const div = document.createElement("div");
-    div.className = "notification " + (n.type || "pending");
-    div.innerText = n.text;
-    notificationsList.appendChild(div);
-  });
+// ======== Load Profile =========
+function loadProfile(){
+profileImg.src = currentUser.profileImage || "https://via.placeholder.com/120";
+nameInput.value = currentUser.name||"";
+universityInput.value=currentUser.university||"";
+countryInput.value=currentUser.country||"";
+cityInput.value=currentUser.city||"";
+levelInput.value=currentUser.level||"";
+checkVerified();
 }
-renderNotifications();
+loadProfile();
 
-// Dummy actions
-function editProfile(){ alert("Edit profile clicked"); }
-function openSettings(){ alert("Settings clicked"); }
+// ======== Profile Image Upload =========
+profileImg.addEventListener('click',()=>imgUpload.click());
+const imgUpload=document.createElement("input");
+imgUpload.type="file"; imgUpload.accept="image/*"; imgUpload.style.display="none";
+document.body.appendChild(imgUpload);
+imgUpload.addEventListener('change',e=>{
+const file=e.target.files[0];
+if(file){
+const reader=new FileReader();
+reader.onload=function(ev){
+profileImg.src=ev.target.result;
+currentUser.profileImage=ev.target.result;
+saveUser();
+checkVerified();
+}
+reader.readAsDataURL(file);
+}
+});
+
+// ======== Save Profile =========
+function saveProfile(){
+currentUser.name=nameInput.value.trim();
+currentUser.university=universityInput.value.trim();
+currentUser.country=countryInput.value.trim();
+currentUser.city=cityInput.value.trim();
+currentUser.level=levelInput.value.trim();
+saveUser();
+checkVerified();
+alert("Profile saved successfully!");
+}
+
+// ======== Check Verified =========
+function checkVerified(){
+if(nameInput.value && universityInput.value && countryInput.value && cityInput.value && levelInput.value && profileImg.src!=="https://via.placeholder.com/120"){
+verifiedBadge.style.display="inline-flex";
+currentUser.verified=true;
+}else{
+verifiedBadge.style.display="none";
+currentUser.verified=false;
+}
+saveUser();
+}
+
+// ======== Save to LocalStorage =========
+function saveUser(){users[currentUserId]=currentUser; localStorage.setItem("users",JSON.stringify(users));}
+
+// ======== Logout =========
+function logout(){localStorage.removeItem("currentUserId"); window.location.href='index.html';}
 </script>
 
 </body>
