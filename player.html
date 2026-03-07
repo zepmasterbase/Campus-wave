@@ -3,340 +3,388 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave Player</title>
-
+<title>Campus Wave - Player</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
-
 :root{
---neon-blue:#00f0ff;
---neon-purple:#8a2bff;
---neon-green:#1db954;
---bg:#070713;
+  --neon-blue:#00f0ff;
+  --neon-purple:#8a2bff;
+  --neon-green:#1db954;
+  --bg:#070713;
+  --glass:rgba(255,255,255,0.05);
 }
 
 body{
-margin:0;
-background:radial-gradient(circle at top,var(--neon-purple),var(--bg));
-color:white;
-font-family:Poppins;
-display:flex;
-flex-direction:column;
-align-items:center;
-padding:20px;
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:var(--bg);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow-x:hidden;
 }
 
-/* Header */
-
-.header{
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
+header{
+  width:100%;
+  padding:16px;
+  text-align:center;
+  font-size:22px;
+  font-weight:600;
+  background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:pulse 2s infinite;
 }
 
-.header button{
-background:none;
-border:none;
-color:white;
-font-size:20px;
+@keyframes pulse{
+  0%{text-shadow:0 0 5px var(--neon-blue);}
+  50%{text-shadow:0 0 20px var(--neon-purple);}
+  100%{text-shadow:0 0 5px var(--neon-blue);}
 }
 
-/* Album Cover */
-
-.album-container{
-margin-top:20px;
-position:relative;
+.player-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  padding:20px;
+  max-width:400px;
+  width:100%;
 }
 
-.album{
-width:260px;
-height:260px;
-border-radius:20px;
-box-shadow:0 0 25px var(--neon-blue);
-animation:spin 12s linear infinite;
+.album-cover{
+  width:250px;
+  height:250px;
+  border-radius:20px;
+  border:4px solid var(--neon-blue);
+  animation:spin 20s linear infinite;
+  transition:transform .3s,box-shadow .3s;
+  box-shadow:0 0 20px var(--neon-blue),0 0 40px var(--neon-purple);
+}
+
+.album-cover:hover{
+  transform:scale(1.05);
 }
 
 @keyframes spin{
-from{transform:rotate(0deg)}
-to{transform:rotate(360deg)}
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
 }
-
-/* Track info */
 
 .track-info{
-text-align:center;
-margin-top:20px;
+  text-align:center;
 }
 
-.track-title{
-font-size:22px;
-font-weight:600;
+.track-info h2{
+  font-size:20px;
+  margin-bottom:4px;
 }
 
-.artist{
-opacity:.8;
+.track-info h3{
+  font-size:14px;
+  color:#aaa;
 }
-
-/* Waveform */
 
 .waveform{
-display:flex;
-gap:4px;
-margin:30px 0;
-height:40px;
-align-items:flex-end;
+  display:flex;
+  gap:3px;
+  height:30px;
+  align-items:flex-end;
+  margin:10px 0;
 }
 
 .bar{
-width:5px;
-background:var(--neon-green);
-animation:wave 1s infinite ease-in-out;
+  width:4px;
+  background:var(--neon-green);
+  animation:wave 1s infinite ease-in-out;
 }
 
-.bar:nth-child(2){animation-delay:.1s}
-.bar:nth-child(3){animation-delay:.2s}
-.bar:nth-child(4){animation-delay:.3s}
-.bar:nth-child(5){animation-delay:.4s}
-.bar:nth-child(6){animation-delay:.5s}
+.bar:nth-child(2){animation-delay:0.1s;}
+.bar:nth-child(3){animation-delay:0.2s;}
+.bar:nth-child(4){animation-delay:0.3s;}
+.bar:nth-child(5){animation-delay:0.4s;}
+.bar:nth-child(6){animation-delay:0.5s;}
+.bar:nth-child(7){animation-delay:0.6s;}
+.bar:nth-child(8){animation-delay:0.7s;}
 
 @keyframes wave{
-0%{height:8px}
-50%{height:40px}
-100%{height:8px}
+  0%{height:4px}
+  50%{height:30px}
+  100%{height:4px}
 }
 
-/* Controls */
-
 .controls{
-display:flex;
-gap:30px;
-align-items:center;
-margin:20px 0;
+  display:flex;
+  gap:20px;
+  align-items:center;
 }
 
 .controls button{
-background:var(--neon-green);
-border:none;
-width:55px;
-height:55px;
-border-radius:50%;
-font-size:20px;
-cursor:pointer;
+  background:none;
+  border:none;
+  font-size:22px;
+  color:white;
+  cursor:pointer;
+  transition:.3s;
 }
 
-/* Actions */
-
-.actions{
-display:flex;
-gap:16px;
-margin-top:10px;
+.controls button:hover{
+  color:var(--neon-green);
+  transform:scale(1.2);
 }
-
-.actions button{
-background:#111;
-border:1px solid var(--neon-blue);
-color:white;
-padding:10px 16px;
-border-radius:20px;
-cursor:pointer;
-}
-
-.actions button:hover{
-box-shadow:0 0 10px var(--neon-blue);
-}
-
-/* Lyrics */
 
 .lyrics{
-margin-top:30px;
-width:100%;
-max-width:400px;
-background:#111;
-padding:20px;
-border-radius:14px;
-max-height:200px;
-overflow-y:auto;
-font-size:14px;
-line-height:1.6;
+  background:var(--glass);
+  padding:14px;
+  border-radius:14px;
+  max-height:120px;
+  overflow-y:auto;
+  width:100%;
+  font-size:13px;
+  color:#ccc;
 }
 
-/* Responsive */
-
-@media(max-width:500px){
-
-.album{
-width:220px;
-height:220px;
+.tip-share{
+  display:flex;
+  justify-content:space-between;
+  width:100%;
+  margin-top:10px;
 }
 
+.tip-share button{
+  flex:1;
+  margin:0 4px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:none;
+  font-family:Poppins;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.tip-btn{
+  background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));
+  color:#050015;
+}
+
+.share-btn{
+  background:linear-gradient(90deg,var(--neon-green),var(--neon-blue));
+  color:#050015;
+}
+
+.jump-back{
+  background:var(--glass);
+  padding:12px;
+  border-radius:18px;
+  width:100%;
+  max-width:400px;
+  margin-top:20px;
+}
+
+.jump-back h3{
+  font-size:16px;
+  margin-bottom:8px;
+  text-align:center;
+  color:var(--neon-purple);
+}
+
+.history-tracks{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-height:200px;
+  overflow-y:auto;
+}
+
+.history-track{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,.05);
+  padding:8px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.history-track:hover{
+  transform:scale(1.02);
+  box-shadow:0 0 10px var(--neon-blue),0 0 20px var(--neon-purple);
+}
+
+.history-track img{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:60px;
+  background:#0b0b16;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  border-top:1px solid #222;
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:11px;
+  color:#aaa;
+}
+
+.nav-item svg{
+  width:24px;
+  height:24px;
+  margin-bottom:2px;
+  fill:#aaa;
+}
+
+.nav-item.active svg{
+  fill:var(--neon-green);
 }
 
 audio{display:none}
 
+@media(max-width:500px){
+  .album-cover{width:180px;height:180px;}
+  .waveform{height:20px;}
+}
 </style>
 </head>
-
 <body>
 
-<div class="header">
+<header>Now Playing</header>
 
-<button onclick="history.back()">⬅</button>
-
-<h3>Now Playing</h3>
-
-<button onclick="shareTrack()">🔗</button>
-
+<div class="player-container">
+  <img id="albumCover" class="album-cover" src="https://picsum.photos/300/300?random=5" alt="Album Cover">
+  
+  <div class="track-info">
+    <h2 id="trackTitle">Nothing Playing</h2>
+    <h3 id="trackArtist">---</h3>
+  </div>
+  
+  <div class="waveform" id="waveform">
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  </div>
+  
+  <div class="controls">
+    <button onclick="prevTrack()">⏮️</button>
+    <button onclick="togglePlay()">▶️</button>
+    <button onclick="nextTrack()">⏭️</button>
+  </div>
+  
+  <div class="lyrics" id="lyrics">Lyrics will appear here...</div>
+  
+  <div class="tip-share">
+    <button class="tip-btn" onclick="tipArtist()">💖💵 Tip Artist</button>
+    <button class="share-btn" onclick="shareTrack()">🔗 Share Track</button>
+  </div>
 </div>
 
-<div class="album-container">
-<img id="cover" class="album">
+<!-- Jump Back In History Panel -->
+<div class="jump-back">
+  <h3>⭐ Jump Back In</h3>
+  <div class="history-tracks" id="historyTracks"></div>
 </div>
 
-<div class="track-info">
-<div id="title" class="track-title">Track Title</div>
-<div id="artist" class="artist">Artist</div>
-</div>
-
-<div class="waveform">
-
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-
-</div>
-
-<div class="controls">
-
-<button onclick="prev()">⏮</button>
-<button onclick="togglePlay()">▶</button>
-<button onclick="next()">⏭</button>
-
-</div>
-
-<div class="actions">
-
-<button onclick="tipArtist()">💸 Tip Artist</button>
-<button onclick="shareTrack()">📤 Share</button>
-
-</div>
-
-<div class="lyrics">
-
-<strong>Lyrics</strong>
-
-<p id="lyricsText">
-
-No lyrics uploaded yet.
-
-Student artists will be able to upload lyrics from their dashboard.
-
-Campus Wave is powering the future of campus music 🌊
-
-</p>
-
+<div class="bottom-nav">
+  <div class="nav-item" onclick="location.href='index.html'">
+    <svg viewBox="0 0 24 24"><path d="M3 10L12 3l9 7v11h-6v-6H9v6H3z"/></svg>
+    Home
+  </div>
+  <div class="nav-item" onclick="location.href='discover.html'">
+    <svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.29 14.29l5.7 5.7 1.42-1.42-5.7-5.7A8 8 0 0010 2z"/></svg>
+    Discover
+  </div>
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 017 7c0 3-2 5-4 6v3h-6v-3c-2-1-4-3-4-6a7 7 0 017-7z"/></svg>
+    Player
+  </div>
+  <div class="nav-item" onclick="location.href='campus-chart.html'">
+    <svg viewBox="0 0 24 24"><path d="M5 3v18M9 12h3v6H9zM14 6h3v12h-3z"/></svg>
+    Charts
+  </div>
 </div>
 
 <audio id="audio"></audio>
 
 <script>
-
-/* Demo tracks */
-
-let tracks = JSON.parse(localStorage.getItem("campusUploads")) || [
-
-{
-title:"Campus Vibes",
-artist:"Student Artist",
-cover:"https://picsum.photos/300?1",
-url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-}
-
+// Sample tracks
+const tracks=[
+  {title:"Campus Vibes",artist:"Ama Owusu",cover:"https://picsum.photos/300/300?random=1",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",lyrics:"Relax and enjoy the vibes..."},
+  {title:"Afrobeat Nights",artist:"Kwame Mensah",cover:"https://picsum.photos/300/300?random=2",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",lyrics:"Afrobeat energy flowing..."},
+  {title:"Tech Campus",artist:"Efua Adjei",cover:"https://picsum.photos/300/300?random=3",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",lyrics:"Tech talks and beats..."}
 ]
 
-let current=0
-
+let currentTrack=0
 const audio=document.getElementById("audio")
+const albumCover=document.getElementById("albumCover")
+const trackTitle=document.getElementById("trackTitle")
+const trackArtist=document.getElementById("trackArtist")
+const lyricsEl=document.getElementById("lyrics")
+const historyTracksEl=document.getElementById("historyTracks")
 
-function loadTrack(){
-
-let track=tracks[current]
-
-document.getElementById("cover").src=track.cover
-document.getElementById("title").innerText=track.title
-document.getElementById("artist").innerText=track.artist
-
-audio.src=track.url
-
+// Load track
+function loadTrack(i){
+  const track=tracks[i]
+  audio.src=track.url
+  albumCover.src=track.cover
+  trackTitle.innerText=track.title
+  trackArtist.innerText=track.artist
+  lyricsEl.innerText=track.lyrics
+  audio.play()
+  saveToHistory(track)
+  renderHistory()
 }
 
-loadTrack()
+function togglePlay(){if(audio.paused){audio.play()}else{audio.pause()}}
+function nextTrack(){currentTrack=(currentTrack+1)%tracks.length;loadTrack(currentTrack)}
+function prevTrack(){currentTrack=(currentTrack-1+tracks.length)%tracks.length;loadTrack(currentTrack)}
 
-function togglePlay(){
-
-if(audio.paused){
-audio.play()
-}else{
-audio.pause()
-}
-
-}
-
-function next(){
-
-current++
-if(current>=tracks.length){current=0}
-
-loadTrack()
-audio.play()
-
-}
-
-function prev(){
-
-current--
-if(current<0){current=tracks.length-1}
-
-loadTrack()
-audio.play()
-
-}
-
-/* Zep Cash tip simulation */
-
+// Tip Artist
 function tipArtist(){
-
-let tips=JSON.parse(localStorage.getItem("zepTips"))||{}
-
-let track=tracks[current].title
-
-tips[track]=(tips[track]||0)+5
-
-localStorage.setItem("zepTips",JSON.stringify(tips))
-
-alert("You tipped 5 Zep Cash 💸")
-
+  let tips=JSON.parse(localStorage.getItem("zepTips"))||{}
+  const t=tracks[currentTrack].title
+  tips[t]=(tips[t]||0)+5
+  localStorage.setItem("zepTips",JSON.stringify(tips))
+  alert("You tipped 5 Zep Cash 💖💵")
 }
 
-/* Share */
+// Share
+function shareTrack(){alert("Share feature coming soon!")}
 
-function shareTrack(){
-
-let track=tracks[current]
-
-navigator.share?.({
-title:track.title,
-text:"Listen on Campus Wave",
-url:window.location.href
-}) || alert("Share this track with friends!")
-
+// Listening History
+function saveToHistory(track){
+  let history=JSON.parse(localStorage.getItem("listenHistory"))||[]
+  history.unshift(track)
+  history=history.slice(0,5) // keep last 5
+  localStorage.setItem("listenHistory",JSON.stringify(history))
 }
 
+function renderHistory(){
+  const history=JSON.parse(localStorage.getItem("listenHistory"))||[]
+  historyTracksEl.innerHTML=""
+  history.forEach((track,i)=>{
+    const div=document.createElement("div")
+    div.className="history-track"
+    div.innerHTML=`<img src="${track.cover}" alt="cover"><div><strong>${track.title}</strong><br>${track.artist}</div>`
+    div.onclick=()=>{currentTrack=tracks.findIndex(t=>t.title===track.title);loadTrack(currentTrack)}
+    historyTracksEl.appendChild(div)
+  })
+}
+
+// Autoplay first track
+loadTrack(currentTrack)
 </script>
 
 </body>
