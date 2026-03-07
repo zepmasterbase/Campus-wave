@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave — Campus Charts</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
 <style>
 :root{
   --wave-blue:#00f0ff;
@@ -12,15 +12,14 @@
   --bg:#050018;
   --glass:rgba(255,255,255,.08);
   --green:#00ff94;
-  --text-light:rgba(255,255,255,.85);
   --tip-color:#ffcc00;
+  --text-light:rgba(255,255,255,.85);
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
 body{background:var(--bg);color:#fff;min-height:100vh;}
 header{
   display:flex;justify-content:space-between;align-items:center;
-  padding:16px 20px;
-  backdrop-filter:blur(12px);
+  padding:16px 20px;backdrop-filter:blur(12px);
   background:rgba(0,0,0,.35);
   border-bottom:1px solid rgba(255,255,255,.08);
 }
@@ -29,24 +28,32 @@ header h1{
   background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-header a{
-  color:var(--wave-blue);text-decoration:none;font-weight:500;
-}
+header a{color:var(--wave-blue);text-decoration:none;font-weight:500;}
 .container{max-width:1200px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
 .chart-section h2{font-family:Orbitron;margin-bottom:16px;font-size:1.5rem;}
 .chart-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
 .track-card{
-  background:var(--glass);padding:14px;border-radius:18px;border:1px solid rgba(255,255,255,.12);
-  display:flex;align-items:center;gap:14px;position:relative;transition:.3s;
+  background:var(--glass);padding:14px;border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;gap:14px;
+  position:relative;transition:.3s;perspective:1000px;
 }
-.track-card:hover{transform:translateY(-6px);box-shadow:0 0 25px var(--wave-blue),0 0 50px var(--wave-violet);}
-.track-card img{width:70px;height:70px;border-radius:14px;object-fit:cover;}
+.track-card:hover{
+  transform:translateY(-6px) rotateY(5deg) scale(1.03);
+  box-shadow:0 0 35px var(--wave-blue),0 0 55px var(--wave-violet);
+}
+.track-card img{
+  width:70px;height:70px;border-radius:14px;object-fit:cover;
+  transition:.5s;transform-style:preserve-3d;
+}
+.track-card:hover img{transform:rotateY(15deg);}
 .track-info{flex:1;display:flex;flex-direction:column;gap:4px;}
 .track-info h4{font-family:Orbitron;margin:0;font-size:1.1rem;}
 .track-info span{font-size:0.85rem;color:var(--text-light);}
 .track-meta{display:flex;gap:8px;font-size:0.75rem;color:var(--text-light);}
 .track-actions{display:flex;gap:10px;align-items:center;margin-left:auto;}
-button.play-btn,button.tip-btn{border:none;border-radius:50%;padding:12px;cursor:pointer;transition:.3s;font-size:16px;}
+button.play-btn,button.tip-btn{
+  border:none;border-radius:50%;padding:12px;cursor:pointer;transition:.3s;font-size:16px;
+}
 button.play-btn{background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));color:#050015;}
 button.tip-btn{background:linear-gradient(90deg,var(--tip-color),var(--green));color:#050015;}
 button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px var(--wave-violet);}
@@ -59,12 +66,18 @@ button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px 
 .history-item{min-width:120px;background:var(--glass);border-radius:12px;padding:8px;text-align:center;flex-shrink:0;cursor:pointer;transition:.3s;}
 .history-item img{width:100%;border-radius:10px;object-fit:cover;}
 .history-item:hover{transform:scale(1.05);box-shadow:0 0 15px var(--wave-blue),0 0 25px var(--wave-violet);}
+
+/* Footer Player */
 .footer-player{
-  position:fixed;bottom:0;left:0;width:100%;background:var(--glass);backdrop-filter:blur(14px);
-  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid rgba(255,255,255,.08);
+  position:fixed;bottom:0;left:0;width:100%;background:var(--glass);
+  backdrop-filter:blur(14px);padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid rgba(255,255,255,.08);
 }
 .footer-player img{width:60px;height:60px;border-radius:14px;object-fit:cover;box-shadow:0 0 20px var(--wave-blue);}
-.footer-player .play-btn{padding:14px;border-radius:50%;background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));color:#050015;font-size:18px;animation:glow 2s infinite;}
+.footer-player .play-btn{
+  padding:14px;border-radius:50%;background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));
+  color:#050015;font-size:18px;animation:glow 2s infinite;
+}
 .footer-player .track-info{flex:1;display:flex;flex-direction:column;gap:2px;margin-left:14px;}
 .footer-player h4{font-family:Orbitron;margin:0;font-size:1rem;}
 .footer-player span{font-size:0.8rem;color:var(--text-light);}
@@ -102,23 +115,23 @@ button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px 
 </div>
 
 <!-- Footer Player -->
-<div class="footer-player" onclick="goToPlayer()">
+<div class="footer-player">
   <img src="https://via.placeholder.com/60" id="footerAlbum" alt="Album Art">
   <div class="track-info">
     <h4 id="footerTrack">Select a track</h4>
     <span id="footerArtist">Artist</span>
   </div>
-  <button class="play-btn">▶</button>
+  <button class="play-btn" id="footerPlayBtn">▶</button>
 </div>
 
 <script>
-// Sample tracks with University & Genre
+// Sample tracks with University & Genre and simulated audio
 const tracks = [
-  {id:1,title:"Campus Vibes",artist:"DJ Zed",cover:"https://picsum.photos/200/200?random=1",university:"Univ of Ghana",genre:"Hip-Hop"},
-  {id:2,title:"Study Beats",artist:"MC Learn",cover:"https://picsum.photos/200/200?random=2",university:"Univ of Zambia",genre:"Lo-Fi"},
-  {id:3,title:"Uni Groove",artist:"The Scholars",cover:"https://picsum.photos/200/200?random=3",university:"Cape Town Uni",genre:"Jazz"},
-  {id:4,title:"Lecture Lounge",artist:"Prof. Flow",cover:"https://picsum.photos/200/200?random=4",university:"Makerere Univ",genre:"Electronic"},
-  {id:5,title:"Exam Jam",artist:"Quizzy",cover:"https://picsum.photos/200/200?random=5",university:"Univ of Lagos",genre:"Pop"}
+  {id:1,title:"Campus Vibes",artist:"DJ Zed",cover:"https://picsum.photos/200/200?random=1",university:"Univ of Ghana",genre:"Hip-Hop",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+  {id:2,title:"Study Beats",artist:"MC Learn",cover:"https://picsum.photos/200/200?random=2",university:"Univ of Zambia",genre:"Lo-Fi",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+  {id:3,title:"Uni Groove",artist:"The Scholars",cover:"https://picsum.photos/200/200?random=3",university:"Cape Town Uni",genre:"Jazz",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+  {id:4,title:"Lecture Lounge",artist:"Prof. Flow",cover:"https://picsum.photos/200/200?random=4",university:"Makerere Univ",genre:"Electronic",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
+  {id:5,title:"Exam Jam",artist:"Quizzy",cover:"https://picsum.photos/200/200?random=5",university:"Univ of Lagos",genre:"Pop",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"}
 ];
 
 let history = JSON.parse(localStorage.getItem("history")) || [];
@@ -127,6 +140,10 @@ const historyListEl = document.getElementById("historyList");
 const footerTrack = document.getElementById("footerTrack");
 const footerArtist = document.getElementById("footerArtist");
 const footerAlbum = document.getElementById("footerAlbum");
+const footerPlayBtn = document.getElementById("footerPlayBtn");
+
+let currentAudio = new Audio();
+let isPlaying = false;
 
 // Render top tracks
 function renderTopTracks(){
@@ -171,10 +188,27 @@ function playTrack(id){
   footerTrack.innerText = track.title;
   footerArtist.innerText = track.artist;
   footerAlbum.src = track.cover;
+
+  // Set audio
+  if(currentAudio.src!==track.audio){
+    currentAudio.src = track.audio;
+  }
+  currentAudio.play();
+  isPlaying=true;
+  footerPlayBtn.innerText="⏸";
+
+  // Update history
   history = [track,...history.filter(t=>t.id!==id)].slice(0,10);
   localStorage.setItem("history",JSON.stringify(history));
   renderHistory();
 }
+
+// Footer play/pause button
+footerPlayBtn.onclick = ()=>{
+  if(!currentAudio.src) return;
+  if(isPlaying){currentAudio.pause();isPlaying=false;footerPlayBtn.innerText="▶";}
+  else{currentAudio.play();isPlaying=true;footerPlayBtn.innerText="⏸";}
+};
 
 // Tip artist simulation
 function tipArtist(id){
@@ -182,12 +216,8 @@ function tipArtist(id){
   alert(`You tipped ${track.artist} 5 Zep Cash! 💰`);
 }
 
-// Footer player click
-function goToPlayer(){window.location.href="player.html";}
-
 renderTopTracks();
 renderHistory();
 </script>
-
 </body>
 </html>
