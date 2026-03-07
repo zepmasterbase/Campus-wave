@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Campus Wave — Login with Wallet</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#00f0ff;
   --violet:#9c4dff;
+  --green:#00ff94;
   --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
   --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
 }
-*{box-sizing:border-box;font-family:Poppins,sans-serif;margin:0;padding:0;}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
 body{
   min-height:100vh;
   display:flex;
@@ -22,53 +24,51 @@ body{
   background:var(--bg);
   color:#fff;
 }
+
 .card{
   width:100%;
-  max-width:420px;
+  max-width:400px;
   background:var(--glass);
   padding:28px;
-  border-radius:18px;
+  border-radius:20px;
   box-shadow:0 0 30px rgba(0,240,255,.25);
+  text-align:center;
   animation:pulse 2s infinite;
 }
+
 @keyframes pulse{
   0%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
   50%{box-shadow:0 0 30px rgba(0,240,255,.35),0 0 60px rgba(156,77,255,.35);}
   100%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
 }
+
 h1{
   font-family:Orbitron;
-  text-align:center;
-  margin-bottom:20px;
+  font-size:2rem;
   background:linear-gradient(90deg,var(--blue),var(--violet));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  margin-bottom:30px;
 }
-input{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  margin-bottom:14px;
-  background:rgba(255,255,255,0.05);
-  color:#fff;
-}
-input::placeholder{color:rgba(255,255,255,0.6);}
+
 button{
   width:100%;
-  padding:12px;
+  padding:14px;
   border:none;
   border-radius:999px;
   font-family:Orbitron;
   background:linear-gradient(90deg,var(--blue),var(--violet));
   color:#050015;
   cursor:pointer;
+  font-size:1rem;
   transition:.3s;
+  margin-bottom:14px;
 }
 button:hover{
   transform:translateY(-2px);
   box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
 }
+
 .switch{
   text-align:center;
   margin-top:12px;
@@ -76,132 +76,71 @@ button:hover{
   cursor:pointer;
   color:var(--blue);
 }
-.password-toggle{
-  display:flex;
-  justify-content:flex-end;
-  font-size:12px;
-  margin-top:-10px;
-  margin-bottom:14px;
-  cursor:pointer;
-  color:var(--blue);
+
+.wallet-info{
+  margin:10px 0;
+  font-size:0.9rem;
+  color:var(--text-light);
+  word-break:break-word;
 }
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:1000;
-}
-.modal{
-  background:var(--glass);
-  padding:24px;
-  border-radius:18px;
-  max-width:400px;
-  width:90%;
-  text-align:center;
-  box-shadow:0 0 20px var(--blue),0 0 40px var(--violet);
-}
-.modal button{margin-top:12px;width:fit-content;}
-.modal a{color:var(--blue); text-decoration:none;}
-.modal a:hover{text-decoration:underline;}
-.home-btn{
-  display:block;
-  text-align:center;
-  margin-bottom:20px;
-  color:var(--blue);
-  text-decoration:none;
-  font-weight:500;
-}
-.home-btn:hover{opacity:.8;}
+
 </style>
 </head>
 <body>
 
 <div class="card">
-  <a href="index.html" class="home-btn">🏠 Home</a>
-  <h1 id="title">Login</h1>
-
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-  <div class="password-toggle" onclick="togglePassword()">Show Password</div>
-
-  <button onclick="handleLogin()">Continue</button>
-
-  <div class="switch" onclick="goSignup()">Don’t have an account? Sign up on Zep Swipe</div>
-</div>
-
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <p id="modalText">Modal text here</p>
-    <button onclick="closeModal()">Close</button>
+  <h1>Connect Your Wallet</h1>
+  <button id="connectWalletBtn">Connect MetaMask / Base Wallet</button>
+  <div class="wallet-info" id="walletInfo"></div>
+  <div class="switch">
+    <a href="https://www.zepswipe.com/login.html" target="_blank" style="color:var(--blue); text-decoration:none;">Sign up on Zep Swipe</a>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
-// Show/Hide password
-function togglePassword(){
-  const pw = document.getElementById("password");
-  pw.type = pw.type==="password"?"text":"password";
-}
+const connectWalletBtn = document.getElementById('connectWalletBtn');
+const walletInfo = document.getElementById('walletInfo');
 
-// Modal helpers
-function showModal(text){
-  const modal = document.getElementById("modalOverlay");
-  document.getElementById("modalText").innerText=text;
-  modal.style.display="flex";
-}
-function closeModal(){
-  document.getElementById("modalOverlay").style.display="none";
-}
-
-// Signup link
-function goSignup(){
-  window.open("https://www.zepswipe.com/login.html", "_blank");
-}
-
-// LOGIN using Zep Swipe localStorage
-function handleLogin(){
-  const email = document.getElementById("email").value.trim().toLowerCase();
-  const password = document.getElementById("password").value;
-
-  if(!email || !password){
-    alert("Please fill all fields");
+async function connectWallet(){
+  if(typeof window.ethereum === 'undefined'){
+    alert("MetaMask or Base Wallet not detected. Please install.");
     return;
   }
 
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  // Match email & password ONLY, ignore verified
-  const userEntry = Object.entries(users).find(([id,u])=>{
-    return u.email.toLowerCase() === email && u.password === password;
+  try {
+    // Request account access
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const walletAddress = accounts[0];
+    walletInfo.innerText = `Connected wallet: ${walletAddress}`;
+
+    // Optionally check Zep Swipe verification
+    // For demo, we'll just save wallet address locally
+    localStorage.setItem('campusWaveWallet', walletAddress);
+
+    // Redirect to dashboard
+    setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 1200);
+
+  } catch (err) {
+    console.error(err);
+    alert('Wallet connection failed.');
+  }
+}
+
+connectWalletBtn.addEventListener('click', connectWallet);
+
+// Listen for account changes
+if(window.ethereum){
+  window.ethereum.on('accountsChanged', (accounts)=>{
+    if(accounts.length === 0){
+      walletInfo.innerText = 'Wallet disconnected';
+      localStorage.removeItem('campusWaveWallet');
+    } else {
+      walletInfo.innerText = `Connected wallet: ${accounts[0]}`;
+      localStorage.setItem('campusWaveWallet', accounts[0]);
+    }
   });
-
-  if(!userEntry){
-    alert("Invalid credentials. Make sure you are registered on Zep Swipe.");
-    return;
-  }
-
-  const [userId, userObj] = userEntry;
-  localStorage.setItem("currentUserId", userId);
-
-  if(!userObj.verified){
-    showModal("Login successful! Note: Your Zep Swipe account is not verified yet.");
-  } else {
-    showModal("Login successful! Redirecting...");
-  }
-
-  setTimeout(()=>{ window.location.href="student-dashboard.html"; },800);
 }
-
-// Redirect logged-in users
-window.addEventListener('load', ()=>{
-  const currentUserId = localStorage.getItem("currentUserId");
-  const users = JSON.parse(localStorage.getItem("users")) || {};
-  if(currentUserId && users[currentUserId]){
-    window.location.href="student-dashboard.html";
-  }
-});
 </script>
 
 </body>
