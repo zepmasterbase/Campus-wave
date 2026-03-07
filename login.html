@@ -4,77 +4,198 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Campus Wave — Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#00f0ff;
   --violet:#9c4dff;
-  --green:#00ff94;
-  --yellow:#ffcc00;
-  --bg:#050018;
-  --glass:rgba(255,255,255,.08);
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
-body{background:var(--bg);color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
-.login-container{background:var(--glass);backdrop-filter:blur(12px);padding:40px;border-radius:20px;width:95%;max-width:400px;box-shadow:0 0 30px rgba(0,255,255,.2);}
-.login-container h1{font-family:Orbitron;font-size:2rem;text-align:center;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:30px;}
-.input-group{margin-bottom:20px;position:relative;}
-.input-group label{display:block;margin-bottom:6px;color:var(--text-light);}
-.input-group input{width:100%;padding:12px 16px;border-radius:12px;border:none;background:rgba(255,255,255,.05);color:#fff;font-size:1rem;outline:none;}
-.input-group input::placeholder{color:rgba(255,255,255,.5);}
-button{width:100%;padding:14px;border:none;border-radius:999px;font-family:Orbitron;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;font-size:1rem;cursor:pointer;transition:.3s;}
-button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
-.alert{background:rgba(255,0,0,.3);padding:10px;border-radius:12px;margin-bottom:20px;display:none;text-align:center;font-weight:500;}
-.footer{margin-top:20px;text-align:center;font-size:0.9rem;color:rgba(255,255,255,.5);}
-.footer a{color:var(--blue);text-decoration:none;}
+
+*{box-sizing:border-box;font-family:Poppins,sans-serif;margin:0;padding:0;}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:var(--bg);
+  color:#fff;
+}
+
+.card{
+  width:100%;
+  max-width:420px;
+  background:var(--glass);
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 0 30px rgba(0,240,255,.25);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
+  50%{box-shadow:0 0 30px rgba(0,240,255,.35),0 0 60px rgba(156,77,255,.35);}
+  100%{box-shadow:0 0 20px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
+}
+
+h1{
+  font-family:Orbitron;
+  text-align:center;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  margin-bottom:14px;
+  background:rgba(255,255,255,0.05);
+  color:#fff;
+}
+input::placeholder{color:rgba(255,255,255,0.6);}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:999px;
+  font-family:Orbitron;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  color:#050015;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
+}
+
+.switch{
+  text-align:center;
+  margin-top:12px;
+  font-size:14px;
+  cursor:pointer;
+  color:var(--blue);
+}
+
+.password-toggle{
+  display:flex;
+  justify-content:flex-end;
+  font-size:12px;
+  margin-top:-10px;
+  margin-bottom:14px;
+  cursor:pointer;
+  color:var(--blue);
+}
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.modal{
+  background:var(--glass);
+  padding:24px;
+  border-radius:18px;
+  max-width:400px;
+  width:90%;
+  text-align:center;
+  box-shadow:0 0 20px var(--blue),0 0 40px var(--violet);
+}
+.modal button{margin-top:12px;width:fit-content;}
+.modal a{color:var(--blue); text-decoration:none;}
+.modal a:hover{text-decoration:underline;}
+
+.home-btn{
+  display:block;
+  text-align:center;
+  margin-bottom:20px;
+  color:var(--blue);
+  text-decoration:none;
+  font-weight:500;
+}
+.home-btn:hover{opacity:.8;}
 </style>
 </head>
+
 <body>
 
-<div class="login-container">
-  <h1>Campus Wave</h1>
-  <div class="alert" id="alertMsg"></div>
-  <div class="input-group">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" placeholder="Enter your Zep Swipe email">
-  </div>
-  <div class="input-group">
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Enter your Zep Swipe password">
-  </div>
-  <button onclick="loginUser()">Login with Zep Swipe</button>
-  <div class="footer">
-    Not a Zep Swipe user? <a href="https://www.zepswipe.com" target="_blank">Sign up</a>
+<div class="card">
+
+  <a href="index.html" class="home-btn">🏠 Home</a>
+
+  <h1 id="title">Login</h1>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <div class="password-toggle" onclick="togglePassword()">Show Password</div>
+
+  <button onclick="handleLogin()">Continue</button>
+
+  <div class="switch" onclick="goSignup()">Don’t have an account? Sign up</div>
+
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <p id="modalText">Modal text here</p>
+    <button onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-// LOGIN USING ZEP SWIPE LOCALSTORAGE
-function loginUser(){
-  const email = document.getElementById("email").value.trim().toLowerCase();
-  const password = document.getElementById("password").value.trim();
-  const alertMsg = document.getElementById("alertMsg");
+function togglePassword(){
+  const pw = document.getElementById("password");
+  pw.type = pw.type==="password"?"text":"password";
+}
 
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-  let foundUser = null;
+function showModal(text){
+  const modal = document.getElementById("modalOverlay");
+  document.getElementById("modalText").innerText=text;
+  modal.style.display="flex";
+}
 
-  // Loop through users to find match
-  Object.values(users).forEach(user => {
-    if(user.email && user.email.toLowerCase() === email && user.password === password){
-      foundUser = user;
-    }
-  });
+function closeModal(){
+  document.getElementById("modalOverlay").style.display="none";
+}
 
-  if(!foundUser){
-    alertMsg.style.display="block";
-    alertMsg.innerText = "Invalid Zep Swipe credentials. Please try again.";
+function goSignup(){
+  window.location.href="signup.html"; // optional signup page
+}
+
+// LOGIN using Zep Swipe users from localStorage
+function handleLogin(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if(!email || !password){
+    alert("Please fill all fields");
     return;
   }
 
-  // Successful login
-  localStorage.setItem("currentUserId", foundUser.id);
-  window.location.href = "dashboard.html"; // Redirect to Campus Wave dashboard
+  // Read users from Zep Swipe localStorage
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+  const userEntry = Object.entries(users).find(([id,u])=>u.email===email && u.password===password);
+
+  if(!userEntry){
+    alert("Invalid credentials. Make sure you are registered on Zep Swipe.");
+    return;
+  }
+
+  const [userId] = userEntry;
+  localStorage.setItem("currentUserId", userId);
+
+  showModal("Login successful! Redirecting...");
+  setTimeout(()=>{ window.location.href="discover.html"; },1200);
 }
 </script>
 
