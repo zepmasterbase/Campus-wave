@@ -3,140 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Artist Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
+<title>Campus Wave — Student Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue:#00f0ff;
   --violet:#9c4dff;
-  --green:#00ff94;
-  --yellow:#ffcc00;
-  --bg:#050018;
-  --glass:rgba(255,255,255,.08);
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
 }
+
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
 body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;}
 header{
   display:flex;justify-content:space-between;align-items:center;padding:16px 20px;
-  backdrop-filter:blur(12px);background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);background:rgba(0,0,0,.35);
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
-header h1{font-family:Orbitron;font-size:1.5rem;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-header button{padding:10px 16px;border:none;border-radius:999px;font-family:Orbitron;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;cursor:pointer;transition:.3s;}
-header button:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
-.container{max-width:1200px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
-.card{background:var(--glass);padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:12px;transition:.3s;}
-.card:hover{transform:translateY(-5px);box-shadow:0 0 30px var(--blue),0 0 50px var(--violet);}
-.card h3{font-family:Orbitron;margin-bottom:8px;}
-.card p{font-size:0.9rem;color:var(--text-light);}
-.upload-btn{padding:12px 20px;border:none;border-radius:999px;font-family:Orbitron;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;cursor:pointer;transition:.3s;}
-.upload-btn:hover{transform:translateY(-2px);box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);}
-.audio-player{position:fixed;bottom:0;left:0;width:100%;background:var(--glass);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:20px;z-index:999;border-top:1px solid rgba(255,255,255,.12);}
-.audio-player audio{width:70%;border-radius:12px;}
-.audio-player button{padding:8px 14px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--violet));color:#050015;font-family:Orbitron;cursor:pointer;}
-.alert{background:rgba(255,0,0,.3);padding:10px;border-radius:12px;margin-bottom:12px;display:none;text-align:center;font-weight:500;}
-@media(max-width:600px){
-  .cards{grid-template-columns:1fr;}
+.brand{
+  display:flex;align-items:center;gap:10px;
+}
+.brand span{
+  font-family:Orbitron;
+  font-size:1.4rem;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.wallet-card{
+  background:var(--glass);padding:16px;border-radius:18px;margin:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  border:1px solid rgba(255,255,255,.12);
+}
+button{
+  padding:12px 20px;border:none;border-radius:999px;font-family:Orbitron;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  color:#050015;cursor:pointer;transition:.3s;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
+}
+.profile{
+  display:flex;align-items:center;gap:12px;margin:16px;
+}
+.profile img{
+  width:60px;height:60px;border-radius:50%;object-fit:cover;
+  box-shadow:0 0 15px var(--blue),0 0 25px var(--violet);
+}
+.music-list{
+  display:flex;flex-direction:column;gap:16px;margin:16px;
+}
+.music-card{
+  background:var(--glass);padding:12px;border-radius:16px;display:flex;justify-content:space-between;align-items:center;
+  border:1px solid rgba(255,255,255,.12);
+  transition:.3s;cursor:pointer;
+}
+.music-card:hover{
+  transform:scale(1.02);
+  box-shadow:0 0 15px var(--blue),0 0 30px var(--violet);
+}
+.footer-player{
+  position:fixed;bottom:0;left:0;width:100%;background:rgba(0,0,0,.9);
+  padding:12px;display:flex;align-items:center;justify-content:space-between;
+  backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.1);
+}
+.footer-player button{
+  padding:8px 14px;border-radius:999px;
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Campus Wave Artist Dashboard</h1>
-  <button onclick="logout()">Logout</button>
+  <div class="brand"><span>Campus Wave</span></div>
+  <button onclick="location.href='discover.html'">Discover</button>
 </header>
 
-<div class="container">
-
-  <div class="alert" id="alertMsg"></div>
-
-  <div class="card">
-    <h3>Upload New Track</h3>
-    <input type="file" id="trackInput" accept="audio/*">
-    <button class="upload-btn" onclick="uploadTrack()">Upload</button>
+<div class="profile">
+  <img id="profileImage" src="" alt="Profile">
+  <div>
+    <h3 id="studentName">Student Name</h3>
+    <p id="studentEmail" style="font-size:0.9rem;color:var(--text-light)">email@example.com</p>
   </div>
-
-  <div class="cards" id="musicCards"></div>
-
 </div>
 
-<div class="audio-player" id="audioPlayer" style="display:none;">
-  <audio id="player" controls></audio>
-  <button id="tipBtn" onclick="tipArtist()">Tip Artist</button>
+<div class="wallet-card">
+  <div>Wallet Balance:</div>
+  <div><span id="walletBalance">0 ZEP</span></div>
+</div>
+
+<div style="margin:16px;">
+  <button onclick="uploadMusic()">Upload Music</button>
+</div>
+
+<h3 style="margin-left:16px;">Your Uploaded Tracks</h3>
+<div class="music-list" id="musicList">
+  <!-- Tracks dynamically loaded here -->
+</div>
+
+<!-- Footer Player -->
+<div class="footer-player">
+  <div id="currentTrack">No track playing</div>
+  <button onclick="expandPlayer()">▶ Play</button>
 </div>
 
 <script>
-// === INIT USER ===
-let currentUserId = localStorage.getItem("currentUserId");
-let users = JSON.parse(localStorage.getItem("users")) || {};
+// Load Zep Swipe student
+const currentUserId = localStorage.getItem("currentUserId");
+const users = JSON.parse(localStorage.getItem("users")) || {};
 if(!currentUserId || !users[currentUserId]){
   window.location.href="login.html";
 }
-let user = users[currentUserId];
-if(!user.music) user.music=[];
+const currentUser = users[currentUserId];
 
-// === ELEMENTS ===
-const musicCards = document.getElementById("musicCards");
-const alertMsg = document.getElementById("alertMsg");
-const audioPlayer = document.getElementById("audioPlayer");
-const player = document.getElementById("player");
+// Populate profile
+document.getElementById("studentName").innerText = currentUser.name;
+document.getElementById("studentEmail").innerText = currentUser.email;
+document.getElementById("profileImage").src = currentUser.profileImage || "https://via.placeholder.com/60";
 
-// === FUNCTIONS ===
-function renderMusic(){
-  musicCards.innerHTML="";
-  user.music.forEach((track, idx)=>{
+// Populate wallet
+document.getElementById("walletBalance").innerText = currentUser.walletBalance + " ZEP";
+
+// Music Upload / List (localStorage simulation)
+let uploadedMusic = currentUser.uploadedMusic || [];
+function renderMusicList(){
+  const list = document.getElementById("musicList");
+  list.innerHTML="";
+  uploadedMusic.forEach((track,i)=>{
     const div = document.createElement("div");
-    div.className="card";
-    div.innerHTML = `<h3>${track.name}</h3>
-                     <p>Listeners: ${track.listeners || 0}</p>
-                     <p>Tips: ${track.tips || 0} ZAC</p>
-                     <button onclick="playTrack(${idx})">Play Track</button>`;
-    musicCards.appendChild(div);
+    div.className="music-card";
+    div.innerHTML=`<div>${track.title} - ${track.genre}</div>
+    <button onclick="tipArtist(${i})">💰 Tip</button>`;
+    div.onclick = ()=>{playTrack(i)};
+    list.appendChild(div);
   });
 }
+renderMusicList();
 
-function uploadTrack(){
-  const fileInput = document.getElementById("trackInput");
-  if(fileInput.files.length===0){
-    alertMsg.style.display="block";
-    alertMsg.innerText="Please select an audio file to upload.";
-    return;
+function uploadMusic(){
+  const title = prompt("Enter track title");
+  const genre = prompt("Enter genre");
+  if(title && genre){
+    const track = {title, genre};
+    uploadedMusic.push(track);
+    currentUser.uploadedMusic = uploadedMusic;
+    users[currentUserId] = currentUser;
+    localStorage.setItem("users",JSON.stringify(users));
+    renderMusicList();
   }
-  const file = fileInput.files[0];
-  const trackName = file.name.split(".")[0];
-  user.music.push({name:trackName,listeners:0,tips:0,url:URL.createObjectURL(file)});
-  users[currentUserId]=user;
+}
+
+function tipArtist(index){
+  alert(`Simulated tip sent to ${currentUser.name} for ${uploadedMusic[index].title}`);
+  currentUser.walletBalance += 1; // Zep Cash simulation
+  document.getElementById("walletBalance").innerText = currentUser.walletBalance + " ZEP";
+  users[currentUserId] = currentUser;
   localStorage.setItem("users",JSON.stringify(users));
-  fileInput.value="";
-  alertMsg.style.display="none";
-  renderMusic();
 }
 
-function playTrack(idx){
-  const track = user.music[idx];
-  player.src = track.url;
-  audioPlayer.style.display="flex";
-  // increment listeners count
-  track.listeners = (track.listeners || 0)+1;
-  users[currentUserId]=user;
-  localStorage.setItem("users",JSON.stringify(users));
-  renderMusic();
+// Footer player simulation
+let currentPlayingIndex = null;
+function playTrack(index){
+  currentPlayingIndex = index;
+  document.getElementById("currentTrack").innerText = uploadedMusic[index].title + " - " + uploadedMusic[index].genre;
 }
-
-function tipArtist(){
-  alert("Tips will be enabled after Zep Cash presale launch!");
+function expandPlayer(){
+  if(currentPlayingIndex===null) return alert("No track selected");
+  window.location.href="player.html";
 }
-
-function logout(){
-  localStorage.removeItem("currentUserId");
-  window.location.href="login.html";
-}
-
-// INITIAL RENDER
-renderMusic();
 </script>
-
 </body>
 </html>
