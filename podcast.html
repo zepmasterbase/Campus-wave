@@ -3,347 +3,247 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave - Student Podcasts</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Campus Wave — Podcasts</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
-  --neon-blue:#00f0ff;
-  --neon-purple:#8a2bff;
-  --neon-green:#1db954;
-  --bg:#070713;
+  --cw-blue:#00f0ff;
+  --cw-violet:#9c4dff;
+  --cw-green:#00ff94;
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,0.08);
+  --text-light:rgba(255,255,255,.85);
+  --card-radius:20px;
 }
 
-body{
-  margin:0;
-  background:var(--bg);
-  font-family:Poppins,sans-serif;
-  color:white;
-  padding-bottom:120px;
-  overflow-x:hidden;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
+body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;}
 
 header{
-  padding:16px;
-}
-
-.logo{
-  font-size:22px;
-  font-weight:600;
-  background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-  0%{box-shadow:0 0 5px var(--neon-blue)}
-  50%{box-shadow:0 0 20px var(--neon-purple)}
-  100%{box-shadow:0 0 5px var(--neon-blue)}
-}
-
-.section{
-  padding:16px;
-}
-
-.section h2{
-  margin-bottom:12px;
-  font-size:20px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.card{
-  background:#111;
-  border-radius:14px;
-  overflow:hidden;
-  position:relative;
-  transition:.3s;
-  cursor:pointer;
-}
-
-.card:hover{
-  transform:scale(1.03);
-  box-shadow:0 0 18px var(--neon-blue);
-}
-
-.cover{
   width:100%;
-  height:140px;
-  object-fit:cover;
-}
-
-.play-overlay{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:var(--neon-green);
-  width:50px;
-  height:50px;
-  border-radius:50%;
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  justify-content:center;
-  opacity:0;
+  padding:16px 24px;
+  background:rgba(0,0,0,0.3);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  box-shadow:0 0 12px rgba(0,255,255,.2);
+}
+.brand{font-family:Orbitron;font-size:1.5rem;}
+.home-btn{
+  background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));
+  border:none;border-radius:50%;
+  width:50px;height:50px;cursor:pointer;
+  font-size:20px;color:#050015;
+  display:flex;align-items:center;justify-content:center;
   transition:.3s;
 }
+.home-btn:hover{transform:scale(1.05);}
 
-.card:hover .play-overlay{
-  opacity:1;
+.podcast-container{
+  width:95%;
+  max-width:1200px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
 }
 
-.title{
-  padding:10px 10px 4px;
-  font-size:14px;
-  font-weight:500;
-}
-
-.podcaster{
-  font-size:12px;
-  color:#aaa;
-  padding:0 10px 10px;
-}
-
-.bio{
-  font-size:11px;
-  color:#888;
-  padding:0 10px 10px;
-}
-
-.tip-btn{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:none;
-  border:none;
-  cursor:pointer;
-}
-
-.player{
-  position:fixed;
-  bottom:60px;
-  left:0;
-  right:0;
-  background:#0f0f1d;
-  padding:10px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-top:1px solid #222;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.player:hover{
-  box-shadow:0 0 20px var(--neon-blue);
-}
-
-.player img{
-  width:45px;
-  height:45px;
-  border-radius:6px;
-}
-
-.track-info{
-  flex:1;
-  font-size:13px;
-}
-
-.wave{
-  display:flex;
-  gap:3px;
-  height:18px;
-  align-items:flex-end;
-}
-
-.bar{
-  width:3px;
-  background:var(--neon-green);
-  animation:wave 1s infinite ease-in-out;
-}
-
-@keyframes wave{
-  0%{height:4px}
-  50%{height:18px}
-  100%{height:4px}
-}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:60px;
-  background:#0b0b16;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:1px solid #222;
-}
-
-.nav-item{
+.podcast-card{
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:16px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  font-size:11px;
-  color:#aaa;
+  box-shadow:0 0 20px rgba(0,240,255,.15),0 0 30px rgba(156,77,255,.15);
+  transition:.3s;
+  cursor:pointer;
 }
+.podcast-card:hover{transform:translateY(-5px);box-shadow:0 0 25px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
+.podcast-art{width:100%;border-radius:16px;object-fit:cover;aspect-ratio:1;}
+.card-info{margin-top:12px;width:100%;text-align:center;}
+.card-info h3{font-family:Orbitron;font-size:1.1rem;margin-bottom:4px;}
+.card-info span{font-size:.85rem;color:var(--text-light);display:block;}
+.card-controls{margin-top:8px;display:flex;justify-content:center;align-items:center;gap:16px;}
+.play-btn, .tip-btn{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#050015;cursor:pointer;transition:.3s;font-size:18px;}
+.play-btn:hover, .tip-btn:hover{transform:scale(1.1);box-shadow:0 0 12px var(--cw-blue),0 0 20px var(--cw-violet);}
+.tip-btn::after{content:"💵";font-size:16px;position:absolute;top:-5px;right:-5px;}
 
-.nav-item svg{
-  width:22px;
-  height:22px;
-  margin-bottom:2px;
-  fill:#aaa;
+.jump-history{
+  width:95%;
+  max-width:1200px;
+  margin:20px auto;
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:16px;
+  box-shadow:0 0 20px rgba(0,240,255,.15),0 0 30px rgba(156,77,255,.15);
 }
-
-.nav-item.active svg{
-  fill:var(--neon-green);
+.jump-history h3{font-family:Orbitron;font-size:1.2rem;margin-bottom:12px;text-align:center;}
+.history-list{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+.history-item{
+  background:rgba(255,255,255,0.05);
+  padding:8px 12px;
+  border-radius:12px;
+  font-size:.85rem;
+  cursor:pointer;
+  transition:.3s;
 }
+.history-item:hover{background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));color:#050015;}
 
-audio{display:none}
+footer{
+  width:100%;padding:12px 24px;background:rgba(0,0,0,0.25);display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 12px rgba(0,240,255,.2);
+  position:fixed;bottom:0;left:0;backdrop-filter:blur(10px);
+}
+.footer-player{display:flex;align-items:center;gap:12px;}
+.footer-player img{width:50px;height:50px;border-radius:12px;}
+.footer-player-info{display:flex;flex-direction:column;}
+.footer-player-info span{font-size:.85rem;color:var(--text-light);}
+.footer-controls{display:flex;gap:12px;}
+.footer-controls button{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#050015;cursor:pointer;}
+.footer-controls button:hover{transform:scale(1.1);}
 
-@media(max-width:600px){
-  .grid{
-    grid-template-columns:1fr;
-  }
+@media(max-width:480px){
+  .podcast-container{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">Student Podcasts</div>
+  <div class="brand">Campus Wave Podcasts</div>
+  <button class="home-btn" onclick="location.href='upload.html'">⬆️</button>
 </header>
 
-<div class="section">
-  <h2>Top Student Podcasts</h2>
-  <div class="grid" id="podcastGrid"></div>
+<div class="podcast-container" id="podcastContainer">
+  <!-- Podcast cards injected via JS -->
 </div>
 
-<div class="section">
-  <h2>Explore by Category</h2>
-  <div class="grid" id="categoryGrid"></div>
+<div class="jump-history">
+  <h3>Jump Back In</h3>
+  <div class="history-list" id="historyList"></div>
 </div>
 
-<!-- PLAYER -->
-<div class="player" onclick="goToPlayer()">
-  <img id="coverArt">
-  <div class="track-info">
-    <div id="trackTitle">Nothing Playing</div>
-    <div class="wave">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+<footer>
+  <div class="footer-player">
+    <img src="https://via.placeholder.com/50" id="footerArt">
+    <div class="footer-player-info">
+      <span id="footerTitle">Select a podcast</span>
+      <span id="footerArtist">Artist Name</span>
     </div>
   </div>
-  <button onclick="togglePlay(event)">▶</button>
-</div>
-<audio id="audio"></audio>
-
-<!-- NAV -->
-<div class="bottom-nav">
-<div class="nav-item" onclick="location.href='index.html'">
-<svg viewBox="0 0 24 24"><path d="M3 10L12 3l9 7v11h-6v-6H9v6H3z"/></svg>
-Home
-</div>
-<div class="nav-item" onclick="location.href='discover.html'">
-<svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.29 14.29l5.7 5.7 1.42-1.42-5.7-5.7A8 8 0 0010 2z"/></svg>
-Discover
-</div>
-<div class="nav-item active">
-<svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 017 7c0 3-2 5-4 6v3h-6v-3c-2-1-4-3-4-6a7 7 0 017-7z"/></svg>
-Podcast
-</div>
-<div class="nav-item" onclick="location.href='campus-chart.html'">
-<svg viewBox="0 0 24 24"><path d="M5 3v18M9 12h3v6H9zM14 6h3v12h-3z"/></svg>
-Charts
-</div>
-</div>
+  <div class="footer-controls">
+    <button id="footerPlay">▶️</button>
+    <button id="footerTip">💵</button>
+  </div>
+</footer>
 
 <script>
-const podcasts=[
-  {title:"Campus Vibes",cover:"https://picsum.photos/300?11",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",name:"Ama Owusu",university:"University of Ghana",bio:"Creating student life stories and Afrobeat vibes."},
-  {title:"Afrobeat Nights",cover:"https://picsum.photos/300?12",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",name:"Kwame Mensah",university:"University of Cape Coast",bio:"Exploring Afrobeat trends and culture."},
-  {title:"Tech Campus",cover:"https://picsum.photos/300?13",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",name:"Efua Adjei",university:"Ashesi University",bio:"Tech innovations and campus news."},
-  {title:"Study Beats",cover:"https://picsum.photos/300?14",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",name:"Kojo Appiah",university:"KNUST",bio:"Relaxing study music and tips."}
-]
+// ======== USER ========
+let users = JSON.parse(localStorage.getItem("users")) || {};
+let currentUserId = localStorage.getItem("currentUserId");
+if(!currentUserId || !users[currentUserId]) window.location.href="login.html";
+let currentUser = users[currentUserId];
 
-const categories=[
-  {title:"Afrobeat",cover:"https://picsum.photos/200?21"},
-  {title:"Hip-Hop",cover:"https://picsum.photos/200?22"},
-  {title:"Jazz",cover:"https://picsum.photos/200?23"},
-  {title:"Tech Talks",cover:"https://picsum.photos/200?24"}
-]
+// ======== SAMPLE PODCAST DATA ========
+const podcastData = [
+  {title:"Campus Talks",artist:"DJ Wave",university:"University A",genre:"Talks",art:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+  {title:"Study Hour",artist:"Student Mix",university:"University B",genre:"Education",art:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+  {title:"Night Sessions",artist:"Uni Grooves",university:"University C",genre:"Chill",art:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+  {title:"Fresh Ideas",artist:"Rising Star",university:"University D",genre:"Innovation",art:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"}
+];
 
-const podcastGrid=document.getElementById("podcastGrid")
-const categoryGrid=document.getElementById("categoryGrid")
-const audio=document.getElementById("audio")
+// ======== RENDER PODCAST CARDS ========
+const podcastContainer = document.getElementById("podcastContainer");
+let currentAudio = new Audio();
+let currentCard = null;
+let historyList = document.getElementById("historyList");
 
-function renderPodcasts(){
-  podcastGrid.innerHTML=""
-  podcasts.forEach((p,i)=>{
-    let card=document.createElement("div")
-    card.className="card"
-    card.innerHTML=`
-      <img class="cover" src="${p.cover}">
-      <div class="play-overlay">▶</div>
-      <div class="title">${p.title}</div>
-      <div class="podcaster">${p.name} - ${p.university}</div>
-      <div class="bio">${p.bio}</div>
-      <button class="tip-btn" onclick="tipArtist(event,'${p.title}')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--neon-green)">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-      </button>
-    `
-    card.onclick=()=>playPodcast(i)
-    podcastGrid.appendChild(card)
-  })
+podcastData.forEach(track=>{
+  const card = document.createElement("div");
+  card.className="podcast-card";
+
+  const art = document.createElement("img");
+  art.className="podcast-art";
+  art.src=track.art;
+  card.appendChild(art);
+
+  const info = document.createElement("div");
+  info.className="card-info";
+  info.innerHTML=`<h3>${track.title}</h3><span>${track.artist}</span><span>${track.university} | ${track.genre}</span>`;
+  card.appendChild(info);
+
+  const controls = document.createElement("div");
+  controls.className="card-controls";
+
+  const playBtn = document.createElement("button");
+  playBtn.className="play-btn";
+  playBtn.innerText="▶️";
+  playBtn.addEventListener("click",e=>{
+    e.stopPropagation();
+    if(currentCard===card && !currentAudio.paused){
+      currentAudio.pause();
+      playBtn.innerText="▶️";
+      footerPlay.innerText="▶️";
+    } else {
+      currentAudio.src=track.url;
+      currentAudio.play();
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="▶️";
+      playBtn.innerText="⏸️";
+      footerTitle.innerText=track.title;
+      footerArtist.innerText=track.artist;
+      footerArt.src=track.art;
+      footerPlay.innerText="⏸️";
+      currentCard = card;
+      addToHistory(track.title);
+    }
+  });
+  controls.appendChild(playBtn);
+
+  const tipBtn = document.createElement("button");
+  tipBtn.className="tip-btn";
+  tipBtn.title="Tip artist";
+  tipBtn.addEventListener("click",()=>{
+    alert(`You tipped ${track.artist} 0.1 ZAC!`);
+  });
+  controls.appendChild(tipBtn);
+
+  card.appendChild(controls);
+  podcastContainer.appendChild(card);
+});
+
+// ======== FOOTER PLAYER ========
+const footerPlay = document.getElementById("footerPlay");
+const footerTip = document.getElementById("footerTip");
+const footerTitle = document.getElementById("footerTitle");
+const footerArtist = document.getElementById("footerArtist");
+const footerArt = document.getElementById("footerArt");
+
+footerPlay.addEventListener("click",()=>{
+  if(currentAudio.src){
+    if(currentAudio.paused){
+      currentAudio.play();
+      footerPlay.innerText="⏸️";
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="⏸️";
+    } else {
+      currentAudio.pause();
+      footerPlay.innerText="▶️";
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="▶️";
+    }
+  }
+});
+footerTip.addEventListener("click",()=>{
+  if(currentCard) alert(`You tipped ${currentCard.querySelector(".card-info h3").innerText} artist 0.1 ZAC!`);
+});
+
+// ======== JUMP BACK IN HISTORY ========
+function addToHistory(trackTitle){
+  const item = document.createElement("div");
+  item.className="history-item";
+  item.innerText=trackTitle;
+  item.addEventListener("click",()=>alert(`Play ${trackTitle} from history`));
+  historyList.prepend(item);
 }
-
-function renderCategories(){
-  categoryGrid.innerHTML=""
-  categories.forEach(c=>{
-    let card=document.createElement("div")
-    card.className="card"
-    card.innerHTML=`<img class="cover" src="${c.cover}"><div class="title">${c.title}</div>`
-    categoryGrid.appendChild(card)
-  })
-}
-
-function playPodcast(i){
-  let p=podcasts[i]
-  audio.src=p.url
-  audio.play()
-  document.getElementById("coverArt").src=p.cover
-  document.getElementById("trackTitle").innerText=p.title
-}
-
-function togglePlay(e){
-  e.stopPropagation()
-  if(audio.paused){audio.play()}
-  else{audio.pause()}
-}
-
-function tipArtist(e,title){
-  e.stopPropagation()
-  let tips=JSON.parse(localStorage.getItem("zepTips"))||{}
-  tips[title]=(tips[title]||0)+5
-  localStorage.setItem("zepTips",JSON.stringify(tips))
-  alert("You tipped 5 Zep Cash 💖💵")
-}
-
-function goToPlayer(){
-  window.location.href="player.html"
-}
-
-renderPodcasts()
-renderCategories()
 </script>
-
 </body>
 </html>
