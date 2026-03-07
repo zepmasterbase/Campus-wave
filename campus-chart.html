@@ -3,221 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave — Campus Charts</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:wght@300;400,500,600&display=swap" rel="stylesheet">
+<title>Campus Wave — Campus Chart</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
 <style>
 :root{
-  --wave-blue:#00f0ff;
-  --wave-violet:#9c4dff;
-  --bg:#050018;
-  --glass:rgba(255,255,255,.08);
-  --green:#00ff94;
-  --tip-color:#ffcc00;
+  --cw-blue:#00f0ff;
+  --cw-violet:#9c4dff;
+  --cw-green:#00ff94;
+  --bg:radial-gradient(circle at 30% 10%, #050018, #00000c);
+  --glass:rgba(255,255,255,0.08);
   --text-light:rgba(255,255,255,.85);
+  --card-radius:20px;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
-body{background:var(--bg);color:#fff;min-height:100vh;}
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:16px 20px;backdrop-filter:blur(12px);
-  background:rgba(0,0,0,.35);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-header h1{
-  font-family:Orbitron;font-size:1.6rem;
-  background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-header a{color:var(--wave-blue);text-decoration:none;font-weight:500;}
-.container{max-width:1200px;margin:20px auto;padding:16px;display:flex;flex-direction:column;gap:24px;}
-.chart-section h2{font-family:Orbitron;margin-bottom:16px;font-size:1.5rem;}
-.chart-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-.track-card{
-  background:var(--glass);padding:14px;border-radius:18px;
-  border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;gap:14px;
-  position:relative;transition:.3s;perspective:1000px;
-}
-.track-card:hover{
-  transform:translateY(-6px) rotateY(5deg) scale(1.03);
-  box-shadow:0 0 35px var(--wave-blue),0 0 55px var(--wave-violet);
-}
-.track-card img{
-  width:70px;height:70px;border-radius:14px;object-fit:cover;
-  transition:.5s;transform-style:preserve-3d;
-}
-.track-card:hover img{transform:rotateY(15deg);}
-.track-info{flex:1;display:flex;flex-direction:column;gap:4px;}
-.track-info h4{font-family:Orbitron;margin:0;font-size:1.1rem;}
-.track-info span{font-size:0.85rem;color:var(--text-light);}
-.track-meta{display:flex;gap:8px;font-size:0.75rem;color:var(--text-light);}
-.track-actions{display:flex;gap:10px;align-items:center;margin-left:auto;}
-button.play-btn,button.tip-btn{
-  border:none;border-radius:50%;padding:12px;cursor:pointer;transition:.3s;font-size:16px;
-}
-button.play-btn{background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));color:#050015;}
-button.tip-btn{background:linear-gradient(90deg,var(--tip-color),var(--green));color:#050015;}
-button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px var(--wave-violet);}
-.waveform{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden;margin-top:4px;position:relative;}
-.waveform span{position:absolute;bottom:0;width:2px;height:100%;background:var(--wave-blue);animation:wave 1s linear infinite;}
-@keyframes wave{0%{height:5px;}50%{height:15px;}100%{height:5px;}}
-.jump-history{margin-top:24px;}
-.jump-history h3{font-family:Orbitron;font-size:1.3rem;margin-bottom:12px;}
-.history-list{display:flex;overflow-x:auto;gap:12px;padding-bottom:8px;}
-.history-item{min-width:120px;background:var(--glass);border-radius:12px;padding:8px;text-align:center;flex-shrink:0;cursor:pointer;transition:.3s;}
-.history-item img{width:100%;border-radius:10px;object-fit:cover;}
-.history-item:hover{transform:scale(1.05);box-shadow:0 0 15px var(--wave-blue),0 0 25px var(--wave-violet);}
 
-/* Footer Player */
-.footer-player{
-  position:fixed;bottom:0;left:0;width:100%;background:var(--glass);
-  backdrop-filter:blur(14px);padding:16px 24px;
-  display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid rgba(255,255,255,.08);
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
+body{background:var(--bg);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;}
+
+header{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 24px;
+  background:rgba(0,0,0,0.3);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  box-shadow:0 0 12px rgba(0,255,255,.2);
 }
-.footer-player img{width:60px;height:60px;border-radius:14px;object-fit:cover;box-shadow:0 0 20px var(--wave-blue);}
-.footer-player .play-btn{
-  padding:14px;border-radius:50%;background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));
-  color:#050015;font-size:18px;animation:glow 2s infinite;
+.brand{font-family:Orbitron;font-size:1.5rem;}
+.home-btn{
+  background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));
+  border:none;border-radius:50%;
+  width:50px;height:50px;cursor:pointer;
+  font-size:20px;color:#050015;
+  display:flex;align-items:center;justify-content:center;
+  transition:.3s;
 }
-.footer-player .track-info{flex:1;display:flex;flex-direction:column;gap:2px;margin-left:14px;}
-.footer-player h4{font-family:Orbitron;margin:0;font-size:1rem;}
-.footer-player span{font-size:0.8rem;color:var(--text-light);}
-@keyframes glow{
-  0%,100%{box-shadow:0 0 10px var(--wave-blue),0 0 20px var(--wave-violet);}
-  50%{box-shadow:0 0 20px var(--wave-blue),0 0 40px var(--wave-violet);}
+.home-btn:hover{transform:scale(1.05);}
+
+.chart-container{
+  width:95%;
+  max-width:1200px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
 }
-@media(max-width:600px){
-  .chart-list{grid-template-columns:1fr;}
-  .footer-player{flex-direction:column;align-items:flex-start;gap:10px;}
+
+.chart-card{
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  box-shadow:0 0 20px rgba(0,240,255,.15),0 0 30px rgba(156,77,255,.15);
+  transition:.3s;
+  cursor:pointer;
+}
+.chart-card:hover{transform:translateY(-5px);box-shadow:0 0 25px rgba(0,240,255,.25),0 0 40px rgba(156,77,255,.25);}
+.album-art{width:100%;border-radius:16px;object-fit:cover;aspect-ratio:1;}
+.card-info{margin-top:12px;width:100%;text-align:center;}
+.card-info h3{font-family:Orbitron;font-size:1.1rem;margin-bottom:4px;}
+.card-info span{font-size:.85rem;color:var(--text-light);display:block;}
+.card-controls{margin-top:8px;display:flex;justify-content:center;align-items:center;gap:16px;}
+.play-btn, .tip-btn{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#050015;cursor:pointer;transition:.3s;font-size:18px;}
+.play-btn:hover, .tip-btn:hover{transform:scale(1.1);box-shadow:0 0 12px var(--cw-blue),0 0 20px var(--cw-violet);}
+.tip-btn::after{content:"💵";font-size:16px;position:absolute;top:-5px;right:-5px;}
+
+.jump-history{
+  width:95%;
+  max-width:1200px;
+  margin:20px auto;
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:16px;
+  box-shadow:0 0 20px rgba(0,240,255,.15),0 0 30px rgba(156,77,255,.15);
+}
+.jump-history h3{font-family:Orbitron;font-size:1.2rem;margin-bottom:12px;text-align:center;}
+.history-list{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+.history-item{
+  background:rgba(255,255,255,0.05);
+  padding:8px 12px;
+  border-radius:12px;
+  font-size:.85rem;
+  cursor:pointer;
+  transition:.3s;
+}
+.history-item:hover{background:linear-gradient(90deg,var(--cw-blue),var(--cw-violet));color:#050015;}
+
+footer{
+  width:100%;padding:12px 24px;background:rgba(0,0,0,0.25);display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 12px rgba(0,240,255,.2);
+  position:fixed;bottom:0;left:0;backdrop-filter:blur(10px);
+}
+.footer-player{display:flex;align-items:center;gap:12px;}
+.footer-player img{width:50px;height:50px;border-radius:12px;}
+.footer-player-info{display:flex;flex-direction:column;}
+.footer-player-info span{font-size:.85rem;color:var(--text-light);}
+.footer-controls{display:flex;gap:12px;}
+.footer-controls button{background:linear-gradient(135deg,var(--cw-blue),var(--cw-violet));border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:#050015;cursor:pointer;}
+.footer-controls button:hover{transform:scale(1.1);}
+
+@media(max-width:480px){
+  .chart-container{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Campus Charts</h1>
-  <a href="discover.html">Back to Discover</a>
+  <div class="brand">Campus Wave Charts</div>
+  <button class="home-btn" onclick="location.href='upload.html'">⬆️</button>
 </header>
 
-<div class="container">
-
-  <!-- Top Tracks -->
-  <div class="chart-section">
-    <h2>Top Campus Tracks</h2>
-    <div class="chart-list" id="topTracks"></div>
-  </div>
-
-  <!-- Jump Back In -->
-  <div class="jump-history">
-    <h3>Jump Back In</h3>
-    <div class="history-list" id="historyList"></div>
-  </div>
-
+<div class="chart-container" id="chartContainer">
+  <!-- Chart cards injected by JS -->
 </div>
 
-<!-- Footer Player -->
-<div class="footer-player">
-  <img src="https://via.placeholder.com/60" id="footerAlbum" alt="Album Art">
-  <div class="track-info">
-    <h4 id="footerTrack">Select a track</h4>
-    <span id="footerArtist">Artist</span>
-  </div>
-  <button class="play-btn" id="footerPlayBtn">▶</button>
+<div class="jump-history">
+  <h3>Jump Back In</h3>
+  <div class="history-list" id="historyList"></div>
 </div>
+
+<footer>
+  <div class="footer-player">
+    <img src="https://via.placeholder.com/50" id="footerArt">
+    <div class="footer-player-info">
+      <span id="footerTitle">Select a track</span>
+      <span id="footerArtist">Artist Name</span>
+    </div>
+  </div>
+  <div class="footer-controls">
+    <button id="footerPlay">▶️</button>
+    <button id="footerTip">💵</button>
+  </div>
+</footer>
 
 <script>
-// Sample tracks with University & Genre and simulated audio
-const tracks = [
-  {id:1,title:"Campus Vibes",artist:"DJ Zed",cover:"https://picsum.photos/200/200?random=1",university:"Univ of Ghana",genre:"Hip-Hop",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-  {id:2,title:"Study Beats",artist:"MC Learn",cover:"https://picsum.photos/200/200?random=2",university:"Univ of Zambia",genre:"Lo-Fi",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-  {id:3,title:"Uni Groove",artist:"The Scholars",cover:"https://picsum.photos/200/200?random=3",university:"Cape Town Uni",genre:"Jazz",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
-  {id:4,title:"Lecture Lounge",artist:"Prof. Flow",cover:"https://picsum.photos/200/200?random=4",university:"Makerere Univ",genre:"Electronic",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
-  {id:5,title:"Exam Jam",artist:"Quizzy",cover:"https://picsum.photos/200/200?random=5",university:"Univ of Lagos",genre:"Pop",audio:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"}
+// ======== USER ========
+let users = JSON.parse(localStorage.getItem("users")) || {};
+let currentUserId = localStorage.getItem("currentUserId");
+if(!currentUserId || !users[currentUserId]) window.location.href="login.html";
+let currentUser = users[currentUserId];
+
+// ======== SAMPLE CHART DATA ========
+const chartData = [
+  {title:"Campus Vibes",artist:"DJ Wave",university:"University A",genre:"Hip Hop",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+  {title:"Study Beats",artist:"Student Mix",university:"University B",genre:"Lo-Fi",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+  {title:"Night Chill",artist:"Uni Grooves",university:"University C",genre:"Chill",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+  {title:"Fresh Hits",artist:"Rising Star",university:"University D",genre:"Pop",albumArt:"https://via.placeholder.com/300",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"}
 ];
 
-let history = JSON.parse(localStorage.getItem("history")) || [];
-const topTracksEl = document.getElementById("topTracks");
-const historyListEl = document.getElementById("historyList");
-const footerTrack = document.getElementById("footerTrack");
-const footerArtist = document.getElementById("footerArtist");
-const footerAlbum = document.getElementById("footerAlbum");
-const footerPlayBtn = document.getElementById("footerPlayBtn");
-
+// ======== RENDER CHART CARDS ========
+const chartContainer = document.getElementById("chartContainer");
 let currentAudio = new Audio();
-let isPlaying = false;
+let currentCard = null;
+let historyList = document.getElementById("historyList");
 
-// Render top tracks
-function renderTopTracks(){
-  topTracksEl.innerHTML="";
-  tracks.forEach(track=>{
-    const div = document.createElement("div");
-    div.className="track-card";
-    div.innerHTML=`
-      <img src="${track.cover}" alt="${track.title}">
-      <div class="track-info">
-        <h4>#${track.id} ${track.title}</h4>
-        <span>${track.artist}</span>
-        <div class="track-meta">${track.university} • ${track.genre}</div>
-        <div class="waveform"><span></span></div>
-      </div>
-      <div class="track-actions">
-        <button class="play-btn" onclick="playTrack(${track.id})">▶</button>
-        <button class="tip-btn" onclick="tipArtist(${track.id})">💰</button>
-      </div>
-    `;
-    topTracksEl.appendChild(div);
+chartData.forEach(track=>{
+  const card = document.createElement("div");
+  card.className="chart-card";
+
+  const art = document.createElement("img");
+  art.className="album-art";
+  art.src=track.albumArt;
+  card.appendChild(art);
+
+  const info = document.createElement("div");
+  info.className="card-info";
+  info.innerHTML=`<h3>${track.title}</h3><span>${track.artist}</span><span>${track.university} | ${track.genre}</span>`;
+  card.appendChild(info);
+
+  const controls = document.createElement("div");
+  controls.className="card-controls";
+
+  const playBtn = document.createElement("button");
+  playBtn.className="play-btn";
+  playBtn.innerText="▶️";
+  playBtn.addEventListener("click",e=>{
+    e.stopPropagation();
+    if(currentCard===card && !currentAudio.paused){
+      currentAudio.pause();
+      playBtn.innerText="▶️";
+      footerPlay.innerText="▶️";
+    } else {
+      currentAudio.src=track.url;
+      currentAudio.play();
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="▶️";
+      playBtn.innerText="⏸️";
+      footerTitle.innerText=track.title;
+      footerArtist.innerText=track.artist;
+      footerArt.src=track.albumArt;
+      footerPlay.innerText="⏸️";
+      currentCard = card;
+      addToHistory(track.title);
+    }
   });
-}
+  controls.appendChild(playBtn);
 
-// Render Jump Back In
-function renderHistory(){
-  historyListEl.innerHTML="";
-  history.forEach(track=>{
-    const div = document.createElement("div");
-    div.className="history-item";
-    div.innerHTML=`
-      <img src="${track.cover}" alt="${track.title}">
-      <span>${track.title}</span>
-    `;
-    historyListEl.appendChild(div);
+  const tipBtn = document.createElement("button");
+  tipBtn.className="tip-btn";
+  tipBtn.title="Tip artist";
+  tipBtn.addEventListener("click",()=>{
+    alert(`You tipped ${track.artist} 0.1 ZAC!`);
   });
-}
+  controls.appendChild(tipBtn);
 
-// Play track
-function playTrack(id){
-  const track = tracks.find(t=>t.id===id);
-  footerTrack.innerText = track.title;
-  footerArtist.innerText = track.artist;
-  footerAlbum.src = track.cover;
+  card.appendChild(controls);
+  chartContainer.appendChild(card);
+});
 
-  // Set audio
-  if(currentAudio.src!==track.audio){
-    currentAudio.src = track.audio;
+// ======== FOOTER PLAYER ========
+const footerPlay = document.getElementById("footerPlay");
+const footerTip = document.getElementById("footerTip");
+const footerTitle = document.getElementById("footerTitle");
+const footerArtist = document.getElementById("footerArtist");
+const footerArt = document.getElementById("footerArt");
+
+footerPlay.addEventListener("click",()=>{
+  if(currentAudio.src){
+    if(currentAudio.paused){
+      currentAudio.play();
+      footerPlay.innerText="⏸️";
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="⏸️";
+    } else {
+      currentAudio.pause();
+      footerPlay.innerText="▶️";
+      if(currentCard) currentCard.querySelector(".play-btn").innerText="▶️";
+    }
   }
-  currentAudio.play();
-  isPlaying=true;
-  footerPlayBtn.innerText="⏸";
+});
+footerTip.addEventListener("click",()=>{
+  if(currentCard) alert(`You tipped ${currentCard.querySelector(".card-info h3").innerText} artist 0.1 ZAC!`);
+});
 
-  // Update history
-  history = [track,...history.filter(t=>t.id!==id)].slice(0,10);
-  localStorage.setItem("history",JSON.stringify(history));
-  renderHistory();
+// ======== JUMP BACK IN HISTORY ========
+function addToHistory(trackTitle){
+  const item = document.createElement("div");
+  item.className="history-item";
+  item.innerText=trackTitle;
+  item.addEventListener("click",()=>alert(`Play ${trackTitle} from history`));
+  historyList.prepend(item);
 }
-
-// Footer play/pause button
-footerPlayBtn.onclick = ()=>{
-  if(!currentAudio.src) return;
-  if(isPlaying){currentAudio.pause();isPlaying=false;footerPlayBtn.innerText="▶";}
-  else{currentAudio.play();isPlaying=true;footerPlayBtn.innerText="⏸";}
-};
-
-// Tip artist simulation
-function tipArtist(id){
-  const track = tracks.find(t=>t.id===id);
-  alert(`You tipped ${track.artist} 5 Zep Cash! 💰`);
-}
-
-renderTopTracks();
-renderHistory();
 </script>
+
 </body>
 </html>
