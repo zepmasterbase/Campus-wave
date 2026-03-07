@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Wave Podcast</title>
+<title>Campus Wave - Student Podcasts</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -16,17 +16,14 @@
 body{
   margin:0;
   background:var(--bg);
-  font-family:Poppins, sans-serif;
+  font-family:Poppins,sans-serif;
   color:white;
   padding-bottom:120px;
   overflow-x:hidden;
 }
 
 header{
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+  padding:16px;
 }
 
 .logo{
@@ -35,14 +32,6 @@ header{
   background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-}
-
-.search{
-  background:#111;
-  border-radius:25px;
-  padding:10px 16px;
-  color:#777;
-  font-size:14px;
   animation:pulse 2s infinite;
 }
 
@@ -61,7 +50,6 @@ header{
   font-size:20px;
 }
 
-/* Podcast grid */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -109,11 +97,32 @@ header{
 }
 
 .title{
-  padding:10px;
+  padding:10px 10px 4px;
   font-size:14px;
+  font-weight:500;
 }
 
-/* Player */
+.podcaster{
+  font-size:12px;
+  color:#aaa;
+  padding:0 10px 10px;
+}
+
+.bio{
+  font-size:11px;
+  color:#888;
+  padding:0 10px 10px;
+}
+
+.tip-btn{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
 .player{
   position:fixed;
   bottom:60px;
@@ -144,7 +153,6 @@ header{
   font-size:13px;
 }
 
-/* waveform */
 .wave{
   display:flex;
   gap:3px;
@@ -164,7 +172,6 @@ header{
   100%{height:4px}
 }
 
-/* Footer nav */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -204,25 +211,22 @@ audio{display:none}
     grid-template-columns:1fr;
   }
 }
-
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="logo">Campus Wave</div>
-  <div class="search">🔎 Discover podcasts, interviews, live shows...</div>
+  <div class="logo">Student Podcasts</div>
 </header>
 
 <div class="section">
-<h2>Featured Podcasts</h2>
-<div class="grid" id="podcastGrid"></div>
+  <h2>Top Student Podcasts</h2>
+  <div class="grid" id="podcastGrid"></div>
 </div>
 
 <div class="section">
-<h2>Top Campus Shows</h2>
-<div id="charts"></div>
+  <h2>Explore by Category</h2>
+  <div class="grid" id="categoryGrid"></div>
 </div>
 
 <!-- PLAYER -->
@@ -242,7 +246,7 @@ audio{display:none}
 
 <!-- NAV -->
 <div class="bottom-nav">
-<div class="nav-item active">
+<div class="nav-item" onclick="location.href='index.html'">
 <svg viewBox="0 0 24 24"><path d="M3 10L12 3l9 7v11h-6v-6H9v6H3z"/></svg>
 Home
 </div>
@@ -250,63 +254,73 @@ Home
 <svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.29 14.29l5.7 5.7 1.42-1.42-5.7-5.7A8 8 0 0010 2z"/></svg>
 Discover
 </div>
-<div class="nav-item" onclick="location.href='upload.html'">
-<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-Upload
+<div class="nav-item active">
+<svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 017 7c0 3-2 5-4 6v3h-6v-3c-2-1-4-3-4-6a7 7 0 017-7z"/></svg>
+Podcast
 </div>
 <div class="nav-item" onclick="location.href='campus-chart.html'">
 <svg viewBox="0 0 24 24"><path d="M5 3v18M9 12h3v6H9zM14 6h3v12h-3z"/></svg>
 Charts
 </div>
-<div class="nav-item active">
-<svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 017 7c0 3-2 5-4 6v3h-6v-3c-2-1-4-3-4-6a7 7 0 017-7z"/></svg>
-Podcast
-</div>
 </div>
 
 <script>
 const podcasts=[
-  {title:"Campus Talks", cover:"https://picsum.photos/300?5", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
-  {title:"Student Voices", cover:"https://picsum.photos/300?6", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
-  {title:"Music & Life", cover:"https://picsum.photos/300?7", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"},
-  {title:"Afrobeat Insights", cover:"https://picsum.photos/300?8", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"}
+  {title:"Campus Vibes",cover:"https://picsum.photos/300?11",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",name:"Ama Owusu",university:"University of Ghana",bio:"Creating student life stories and Afrobeat vibes."},
+  {title:"Afrobeat Nights",cover:"https://picsum.photos/300?12",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",name:"Kwame Mensah",university:"University of Cape Coast",bio:"Exploring Afrobeat trends and culture."},
+  {title:"Tech Campus",cover:"https://picsum.photos/300?13",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",name:"Efua Adjei",university:"Ashesi University",bio:"Tech innovations and campus news."},
+  {title:"Study Beats",cover:"https://picsum.photos/300?14",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",name:"Kojo Appiah",university:"KNUST",bio:"Relaxing study music and tips."}
 ]
 
-const grid=document.getElementById("podcastGrid")
-const charts=document.getElementById("charts")
+const categories=[
+  {title:"Afrobeat",cover:"https://picsum.photos/200?21"},
+  {title:"Hip-Hop",cover:"https://picsum.photos/200?22"},
+  {title:"Jazz",cover:"https://picsum.photos/200?23"},
+  {title:"Tech Talks",cover:"https://picsum.photos/200?24"}
+]
 
-podcasts.forEach((p,i)=>{
-  let card=document.createElement("div")
-  card.className="card"
-  card.innerHTML=`
-    <img class="cover" src="${p.cover}">
-    <div class="play-overlay">▶</div>
-    <div class="title">${p.title}</div>
-  `
-  card.onclick=()=>playTrack(i)
-  grid.appendChild(card)
-
-  let chart=document.createElement("div")
-  chart.className="chart-card"
-  chart.innerHTML=`
-    <img src="${p.cover}">
-    <div>${p.title}</div>
-    <button class="tip-btn" onclick="tipArtist(event,'${p.title}')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--neon-green)">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-      </svg>
-    </button>
-  `
-  charts.appendChild(chart)
-})
-
+const podcastGrid=document.getElementById("podcastGrid")
+const categoryGrid=document.getElementById("categoryGrid")
 const audio=document.getElementById("audio")
-function playTrack(i){
-  let track=podcasts[i]
-  audio.src=track.url
+
+function renderPodcasts(){
+  podcastGrid.innerHTML=""
+  podcasts.forEach((p,i)=>{
+    let card=document.createElement("div")
+    card.className="card"
+    card.innerHTML=`
+      <img class="cover" src="${p.cover}">
+      <div class="play-overlay">▶</div>
+      <div class="title">${p.title}</div>
+      <div class="podcaster">${p.name} - ${p.university}</div>
+      <div class="bio">${p.bio}</div>
+      <button class="tip-btn" onclick="tipArtist(event,'${p.title}')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--neon-green)">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </button>
+    `
+    card.onclick=()=>playPodcast(i)
+    podcastGrid.appendChild(card)
+  })
+}
+
+function renderCategories(){
+  categoryGrid.innerHTML=""
+  categories.forEach(c=>{
+    let card=document.createElement("div")
+    card.className="card"
+    card.innerHTML=`<img class="cover" src="${c.cover}"><div class="title">${c.title}</div>`
+    categoryGrid.appendChild(card)
+  })
+}
+
+function playPodcast(i){
+  let p=podcasts[i]
+  audio.src=p.url
   audio.play()
-  document.getElementById("coverArt").src=track.cover
-  document.getElementById("trackTitle").innerText=track.title
+  document.getElementById("coverArt").src=p.cover
+  document.getElementById("trackTitle").innerText=p.title
 }
 
 function togglePlay(e){
@@ -315,10 +329,10 @@ function togglePlay(e){
   else{audio.pause()}
 }
 
-function tipArtist(e,track){
+function tipArtist(e,title){
   e.stopPropagation()
   let tips=JSON.parse(localStorage.getItem("zepTips"))||{}
-  tips[track]=(tips[track]||0)+5
+  tips[title]=(tips[title]||0)+5
   localStorage.setItem("zepTips",JSON.stringify(tips))
   alert("You tipped 5 Zep Cash 💖💵")
 }
@@ -326,6 +340,9 @@ function tipArtist(e,track){
 function goToPlayer(){
   window.location.href="player.html"
 }
+
+renderPodcasts()
+renderCategories()
 </script>
 
 </body>
