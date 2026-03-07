@@ -13,6 +13,7 @@
   --glass:rgba(255,255,255,.08);
   --green:#00ff94;
   --text-light:rgba(255,255,255,.85);
+  --tip-color:#ffcc00;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif;}
 body{background:var(--bg);color:#fff;min-height:100vh;}
@@ -39,14 +40,15 @@ header a{
   display:flex;align-items:center;gap:14px;position:relative;transition:.3s;
 }
 .track-card:hover{transform:translateY(-6px);box-shadow:0 0 25px var(--wave-blue),0 0 50px var(--wave-violet);}
-.track-card img{width:60px;height:60px;border-radius:12px;object-fit:cover;}
+.track-card img{width:70px;height:70px;border-radius:14px;object-fit:cover;}
 .track-info{flex:1;display:flex;flex-direction:column;gap:4px;}
 .track-info h4{font-family:Orbitron;margin:0;font-size:1.1rem;}
 .track-info span{font-size:0.85rem;color:var(--text-light);}
-.track-actions{display:flex;gap:10px;align-items:center;}
-button.play-btn,button.tip-btn{border:none;border-radius:50%;padding:10px;cursor:pointer;transition:.3s;font-size:16px;}
+.track-meta{display:flex;gap:8px;font-size:0.75rem;color:var(--text-light);}
+.track-actions{display:flex;gap:10px;align-items:center;margin-left:auto;}
+button.play-btn,button.tip-btn{border:none;border-radius:50%;padding:12px;cursor:pointer;transition:.3s;font-size:16px;}
 button.play-btn{background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));color:#050015;}
-button.tip-btn{background:linear-gradient(90deg,#ffcc00,var(--green));color:#050015;}
+button.tip-btn{background:linear-gradient(90deg,var(--tip-color),var(--green));color:#050015;}
 button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px var(--wave-violet);}
 .waveform{height:10px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden;margin-top:4px;position:relative;}
 .waveform span{position:absolute;bottom:0;width:2px;height:100%;background:var(--wave-blue);animation:wave 1s linear infinite;}
@@ -58,14 +60,18 @@ button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px 
 .history-item img{width:100%;border-radius:10px;object-fit:cover;}
 .history-item:hover{transform:scale(1.05);box-shadow:0 0 15px var(--wave-blue),0 0 25px var(--wave-violet);}
 .footer-player{
-  position:fixed;bottom:0;left:0;width:100%;background:var(--glass);backdrop-filter:blur(12px);
-  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid rgba(255,255,255,.08);
+  position:fixed;bottom:0;left:0;width:100%;background:var(--glass);backdrop-filter:blur(14px);
+  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid rgba(255,255,255,.08);
 }
-.footer-player img{width:50px;height:50px;border-radius:12px;object-fit:cover;}
-.footer-player .play-btn{padding:12px;border-radius:50%;background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));color:#050015;}
-.footer-player .track-info{flex:1;display:flex;flex-direction:column;gap:2px;margin-left:12px;}
+.footer-player img{width:60px;height:60px;border-radius:14px;object-fit:cover;box-shadow:0 0 20px var(--wave-blue);}
+.footer-player .play-btn{padding:14px;border-radius:50%;background:linear-gradient(90deg,var(--wave-blue),var(--wave-violet));color:#050015;font-size:18px;animation:glow 2s infinite;}
+.footer-player .track-info{flex:1;display:flex;flex-direction:column;gap:2px;margin-left:14px;}
 .footer-player h4{font-family:Orbitron;margin:0;font-size:1rem;}
 .footer-player span{font-size:0.8rem;color:var(--text-light);}
+@keyframes glow{
+  0%,100%{box-shadow:0 0 10px var(--wave-blue),0 0 20px var(--wave-violet);}
+  50%{box-shadow:0 0 20px var(--wave-blue),0 0 40px var(--wave-violet);}
+}
 @media(max-width:600px){
   .chart-list{grid-template-columns:1fr;}
   .footer-player{flex-direction:column;align-items:flex-start;gap:10px;}
@@ -84,24 +90,20 @@ button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px 
   <!-- Top Tracks -->
   <div class="chart-section">
     <h2>Top Campus Tracks</h2>
-    <div class="chart-list" id="topTracks">
-      <!-- Tracks populated by JS -->
-    </div>
+    <div class="chart-list" id="topTracks"></div>
   </div>
 
   <!-- Jump Back In -->
   <div class="jump-history">
     <h3>Jump Back In</h3>
-    <div class="history-list" id="historyList">
-      <!-- Previously played tracks -->
-    </div>
+    <div class="history-list" id="historyList"></div>
   </div>
 
 </div>
 
 <!-- Footer Player -->
 <div class="footer-player" onclick="goToPlayer()">
-  <img src="https://via.placeholder.com/50" id="footerAlbum" alt="Album Art">
+  <img src="https://via.placeholder.com/60" id="footerAlbum" alt="Album Art">
   <div class="track-info">
     <h4 id="footerTrack">Select a track</h4>
     <span id="footerArtist">Artist</span>
@@ -110,17 +112,16 @@ button:hover{transform:scale(1.1);box-shadow:0 0 15px var(--wave-blue),0 0 25px 
 </div>
 
 <script>
-// Sample tracks
+// Sample tracks with University & Genre
 const tracks = [
-  {id:1,title:"Campus Vibes",artist:"DJ Zed",cover:"https://picsum.photos/200/200?random=1"},
-  {id:2,title:"Study Beats",artist:"MC Learn",cover:"https://picsum.photos/200/200?random=2"},
-  {id:3,title:"Uni Groove",artist:"The Scholars",cover:"https://picsum.photos/200/200?random=3"},
-  {id:4,title:"Lecture Lounge",artist:"Prof. Flow",cover:"https://picsum.photos/200/200?random=4"},
-  {id:5,title:"Exam Jam",artist:"Quizzy",cover:"https://picsum.photos/200/200?random=5"}
+  {id:1,title:"Campus Vibes",artist:"DJ Zed",cover:"https://picsum.photos/200/200?random=1",university:"Univ of Ghana",genre:"Hip-Hop"},
+  {id:2,title:"Study Beats",artist:"MC Learn",cover:"https://picsum.photos/200/200?random=2",university:"Univ of Zambia",genre:"Lo-Fi"},
+  {id:3,title:"Uni Groove",artist:"The Scholars",cover:"https://picsum.photos/200/200?random=3",university:"Cape Town Uni",genre:"Jazz"},
+  {id:4,title:"Lecture Lounge",artist:"Prof. Flow",cover:"https://picsum.photos/200/200?random=4",university:"Makerere Univ",genre:"Electronic"},
+  {id:5,title:"Exam Jam",artist:"Quizzy",cover:"https://picsum.photos/200/200?random=5",university:"Univ of Lagos",genre:"Pop"}
 ];
 
 let history = JSON.parse(localStorage.getItem("history")) || [];
-
 const topTracksEl = document.getElementById("topTracks");
 const historyListEl = document.getElementById("historyList");
 const footerTrack = document.getElementById("footerTrack");
@@ -138,6 +139,7 @@ function renderTopTracks(){
       <div class="track-info">
         <h4>#${track.id} ${track.title}</h4>
         <span>${track.artist}</span>
+        <div class="track-meta">${track.university} • ${track.genre}</div>
         <div class="waveform"><span></span></div>
       </div>
       <div class="track-actions">
@@ -169,7 +171,6 @@ function playTrack(id){
   footerTrack.innerText = track.title;
   footerArtist.innerText = track.artist;
   footerAlbum.src = track.cover;
-  // Add to history
   history = [track,...history.filter(t=>t.id!==id)].slice(0,10);
   localStorage.setItem("history",JSON.stringify(history));
   renderHistory();
@@ -186,7 +187,6 @@ function goToPlayer(){window.location.href="player.html";}
 
 renderTopTracks();
 renderHistory();
-
 </script>
 
 </body>
