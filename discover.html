@@ -102,6 +102,7 @@ border-radius:14px;
 overflow:hidden;
 position:relative;
 transition:.3s;
+cursor:pointer;
 }
 
 .card:hover{
@@ -128,6 +129,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 opacity:0;
+transition:.3s;
 }
 
 .card:hover .play-overlay{
@@ -161,6 +163,14 @@ border-radius:6px;
 background:none;
 border:none;
 cursor:pointer;
+font-size:18px;
+color:var(--neon-green);
+transition:.2s;
+}
+
+.tip-btn:hover{
+transform:scale(1.3);
+color:#ff77aa;
 }
 
 /* ARTISTS */
@@ -197,6 +207,12 @@ display:flex;
 align-items:center;
 gap:10px;
 border-top:1px solid #222;
+cursor:pointer;
+transition:.3s;
+}
+
+.player:hover{
+box-shadow:0 0 20px var(--neon-blue);
 }
 
 .player img{
@@ -321,7 +337,7 @@ audio{display:none}
 
 <!-- PLAYER -->
 
-<div class="player">
+<div class="player" onclick="goToPlayer()">
 
 <img id="coverArt">
 
@@ -337,7 +353,7 @@ audio{display:none}
 
 </div>
 
-<button onclick="togglePlay()">▶</button>
+<button onclick="togglePlay(event)">▶</button>
 
 </div>
 
@@ -443,8 +459,10 @@ chart.className="chart-card"
 chart.innerHTML=`
 <img src="${track.cover}">
 <div>${track.title}</div>
-<button class="tip-btn" onclick="tipArtist('${track.title}')">
-💰
+<button class="tip-btn" onclick="tipArtist(event,'${track.title}')">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="var(--neon-green)">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+</svg>
 </button>
 `
 
@@ -466,23 +484,23 @@ document.getElementById("trackTitle").innerText=track.title
 
 }
 
-function togglePlay(){
-
+function togglePlay(e){
+e.stopPropagation()
 if(audio.paused){audio.play()}
 else{audio.pause()}
-
 }
 
-function tipArtist(track){
-
+function tipArtist(e,track){
+e.stopPropagation()
 let tips=JSON.parse(localStorage.getItem("zepTips"))||{}
-
 tips[track]=(tips[track]||0)+5
-
 localStorage.setItem("zepTips",JSON.stringify(tips))
+alert("You tipped 5 Zep Cash 💖💵")
+}
 
-alert("You tipped 5 Zep Cash 💰")
-
+// Redirect to full player page
+function goToPlayer(){
+window.location.href="player.html"
 }
 
 </script>
